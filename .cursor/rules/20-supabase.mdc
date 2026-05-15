@@ -1,0 +1,38 @@
+---
+description: Supabase 4-client split, RLS-first, service-role gating, migrations
+globs:
+  - src/supabase/**
+  - src/app/api/**
+  - src/lib/auth/**
+  - supabase/migrations/**
+alwaysApply: false
+---
+
+## Supabase rules
+
+- **4-client split.** Pick the right one and never blur boundaries:
+  - `src/supabase/client.ts` — browser (anon key, RLS-protected).
+  - `src/supabase/server.ts` — Server Components, route handlers, server actions (anon key + user cookies).
+  - `src/supabase/server-admin.ts` — service-role. MUST start with `import "server-only"`. Only for admin/cron paths after `isAdmin()` check.
+  - `src/supabase/middleware.ts` — edge session refresh only.
+- **RLS first, zod second.** Every table has RLS enabled. Re-validate every input server-side with zod even after the client validated.
+- **No `.select('*')`.** Always list the columns you actually need — keeps payloads small and migrations safe.
+- **Admin gating.** Use `isAdmin()` from `@/lib/auth/is-admin` for role checks. Gate at BOTH middleware and the (admin) layout — defense in depth.
+- **Service role.** Never imported from any client/edge file. The `server-only` import will throw at build time if it leaks.
+
+## Migrations
+
+- Filename: `supabase/migrations/YYYYMMDDHHMMSS_<slug>.sql` (UTC timestamp, slug in kebab-case).
+- Always: `alter table ... enable row level security;`
+- Always idempotent: `create table if not exists`, `drop policy if exists ... ;` before `create policy`, `create index if not exists`.
+- Explicit columns in DML; no `*`.
+- Add a rollback note at the bottom of the file.
+- Auto-update timestamp triggers belong inline in the same migration.
+
+## Don'ts
+
+- Don't use the service-role client to "fix" a missing RLS policy — write the policy.
+- Don't call the admin client from a route handler before checking `isAdmin()`.
+- Don't run raw SQL in app code; route it through Supabase types.
+
+See `.agents/rules/supabase.md` and `.agents/rules/admin.md`.

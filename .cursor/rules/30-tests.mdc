@@ -1,0 +1,28 @@
+---
+description: Vitest + RTL unit tests, Playwright e2e — determinism, no skipped tests, MSW where needed
+globs:
+  - src/**/*.test.ts
+  - src/**/*.test.tsx
+  - e2e/**/*.spec.ts
+  - vitest.config.ts
+  - vitest.setup.ts
+  - playwright.config.ts
+alwaysApply: false
+---
+
+## Test rules
+
+- **Determinism is non-negotiable.** Code under test must NOT call `Date.now()`, `Math.random()`, or read wall-clock directly. Inject a clock / rng (or use `vi.useFakeTimers()` + a seeded rng).
+- **Never `.skip()` / `.todo()` to dodge a failure.** Either fix the code, fix the test, or delete the test with a written justification in the PR. Skipping == bypassing a gate.
+- **Playwright stability.** No `page.waitForTimeout(1000)` patterns. Use auto-waiting locators (`expect(locator).toBeVisible()`, `waitForLoadState('networkidle')` sparingly, `waitForResponse`).
+- **Colocate unit tests.** `foo.ts` ↔ `foo.test.ts` in the same directory. E2E lives under `e2e/`.
+- **Snapshot discipline.** Inline snapshots only for pure data transforms (small, reviewable). No giant DOM snapshots.
+- **MSW for network.** When testing a fetch path, mock at the network boundary via MSW — not at the module boundary.
+- **No `any` in tests.** The lint override for tests permits `console.*` only, not `any`-laundering. Build proper test fixtures with real types.
+
+## Fast lane vs. full lane
+
+- Inner-loop: `npm run test:agent` (vitest run, dot reporter, no coverage, changed files only).
+- Definition of done: `npm run qa` exit 0 — the full deterministic gate.
+
+See `.agents/workflows/qa-loop.md`.

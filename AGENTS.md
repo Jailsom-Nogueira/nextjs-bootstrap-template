@@ -57,6 +57,7 @@ BEFORE doing any task, identify its type and load EVERY listed rule file. "I alr
 | Refactor / cleanup               | clean-code.md → file-organization.md → applicable-domain-rules                                           |
 | Bug fix                          | applicable-domain-rules → clean-code.md → error-handling.md                                              |
 | Tests                            | self-review.md → applicable-domain-rules                                                                 |
+| New spec / plan                  | `.docs/templates/spec.md` then `.plans/templates/plan.md`                                                |
 
 If your task spans multiple types, load the union of their rules. Don't pick and choose.
 
@@ -96,6 +97,9 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | declare a task complete without `npm run qa` exiting 0                          | run the QA loop until green (see `.agents/rules/qa-loop.md`)                                        |
 | bypass a failing gate with `eslint-disable` / `any` / `.skip()` / `--no-verify` | fix the root cause (or escalate via `.plans/YYYY-MM-DD-qa-blocker-<slug>.md`)                       |
 | exceed 10 QA-loop iterations on the same task without escalating                | write `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` and stop                                             |
+| duplicate AGENTS.md content into per-agent config files                         | reference AGENTS.md; per-agent files (`.cursor/rules/*`, `.clinerules/*`, etc.) are thin imports    |
+| skip `npm run prompt:context` when handing context to a chat-UI agent           | paste its output as the FIRST message before the task prompt                                        |
+| add a new dependency without justifying it in the PR                            | prefer existing stdlib / shadcn / radix / zod; justify any new package added                        |
 
 ## Domain rules — read the file BEFORE you write the code
 
@@ -142,6 +146,20 @@ If a model-specific skill folder exists in this repo, load relevant skills BEFOR
 | `.claude/skills/`   | Claude Code skill files (if present)        |
 | `.cursor/rules/`    | Cursor IDE rules (if present)               |
 | `~/.hermes/skills/` | Hermes agent skills (auto-loaded by Hermes) |
+
+## Cross-agent surface
+
+Per-agent config files (thin imports/stubs — AGENTS.md remains the source of truth):
+
+- `.cursor/rules/*.mdc` — Cursor IDE auto/manual rule scopes
+- `.cursor/mcp.json` — Cursor MCP servers
+- `.mcp.json` — root MCP config (Claude Code, Codex CLI)
+- `.claude/commands/*.md` — Claude Code slash commands
+- `.clinerules/00-base.md` + `.clineignore` — Cline
+- `.aider.conf.yml` + `CONVENTIONS.md` — Aider
+- `.codex/setup.sh` — Codex Cloud sandbox setup
+
+Never duplicate AGENTS.md content into any of the above — keep them as thin imports/stubs.
 
 ## Documentation locations
 

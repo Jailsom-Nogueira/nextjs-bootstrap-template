@@ -1,0 +1,10 @@
+# Aider configuration — see https://aider.chat/docs/config/aider_conf.html
+read:
+  - AGENTS.md
+  - CONVENTIONS.md
+auto-lint: true
+lint-cmd: npm run lint
+test-cmd: npm run test:agent
+auto-commits: false
+attribute-author: true
+attribute-commit: true

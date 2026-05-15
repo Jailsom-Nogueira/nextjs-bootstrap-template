@@ -1,3 +1,5 @@
+# Cline ignore patterns — keep agent context lean
+
 # dependencies
 node_modules
 .pnp
@@ -12,7 +14,7 @@ out
 build
 dist
 
-# coverage / tests
+# coverage / tests / reports
 coverage
 playwright-report
 test-results
@@ -47,5 +49,6 @@ Thumbs.db
 *.tsbuildinfo
 next-env.d.ts
 
-# agent caches (repomix output, etc.)
+# agent caches and archived plans — keep current context only
 .agent-cache
+.plans/archived

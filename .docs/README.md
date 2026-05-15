@@ -4,10 +4,14 @@ Technical and product documentation. **One markdown file per topic.**
 
 ## Suggested layout
 
-- `architecture/` — high-level system design, sequence diagrams, data model.
+- `architecture.md` — high-level system design + Mermaid diagrams (file-shape doc).
+- `nextjs-conventions.md` — do/don't sheet for Next.js 16 patterns in this repo.
+- `architecture/` — deeper system design notes, sequence diagrams.
 - `runbooks/` — operational guides: how to roll back, how to rotate keys, how to restore from backup.
 - `decisions/` — Architecture Decision Records (ADRs). One file per decision, immutable once accepted.
 - `product/` — product specs, user research, feature briefs.
+- `specs/` — feature specifications (start from `.docs/templates/spec.md`).
+- `templates/` — canonical templates for specs and similar artifacts.
 
 Cross-link from `AGENTS.md` when an agent needs to discover the file for a task.
 

@@ -1,5 +1,14 @@
 # nextjs-bootstrap-template
 
+> 🤖 **AI agents: start here**
+>
+> - Read [AGENTS.md](./AGENTS.md) — the canonical rules hub.
+> - Four commands you need: `npm install`, `npm run dev`, `npm run qa`, `npm run test:agent`.
+> - Five invariants: no `any`, no `console.log`, no `SUPABASE_SERVICE_ROLE_KEY` in client code, no `.select('*')`, `npm run qa` exit 0 = done.
+> - Run `npm run prompt:context` to paste a fresh project snapshot into ChatGPT/Claude/Gemini web UIs.
+> - MCP servers configured in `.mcp.json` (Supabase read-only, Playwright, Context7). See "MCP servers" below.
+> - Per-tool config: `.claude/commands/*` slash commands (Claude Code), `.cursor/rules/*.mdc` (Cursor), `.clinerules/00-base.md` (Cline), `.aider.conf.yml` (Aider), `.codex/setup.sh` (Codex Cloud).
+
 Next.js 16 + Supabase + PostHog + Resend template with batteries included.
 
 ## Stack
@@ -93,23 +102,29 @@ messages/                       # en.json, pt.json, es.json
 
 ## Scripts
 
-| Script                                              | Purpose                         |
-| --------------------------------------------------- | ------------------------------- |
-| `dev`                                               | Next dev server (Turbopack)     |
-| `build`                                             | Production build                |
-| `start`                                             | Run prod build                  |
-| `lint` / `lint:fix`                                 | ESLint flat config              |
-| `typecheck`                                         | `tsc --noEmit`                  |
-| `format` / `format:check`                           | Prettier                        |
-| `check`                                             | lint + typecheck + format:check |
-| `ci-check`                                          | check + test + build            |
-| `qa` / `qa:strict` / `qa:quiet`                     | Fix-until-green QA loop         |
-| `test` / `test:watch` / `test:ui` / `test:coverage` | Vitest                          |
-| `test:e2e` / `test:e2e:ui`                          | Playwright                      |
-| `db:types`                                          | Generate Supabase types         |
-| `email:dev`                                         | react-email preview server      |
-| `push`                                              | Generate CHANGELOG + push       |
-| `prepare`                                           | Husky install                   |
+| Script                                     | Purpose                                                  |
+| ------------------------------------------ | -------------------------------------------------------- |
+| `dev`                                      | Next dev server (Turbopack)                              |
+| `build`                                    | Production build                                         |
+| `start`                                    | Run prod build                                           |
+| `lint` / `lint:fix`                        | ESLint flat config                                       |
+| `typecheck`                                | `tsc --noEmit`                                           |
+| `format` / `format:check`                  | Prettier                                                 |
+| `check`                                    | lint + typecheck + format:check                          |
+| `ci-check`                                 | check + test + build                                     |
+| `qa` / `qa:strict` / `qa:quiet`            | Fix-until-green QA loop (full deterministic gate)        |
+| `test`                                     | Vitest run (all tests)                                   |
+| `test:agent`                               | **Agent fast lane** — vitest on changed files only       |
+| `test:watch` / `test:ui` / `test:coverage` | Vitest variants                                          |
+| `test:e2e` / `test:e2e:ui`                 | Playwright                                               |
+| `prompt:context`                           | Print a paste-ready project snapshot for chat-UI LLMs    |
+| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml` |
+| `db:types`                                 | Generate Supabase types                                  |
+| `email:dev`                                | react-email preview server                               |
+| `push`                                     | Generate CHANGELOG + push                                |
+| `prepare`                                  | Husky install                                            |
+
+**Fast lane vs. full lane:** use `test:agent` during inner-loop iteration (vitest --changed, dot reporter, no coverage). Use `qa` as the definition-of-done gate — it runs every check in cheapest-first order and stops at the first failure.
 
 ## Environment variables
 
@@ -207,11 +222,36 @@ Other platforms (Fly, Railway) work — just provide Node 22 and the env vars.
 This repo is agent-friendly:
 
 - `AGENTS.md` — primary instructions hub (read first)
-- `CLAUDE.md` — Claude Code specifics
+- `CLAUDE.md` — Claude Code-specific stub (`@`-imports AGENTS.md + qa-loop.md)
 - `GEMINI.md` — compressed rules for Gemini
 - `.agents/rules/` — per-domain conventions (styling, security, supabase, etc.)
 - `.agents/references/` — file maps + component inventory
 - `.agents/workflows/` — checklists and handoff contracts
+- `.cursor/rules/*.mdc` — Cursor IDE auto-attaching rules
+- `.cursor/mcp.json` — Cursor MCP server config
+- `.claude/commands/*.md` — Claude Code slash commands (`/spec`, `/plan`, `/qa`, `/prompt-context`, `/migration`, `/component`)
+- `.clinerules/00-base.md` + `.clineignore` — Cline rules + context exclusions
+- `.aider.conf.yml` + `CONVENTIONS.md` — Aider auto-reads AGENTS.md
+- `.codex/setup.sh` — Codex Cloud sandbox bootstrap
+
+### MCP servers
+
+`.mcp.json` (and a duplicate `.cursor/mcp.json` for Cursor) wires three MCP servers:
+
+| Server       | What it does                                                       |
+| ------------ | ------------------------------------------------------------------ |
+| `supabase`   | Inspect schema, run RO queries on your linked Supabase project     |
+| `playwright` | Drive a real browser for e2e / visual checks from inside the agent |
+| `context7`   | Pull up-to-date library docs by request                            |
+
+The Supabase server starts in `--read-only` mode. To enable write mode locally, edit `.mcp.json` and remove `--read-only` — do NOT commit that change. Set `SUPABASE_ACCESS_TOKEN` in your environment first (`https://supabase.com/dashboard/account/tokens`).
+
+Both `.mcp.json` (Claude Code, Codex CLI, etc.) and `.cursor/mcp.json` (Cursor) exist for cross-tool compatibility — they hold the same JSON.
+
+### Specs and plans
+
+- Feature spec template: `.docs/templates/spec.md` → write to `.docs/specs/<YYYY-MM-DD>-<slug>.md`. Use the `/spec` slash command in Claude Code.
+- Implementation plan template: `.plans/templates/plan.md` → write to `.plans/<YYYY-MM-DD>-<slug>.md`. Use the `/plan <spec-path>` slash command. Move completed plans to `.plans/archived/`.
 
 ## License
 

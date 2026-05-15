@@ -42,3 +42,5 @@ npm run qa:strict     # before PR / release (adds e2e + bundle budget)
 
 - Plans in `.plans/` (archived in `.plans/archived/`). Docs in `.docs/`. Push via `npm run push` (pre-push hook blocks raw `git push`).
 - Bundle-analyzer wired: `npm run analyze` opens the treemap.
+
+Prompt context: run `npm run prompt:context` to print a paste-ready snapshot.
