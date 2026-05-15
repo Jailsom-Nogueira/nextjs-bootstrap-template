@@ -2,6 +2,13 @@ import { getTranslations, setRequestLocale } from "next-intl/server";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { Link } from "@/i18n/navigation";
+import { lazyClient } from "@/lib/lazy";
+
+// Below-the-fold heavy widget — lazy-loaded with a dimension-matched skeleton.
+// SSR stays ON by default so the placeholder is server-rendered for SEO.
+const HeavyChartExample = lazyClient(() => import("@/components/lazy/heavy-chart-example"), {
+  skeletonClassName: "h-64 w-full max-w-2xl",
+});
 
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
@@ -15,6 +22,8 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
         <LocaleSwitcher />
         <ThemeToggle />
       </div>
+
+      {/* Above-the-fold: eager, translated, server-rendered. */}
       <h1 className="text-4xl font-bold">{t("title")}</h1>
       <p className="text-muted-foreground max-w-md text-center">{t("subtitle")}</p>
       <div className="flex gap-3 text-sm">
@@ -28,6 +37,11 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
           {tNav("admin")}
         </Link>
       </div>
+
+      {/* Below-the-fold: lazy-loaded heavy client component (demo of `lazyClient`). */}
+      <section className="mt-12 w-full max-w-2xl">
+        <HeavyChartExample />
+      </section>
     </main>
   );
 }

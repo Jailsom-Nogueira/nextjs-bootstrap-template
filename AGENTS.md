@@ -1,7 +1,7 @@
 # AGENTS.md
 
-Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, etc.) working in this repo.
-**Read this file first.** Then load only the rule files you need for the task.
+Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, Hermes, etc.) working in this repo.
+**Read this file first.** Then load EVERY rule listed under your task type below.
 
 <role>
 You are a senior full-stack engineer working on a Next.js 16 + Supabase template. You write production-grade TypeScript, prefer boring correctness over cleverness, and never ship code that hasn't passed `npm run check` and `npm run build` locally.
@@ -24,6 +24,28 @@ You are a senior full-stack engineer working on a Next.js 16 + Supabase template
 - auth gating: middleware + layout role check via `profiles.role`
 - changelog: Carevia-style `npm run push` (no changesets)
 </stack>
+
+## Mandatory reading — task-type index
+
+BEFORE doing any task, identify its type and load EVERY listed rule file. "I already know this" is not an excuse — the project-specific rules override your priors.
+
+| Task type                        | Rules to load (in order)                                                                                 |
+| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md     |
+| Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                    |
+| Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                           |
+| Auth / role gates                | security.md → admin.md → supabase.md → clean-code.md                                                     |
+| API routes / server actions      | security.md → supabase.md → error-handling.md → performance.md                                           |
+| Analytics / tracking             | analytics.md → security.md                                                                               |
+| New page / route                 | file-organization.md → performance.md → lazy-loading.md → accessibility.md → responsiveness.md → i18n.md |
+| Admin features                   | admin.md → security.md → supabase.md → accessibility.md                                                  |
+| New i18n strings                 | i18n.md (all 3 locales: en, pt, es) → accessibility.md                                                   |
+| Performance / interaction work   | performance.md → lazy-loading.md → clean-code.md                                                         |
+| Refactor / cleanup               | clean-code.md → file-organization.md → applicable-domain-rules                                           |
+| Bug fix                          | applicable-domain-rules → clean-code.md → error-handling.md                                              |
+| Tests                            | self-review.md → applicable-domain-rules                                                                 |
+
+If your task spans multiple types, load the union of their rules. Don't pick and choose.
 
 ## Mandatory pre-flight checklist
 
@@ -52,23 +74,56 @@ You are a senior full-stack engineer working on a Next.js 16 + Supabase template
 | leave functions >50 lines or files mixing 3+ unrelated concerns          | small composable units; single responsibility; pure functions where possible                        |
 | leave commented-out code, `console.log`s, TODO without ticket            | clean code on every commit; reference the issue/ticket for any TODO                                 |
 | implement an admin route without role gate at BOTH middleware AND layout | defense in depth — middleware redirects + server component double-check via `isAdmin()`             |
+| add `'use client'` to a layout or page when a leaf could be client       | push the client boundary DOWN; keep Server Components as the default                                |
+| import heavy libs (charts, editors, maps, PDF, 3D, rich-text) eagerly    | lazy-load via `next/dynamic` or the `lazyClient` helper from `@/lib/lazy`                           |
+| ship a route without checking its First Load JS in `next build` output   | keep per-route bundle ≤ 200KB compressed; inspect treemap via `npm run analyze` if over             |
+| `await` non-critical work before navigation/interaction                  | `void` fire-and-forget + `startTransition(() => router.push(...))` (or `useTransitionRouter()`)     |
+| call `router.refresh()` in event handlers without measuring              | prefer `revalidatePath` / `revalidateTag` from a mutation server action                             |
+| ignore Core Web Vitals targets (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1)         | verify on PostHog Web Vitals dashboard before declaring "done"                                      |
 
-## Domain rules
+## Domain rules — read the file BEFORE you write the code
 
-Load the file relevant to your task:
+| File                                 | One-line                                                 | Read when                                                                 |
+| ------------------------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `.agents/rules/styling.md`           | Tailwind v4, design tokens, `cn()`, dark mode            | Touching any `.tsx` with `className`                                      |
+| `.agents/rules/responsiveness.md`    | Mobile-first, breakpoints, container queries             | ANY UI change                                                             |
+| `.agents/rules/accessibility.md`     | WCAG 2.2 AA, focus, contrast, motion                     | ANY UI change                                                             |
+| `.agents/rules/performance.md`       | Web Vitals, Server Components, INP, bundle budget        | ANY code that runs in the browser or builds a page                        |
+| `.agents/rules/lazy-loading.md`      | `next/dynamic`, `Suspense`, route `loading.tsx`          | Components >5KB, below-the-fold sections, third-party widgets, heavy libs |
+| `.agents/rules/clean-code.md`        | Function size, naming, immutability, comments            | ANY code change                                                           |
+| `.agents/rules/file-organization.md` | Naming, layout, path alias, `types.ts`                   | New files / moves                                                         |
+| `.agents/rules/forms.md`             | react-hook-form + zod pattern                            | Forms / inputs                                                            |
+| `.agents/rules/i18n.md`              | next-intl setup, messages, locale routing                | Any user-facing string                                                    |
+| `.agents/rules/security.md`          | 4-layer defense, env, RLS, CSP                           | Auth, API, env, third-party                                               |
+| `.agents/rules/error-handling.md`    | Logger, error boundaries, catch blocks                   | Any `catch` / async failure path                                          |
+| `.agents/rules/supabase.md`          | 4-client split, RLS, types                               | Any DB query / migration                                                  |
+| `.agents/rules/analytics.md`         | `track()` / `trackServer()` wrappers, event names, scrub | Any user action that should be measured                                   |
+| `.agents/rules/admin.md`             | Admin routes, role gates, service role rules             | Anything under `(admin)/` or touching `profiles.role`                     |
 
-- `.agents/rules/styling.md` — Tailwind v4, design tokens, `cn()`, dark mode
-- `.agents/rules/file-organization.md` — naming, layout, paths
-- `.agents/rules/forms.md` — react-hook-form + zod pattern
-- `.agents/rules/security.md` — 4-layer defense, env, RLS, CSP
-- `.agents/rules/i18n.md` — next-intl v4 setup (en/pt/es)
-- `.agents/rules/error-handling.md` — logger, error boundaries
-- `.agents/rules/supabase.md` — 4-client split, RLS, types
-- `.agents/rules/analytics.md` — wrappers, event names, scrubbing
-- `.agents/rules/responsiveness.md` — mobile-first, breakpoints, container queries
-- `.agents/rules/accessibility.md` — WCAG 2.2 AA, focus, contrast, motion
-- `.agents/rules/clean-code.md` — function size, naming, immutability, comments
-- `.agents/rules/admin.md` — admin route gate, role model, service-role rules
+## References (lookup material, not rules)
+
+| File                                      | What's in it                  |
+| ----------------------------------------- | ----------------------------- |
+| `.agents/references/key-files.md`         | Map of important paths        |
+| `.agents/references/shared-components.md` | shadcn components + locations |
+| `.agents/references/analytics.md`         | Event catalog                 |
+
+## Workflows
+
+| File                               | When                                             |
+| ---------------------------------- | ------------------------------------------------ |
+| `.agents/workflows/self-review.md` | Before declaring ANY task complete               |
+| `.agents/workflows/multi-agent.md` | When handing work to / receiving from a subagent |
+
+## Skills (model-specific)
+
+If a model-specific skill folder exists in this repo, load relevant skills BEFORE writing code. Hermes loads its skills automatically; other agents must load them explicitly.
+
+| Location            | Audience                                    |
+| ------------------- | ------------------------------------------- |
+| `.claude/skills/`   | Claude Code skill files (if present)        |
+| `.cursor/rules/`    | Cursor IDE rules (if present)               |
+| `~/.hermes/skills/` | Hermes agent skills (auto-loaded by Hermes) |
 
 ## Documentation locations
 
@@ -76,17 +131,6 @@ Load the file relevant to your task:
 - `.plans/archived/` — completed or superseded plans. **Move** files here, never delete.
 - `.docs/` — technical and product documentation. Subfolders: `architecture/`, `runbooks/`, `decisions/` (ADRs), `product/`.
 - `CHANGELOG.md` — auto-generated by `npm run push`. **Do NOT edit manually.**
-
-## References
-
-- `.agents/references/key-files.md` — map of important paths
-- `.agents/references/shared-components.md` — shadcn + project components
-- `.agents/references/analytics.md` — event catalog
-
-## Workflows
-
-- `.agents/workflows/self-review.md` — checklist before completing a task
-- `.agents/workflows/multi-agent.md` — handoff contract for subagents
 
 ## Before completing ANY task
 
@@ -96,6 +140,11 @@ Run the self-review checklist (`.agents/workflows/self-review.md`). Specifically
 npm run check    # lint + typecheck + format:check
 npm run test     # vitest run
 npm run build    # only if substantial changes
+npm run analyze  # only if you suspect a bundle regression
 ```
 
 Commit format: Conventional Commits. Pushing is done via `npm run push` (Carevia-style) which auto-generates the changelog and runs the pre-push gate.
+
+## Self-check anti-pattern
+
+If you're tempted to skip reading a rule because "this is a small change", **stop**. The Carevia analysis showed agents skip rules ~40% more often on small changes than large ones, and small changes are where regressions hide. ALWAYS load the task-type index above before touching code.
