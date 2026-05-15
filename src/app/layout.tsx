@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { ThemeProvider } from "@/components/theme-provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -18,8 +19,15 @@ export const metadata: Metadata = {
 };
 
 /**
- * Root layout — must exist for the App Router but stays minimal.
- * Providers (theme, i18n, posthog) live in `[locale]/layout.tsx`.
+ * Root layout.
+ *
+ * ThemeProvider lives here (not in `[locale]/layout.tsx`) so the next-themes
+ * inline hydration script renders adjacent to `<html>` instead of inside a
+ * deep tree. That layout placement is what Next 16's stricter dev hydration
+ * check expects, and it eliminates the "Encountered a script tag while
+ * rendering a React component" warning.
+ *
+ * i18n + analytics providers stay in `[locale]/layout.tsx`.
  */
 export default function RootLayout({
   children,
@@ -27,8 +35,18 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html suppressHydrationWarning>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>{children}</body>
+    <html className="scroll-smooth" suppressHydrationWarning>
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          enableColorScheme={false}
+          disableTransitionOnChange
+        >
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   );
 }

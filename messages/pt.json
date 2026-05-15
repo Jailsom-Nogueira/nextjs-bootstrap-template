@@ -15,6 +15,11 @@
     "signIn": "Entrar",
     "signOut": "Sair"
   },
+  "header": {
+    "brand": "Bootstrap",
+    "docs": "Docs",
+    "github": "GitHub"
+  },
   "auth": {
     "signIn": "Entrar",
     "signUp": "Cadastrar",
@@ -33,8 +38,50 @@
     "serverError": "Erro no servidor. Tente novamente."
   },
   "home": {
-    "title": "Template Bootstrap Next.js",
-    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edite src/app/[locale]/page.tsx para começar."
+    "eyebrow": "v0.1.0 — template bootstrap",
+    "title": "Lance apps Next.js mais rápido, com proteções de IA já incluídas.",
+    "subtitle": "Um template Next.js 16 nível produção: autenticação e RLS no Supabase, internacionalização completa, modo escuro, acessibilidade, orçamentos de performance e um hub AGENTS.md que faz os agentes de IA cumprirem o combinado.",
+    "cta_primary": "Abrir o painel",
+    "cta_secondary": "Ver no GitHub",
+    "quickStart_label": "Início rápido"
+  },
+  "features": {
+    "sectionTitle": "Feito pra produção",
+    "sectionSubtitle": "Cada padrão deste template existe pra evitar uma classe de erro. Abra AGENTS.md ou CONCEPTS.md pra entender o porquê.",
+    "auth": {
+      "title": "Autenticação e RLS",
+      "description": "Supabase SSR com 4 clientes especializados. Row-Level Security como camada principal de autorização."
+    },
+    "aiNative": {
+      "title": "AI-Native",
+      "description": "AGENTS.md, CONCEPTS.md, configuração MCP, regras do Cursor, comandos do Claude Code e script prompt-context — tudo incluído."
+    },
+    "performance": {
+      "title": "Performance",
+      "description": "Server Components por padrão, lazy loading, metas de Core Web Vitals e orçamento de bundle aplicados no CI."
+    },
+    "i18n": {
+      "title": "Internacionalização",
+      "description": "English, Português, Español prontos. Adicione um idioma editando um arquivo só."
+    },
+    "a11y": {
+      "title": "WCAG 2.2 AA",
+      "description": "Mobile-first, navegação por teclado, anéis de foco e estados que não dependem só de cor — padrões que passam em uma auditoria."
+    },
+    "qaLoop": {
+      "title": "QA em loop",
+      "description": "npm run qa executa formatação, lint, typecheck, testes e build em sequência até cada etapa passar."
+    }
+  },
+  "stack": {
+    "sectionTitle": "Stack",
+    "sectionSubtitle": "Moderna, opinativa e — de propósito — sem firulas."
+  },
+  "footer": {
+    "copyright": "© 2026 Bootstrap Template",
+    "license": "Licença MIT",
+    "docs": "Docs",
+    "github": "GitHub"
   },
   "admin": {
     "title": "Painel de Administração",

@@ -15,6 +15,11 @@
     "signIn": "Iniciar sesión",
     "signOut": "Cerrar sesión"
   },
+  "header": {
+    "brand": "Bootstrap",
+    "docs": "Docs",
+    "github": "GitHub"
+  },
   "auth": {
     "signIn": "Iniciar sesión",
     "signUp": "Registrarse",
@@ -33,8 +38,50 @@
     "serverError": "Error del servidor. Inténtelo de nuevo."
   },
   "home": {
-    "title": "Plantilla Bootstrap Next.js",
-    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edita src/app/[locale]/page.tsx para empezar."
+    "eyebrow": "v0.1.0 — plantilla bootstrap",
+    "title": "Despliega apps Next.js más rápido, con barreras de IA listas.",
+    "subtitle": "Una plantilla Next.js 16 lista para producción: autenticación y RLS con Supabase, internacionalización completa, modo oscuro, accesibilidad, presupuestos de rendimiento y un hub AGENTS.md que pone a trabajar a los agentes de IA.",
+    "cta_primary": "Abrir el panel",
+    "cta_secondary": "Ver en GitHub",
+    "quickStart_label": "Inicio rápido"
+  },
+  "features": {
+    "sectionTitle": "Hecho para producción",
+    "sectionSubtitle": "Cada valor predeterminado de esta plantilla existe para evitar una clase de error. Abre AGENTS.md o CONCEPTS.md para los detalles.",
+    "auth": {
+      "title": "Autenticación y RLS",
+      "description": "Supabase SSR con cuatro clientes especializados. Row-Level Security como la barrera principal de autorización."
+    },
+    "aiNative": {
+      "title": "AI-Native",
+      "description": "AGENTS.md, CONCEPTS.md, configuración MCP, reglas de Cursor, comandos de Claude Code y script prompt-context — todo incluido."
+    },
+    "performance": {
+      "title": "Rendimiento",
+      "description": "Server Components por defecto, lazy loading, objetivos de Core Web Vitals y presupuestos de bundle aplicados en CI."
+    },
+    "i18n": {
+      "title": "Internacionalización",
+      "description": "English, Português, Español listos. Añade un idioma editando un solo archivo."
+    },
+    "a11y": {
+      "title": "WCAG 2.2 AA",
+      "description": "Mobile-first, navegación por teclado, anillos de foco y estados que no dependen solo del color — valores predeterminados que pasan una auditoría."
+    },
+    "qaLoop": {
+      "title": "QA en bucle",
+      "description": "npm run qa ejecuta formato, lint, typecheck, pruebas y build en secuencia hasta que cada paso pase."
+    }
+  },
+  "stack": {
+    "sectionTitle": "Stack",
+    "sectionSubtitle": "Moderna, con opinión y, a propósito, sin florituras."
+  },
+  "footer": {
+    "copyright": "© 2026 Bootstrap Template",
+    "license": "Licencia MIT",
+    "docs": "Docs",
+    "github": "GitHub"
   },
   "admin": {
     "title": "Panel de Administración",

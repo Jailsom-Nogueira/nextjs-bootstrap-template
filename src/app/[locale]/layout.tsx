@@ -1,8 +1,9 @@
 import { NextIntlClientProvider, hasLocale } from "next-intl";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import { notFound } from "next/navigation";
-import { ThemeProvider } from "@/components/theme-provider";
 import { PostHogProvider } from "@/lib/analytics/posthog-client";
+import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -26,9 +27,13 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
-        <PostHogProvider>{children}</PostHogProvider>
-      </ThemeProvider>
+      <PostHogProvider>
+        <div className="flex min-h-screen flex-col">
+          <SiteHeader />
+          <main className="flex-1">{children}</main>
+          <SiteFooter />
+        </div>
+      </PostHogProvider>
     </NextIntlClientProvider>
   );
 }

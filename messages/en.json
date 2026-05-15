@@ -15,6 +15,11 @@
     "signIn": "Sign in",
     "signOut": "Sign out"
   },
+  "header": {
+    "brand": "Bootstrap",
+    "docs": "Docs",
+    "github": "GitHub"
+  },
   "auth": {
     "signIn": "Sign in",
     "signUp": "Sign up",
@@ -33,8 +38,50 @@
     "serverError": "Server error. Please try again."
   },
   "home": {
-    "title": "Next.js Bootstrap Template",
-    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edit src/app/[locale]/page.tsx to begin."
+    "eyebrow": "v0.1.0 — bootstrap template",
+    "title": "Ship Next.js apps faster, with AI guardrails baked in.",
+    "subtitle": "A production-grade Next.js 16 template. Supabase auth + RLS, full i18n, dark mode, accessibility, performance budgets, and an AGENTS.md hub that makes AI coding agents pull their weight.",
+    "cta_primary": "Open the dashboard",
+    "cta_secondary": "View on GitHub",
+    "quickStart_label": "Quick start"
+  },
+  "features": {
+    "sectionTitle": "Built to ship",
+    "sectionSubtitle": "Every default in this template exists to save you a class of mistake. Open AGENTS.md or CONCEPTS.md for the full story.",
+    "auth": {
+      "title": "Auth & RLS",
+      "description": "Supabase SSR with a 4-client split. Row-Level Security is the primary authorization boundary."
+    },
+    "aiNative": {
+      "title": "AI-Native",
+      "description": "AGENTS.md, CONCEPTS.md, MCP config, Cursor rules, Claude slash commands, prompt-context script — all built in."
+    },
+    "performance": {
+      "title": "Performance",
+      "description": "Server Components first, lazy loading, Core Web Vitals targets, bundle budgets enforced in CI."
+    },
+    "i18n": {
+      "title": "Internationalization",
+      "description": "English, Português, Español ready. Add a locale by editing one file."
+    },
+    "a11y": {
+      "title": "WCAG 2.2 AA",
+      "description": "Mobile-first, keyboard navigation, focus rings, color-not-only state — defaults that pass an audit."
+    },
+    "qaLoop": {
+      "title": "QA in loop",
+      "description": "npm run qa cycles format, lint, typecheck, test, and build until every gate is green."
+    }
+  },
+  "stack": {
+    "sectionTitle": "Stack",
+    "sectionSubtitle": "Modern, opinionated, and boring on purpose."
+  },
+  "footer": {
+    "copyright": "© 2026 Bootstrap Template",
+    "license": "MIT License",
+    "docs": "Docs",
+    "github": "GitHub"
   },
   "admin": {
     "title": "Admin Dashboard",
