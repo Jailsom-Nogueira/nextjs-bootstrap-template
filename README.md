@@ -103,6 +103,7 @@ messages/                       # en.json, pt.json, es.json
 | `format` / `format:check`                           | Prettier                        |
 | `check`                                             | lint + typecheck + format:check |
 | `ci-check`                                          | check + test + build            |
+| `qa` / `qa:strict` / `qa:quiet`                     | Fix-until-green QA loop         |
 | `test` / `test:watch` / `test:ui` / `test:coverage` | Vitest                          |
 | `test:e2e` / `test:e2e:ui`                          | Playwright                      |
 | `db:types`                                          | Generate Supabase types         |
@@ -138,6 +139,8 @@ npm run test:e2e:ui     # interactive
 ```
 
 ## Code quality
+
+**QA-in-loop:** run `npm run qa` to execute every gate (format/lint/typecheck/test/build) in cheapest-first order. Stops at the first failing gate. Iterate until exit 0 — that's the definition of done. CI runs the same script. Strict mode (`npm run qa:strict`) also runs e2e + bundle budget; use before opening a PR. See `.agents/rules/qa-loop.md` for the protocol and `.agents/workflows/qa-loop.md` for the procedure.
 
 - **ESLint 9** flat config — extends `next/core-web-vitals`, `next/typescript`, plus tailwindcss + eslint-comments. Bans `any`, `console.log`, deep relatives.
 - **Prettier 3** with `prettier-plugin-tailwindcss` for class sorting.

@@ -10,11 +10,13 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  check:
+  qa:
     runs-on: ubuntu-latest
     timeout-minutes: 15
     env:
       SKIP_ENV_VALIDATION: "1"
+      NEXT_PUBLIC_SUPABASE_URL: "https://stub.supabase.co"
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "stub_anon_key_for_build"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -22,10 +24,8 @@ jobs:
           node-version-file: .nvmrc
           cache: npm
       - run: npm ci
-      - run: npm run lint
-      - run: npm run typecheck
-      - run: npm test -- --run
-      - run: npm run build
+      - name: Run QA loop (format, lint, typecheck, test, build)
+        run: npm run qa
       - name: Comment status
         if: github.event_name == 'pull_request' && success()
-        run: echo "ci-check passing"
+        run: echo "qa passing"

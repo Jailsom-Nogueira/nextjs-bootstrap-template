@@ -58,6 +58,8 @@ const config = [
       "vitest.setup.ts",
       "e2e/**/*.ts",
       "scripts/**/*.ts",
+      "scripts/**/*.mjs",
+      "scripts/**/*.js",
     ],
     rules: {
       "@typescript-eslint/no-explicit-any": "off",

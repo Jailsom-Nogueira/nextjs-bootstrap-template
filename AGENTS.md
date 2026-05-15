@@ -25,12 +25,25 @@ You are a senior full-stack engineer working on a Next.js 16 + Supabase template
 - changelog: Carevia-style `npm run push` (no changesets)
 </stack>
 
+## The QA-in-loop iron rule
+
+No task is complete until `npm run qa` exits 0. Run the loop:
+
+- `npm run qa` runs all gates in cheapest-first order (format → lint → typecheck → test → build).
+- It stops at the FIRST failing gate so you can fix and re-run.
+- Apply the MINIMAL fix. Re-run. Repeat.
+- Hard cap: 10 iterations per task. If you exceed it, write a blocker plan to `.plans/YYYY-MM-DD-qa-blocker-<slug>.md`.
+- NEVER bypass a gate (no `eslint-disable`, no `any`, no `.skip()`, no `@ts-expect-error` without justification, no commented-out code, no `git commit --no-verify` for application commits).
+- See `.agents/rules/qa-loop.md` for the full protocol and `.agents/workflows/qa-loop.md` for the procedure.
+- Before opening a PR or releasing, run `npm run qa:strict` (adds e2e + bundle-budget).
+
 ## Mandatory reading — task-type index
 
 BEFORE doing any task, identify its type and load EVERY listed rule file. "I already know this" is not an excuse — the project-specific rules override your priors.
 
 | Task type                        | Rules to load (in order)                                                                                 |
 | -------------------------------- | -------------------------------------------------------------------------------------------------------- |
+| 🔁 **ANY task (always)**         | **qa-loop.md (run `npm run qa` until exit 0 — see iron rule above)**                                     |
 | UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md     |
 | Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                    |
 | Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                           |
@@ -49,37 +62,40 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 
 ## Mandatory pre-flight checklist
 
-| NEVER                                                                    | ALWAYS                                                                                              |
-| ------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------- |
-| use `any` (use `unknown` or a real type)                                 | type everything; prefer inference where readable                                                    |
-| `console.log` (warn/error OK)                                            | use `logger` from `@/lib/logger/logger`                                                             |
-| inline hex/rgb in JSX                                                    | use design tokens (`bg-background`, `text-foreground`, etc.)                                        |
-| `../../*` imports                                                        | use `@/*` path alias                                                                                |
-| `.select('*')`                                                           | list columns explicitly                                                                             |
-| expose `SUPABASE_SERVICE_ROLE_KEY` to client                             | gate behind `import "server-only"` in `server-admin.ts`                                             |
-| call `posthog.capture()` directly                                        | use `track()` / `trackServer()` wrappers                                                            |
-| read `process.env.*` outside `src/env.ts`                                | import `env` from `@/env`                                                                           |
-| `className={\`a ${b}\`}`                                                 | `cn("a", b)`                                                                                        |
-| keep exported types inline                                               | extract to `types.ts`                                                                               |
-| add a new external script silently                                       | update CSP in `next.config.ts` and document it                                                      |
-| install MUI / Emotion / Pigment / styled-components                      | stick to Tailwind + shadcn                                                                          |
-| ship UI that breaks at <360px width                                      | design mobile-first; test breakpoints sm/md/lg/xl; use container queries when sibling-aware         |
-| ship interactive elements with <44x44px touch targets                    | meet WCAG 2.2 AA touch target (44px min, 48px preferred)                                            |
-| ship without keyboard navigation + visible focus rings                   | every interactive element keyboard-reachable; tab order logical; `focus-visible:ring-2`             |
-| ship images without alt text                                             | meaningful alt (or `alt=""` for decorative) + width/height props                                    |
-| use color alone to convey state                                          | pair color with icon + text                                                                         |
-| hardcode user-facing strings                                             | i18n keys via `useTranslations()` / `getTranslations()`; messages in `messages/{en,pt,es}.json`     |
-| write plans/specs at repo root or arbitrary locations                    | active plans in `.plans/`; archived plans in `.plans/archived/`; technical/product docs in `.docs/` |
-| skip the changelog flow                                                  | use `npm run push` to generate CHANGELOG + push (pre-push hook blocks direct push)                  |
-| leave functions >50 lines or files mixing 3+ unrelated concerns          | small composable units; single responsibility; pure functions where possible                        |
-| leave commented-out code, `console.log`s, TODO without ticket            | clean code on every commit; reference the issue/ticket for any TODO                                 |
-| implement an admin route without role gate at BOTH middleware AND layout | defense in depth — middleware redirects + server component double-check via `isAdmin()`             |
-| add `'use client'` to a layout or page when a leaf could be client       | push the client boundary DOWN; keep Server Components as the default                                |
-| import heavy libs (charts, editors, maps, PDF, 3D, rich-text) eagerly    | lazy-load via `next/dynamic` or the `lazyClient` helper from `@/lib/lazy`                           |
-| ship a route without checking its First Load JS in `next build` output   | keep per-route bundle ≤ 200KB compressed; inspect treemap via `npm run analyze` if over             |
-| `await` non-critical work before navigation/interaction                  | `void` fire-and-forget + `startTransition(() => router.push(...))` (or `useTransitionRouter()`)     |
-| call `router.refresh()` in event handlers without measuring              | prefer `revalidatePath` / `revalidateTag` from a mutation server action                             |
-| ignore Core Web Vitals targets (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1)         | verify on PostHog Web Vitals dashboard before declaring "done"                                      |
+| NEVER                                                                           | ALWAYS                                                                                              |
+| ------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------- |
+| use `any` (use `unknown` or a real type)                                        | type everything; prefer inference where readable                                                    |
+| `console.log` (warn/error OK)                                                   | use `logger` from `@/lib/logger/logger`                                                             |
+| inline hex/rgb in JSX                                                           | use design tokens (`bg-background`, `text-foreground`, etc.)                                        |
+| `../../*` imports                                                               | use `@/*` path alias                                                                                |
+| `.select('*')`                                                                  | list columns explicitly                                                                             |
+| expose `SUPABASE_SERVICE_ROLE_KEY` to client                                    | gate behind `import "server-only"` in `server-admin.ts`                                             |
+| call `posthog.capture()` directly                                               | use `track()` / `trackServer()` wrappers                                                            |
+| read `process.env.*` outside `src/env.ts`                                       | import `env` from `@/env`                                                                           |
+| `className={\`a ${b}\`}`                                                        | `cn("a", b)`                                                                                        |
+| keep exported types inline                                                      | extract to `types.ts`                                                                               |
+| add a new external script silently                                              | update CSP in `next.config.ts` and document it                                                      |
+| install MUI / Emotion / Pigment / styled-components                             | stick to Tailwind + shadcn                                                                          |
+| ship UI that breaks at <360px width                                             | design mobile-first; test breakpoints sm/md/lg/xl; use container queries when sibling-aware         |
+| ship interactive elements with <44x44px touch targets                           | meet WCAG 2.2 AA touch target (44px min, 48px preferred)                                            |
+| ship without keyboard navigation + visible focus rings                          | every interactive element keyboard-reachable; tab order logical; `focus-visible:ring-2`             |
+| ship images without alt text                                                    | meaningful alt (or `alt=""` for decorative) + width/height props                                    |
+| use color alone to convey state                                                 | pair color with icon + text                                                                         |
+| hardcode user-facing strings                                                    | i18n keys via `useTranslations()` / `getTranslations()`; messages in `messages/{en,pt,es}.json`     |
+| write plans/specs at repo root or arbitrary locations                           | active plans in `.plans/`; archived plans in `.plans/archived/`; technical/product docs in `.docs/` |
+| skip the changelog flow                                                         | use `npm run push` to generate CHANGELOG + push (pre-push hook blocks direct push)                  |
+| leave functions >50 lines or files mixing 3+ unrelated concerns                 | small composable units; single responsibility; pure functions where possible                        |
+| leave commented-out code, `console.log`s, TODO without ticket                   | clean code on every commit; reference the issue/ticket for any TODO                                 |
+| implement an admin route without role gate at BOTH middleware AND layout        | defense in depth — middleware redirects + server component double-check via `isAdmin()`             |
+| add `'use client'` to a layout or page when a leaf could be client              | push the client boundary DOWN; keep Server Components as the default                                |
+| import heavy libs (charts, editors, maps, PDF, 3D, rich-text) eagerly           | lazy-load via `next/dynamic` or the `lazyClient` helper from `@/lib/lazy`                           |
+| ship a route without checking its First Load JS in `next build` output          | keep per-route bundle ≤ 200KB compressed; inspect treemap via `npm run analyze` if over             |
+| `await` non-critical work before navigation/interaction                         | `void` fire-and-forget + `startTransition(() => router.push(...))` (or `useTransitionRouter()`)     |
+| call `router.refresh()` in event handlers without measuring                     | prefer `revalidatePath` / `revalidateTag` from a mutation server action                             |
+| ignore Core Web Vitals targets (LCP ≤2.5s, INP ≤200ms, CLS ≤0.1)                | verify on PostHog Web Vitals dashboard before declaring "done"                                      |
+| declare a task complete without `npm run qa` exiting 0                          | run the QA loop until green (see `.agents/rules/qa-loop.md`)                                        |
+| bypass a failing gate with `eslint-disable` / `any` / `.skip()` / `--no-verify` | fix the root cause (or escalate via `.plans/YYYY-MM-DD-qa-blocker-<slug>.md`)                       |
+| exceed 10 QA-loop iterations on the same task without escalating                | write `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` and stop                                             |
 
 ## Domain rules — read the file BEFORE you write the code
 
@@ -99,6 +115,7 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | `.agents/rules/supabase.md`          | 4-client split, RLS, types                               | Any DB query / migration                                                  |
 | `.agents/rules/analytics.md`         | `track()` / `trackServer()` wrappers, event names, scrub | Any user action that should be measured                                   |
 | `.agents/rules/admin.md`             | Admin routes, role gates, service role rules             | Anything under `(admin)/` or touching `profiles.role`                     |
+| `.agents/rules/qa-loop.md`           | The fix-until-green QA loop, hard cap, anti-patterns     | BEFORE completing ANY task (load alongside the task-specific rules)       |
 
 ## References (lookup material, not rules)
 
@@ -114,6 +131,7 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | ---------------------------------- | ------------------------------------------------ |
 | `.agents/workflows/self-review.md` | Before declaring ANY task complete               |
 | `.agents/workflows/multi-agent.md` | When handing work to / receiving from a subagent |
+| `.agents/workflows/qa-loop.md`     | Any time you write or modify code                |
 
 ## Skills (model-specific)
 
@@ -134,14 +152,17 @@ If a model-specific skill folder exists in this repo, load relevant skills BEFOR
 
 ## Before completing ANY task
 
-Run the self-review checklist (`.agents/workflows/self-review.md`). Specifically:
+Run the QA loop until it exits 0. That's the definition of done.
 
 ```bash
-npm run check    # lint + typecheck + format:check
-npm run test     # vitest run
-npm run build    # only if substantial changes
-npm run analyze  # only if you suspect a bundle regression
+npm run qa     # runs the full loop; iterate until exit 0
 ```
+
+For strict mode (includes e2e + bundle budget): `npm run qa:strict`. Use this before opening a PR or releasing.
+
+If the loop hits its 10-iteration cap, escalate per `.agents/rules/qa-loop.md` (write a blocker plan in `.plans/`).
+
+Also run the self-review checklist (`.agents/workflows/self-review.md`) — the QA loop is the mechanical part; self-review is the judgment part.
 
 Commit format: Conventional Commits. Pushing is done via `npm run push` (Carevia-style) which auto-generates the changelog and runs the pre-push gate.
 

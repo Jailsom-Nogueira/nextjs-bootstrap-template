@@ -19,7 +19,7 @@
 | `'use client'` on layout/page | push boundary DOWN; Server Components by default     |
 | eager heavy lib imports       | `next/dynamic` / `lazyClient` from `@/lib/lazy`      |
 | `await` non-critical pre-nav  | `void` + `startTransition` / `useTransitionRouter()` |
-| skip `npm run check`          | run it before declaring done                         |
+| skip `npm run qa`             | run it until exit 0 before declaring done            |
 
 ## Stack (locked)
 
@@ -31,8 +31,11 @@ LCP ≤ 2.5s · INP ≤ 200ms · CLS ≤ 0.1 · per-route First Load JS ≤ 200K
 
 ## Before finishing
 
+Run the QA loop until it exits 0. That's the definition of done. See AGENTS.md → "The QA-in-loop iron rule".
+
 ```
-npm run check && npm run test
+npm run qa            # iterate until exit 0
+npm run qa:strict     # before PR / release (adds e2e + bundle budget)
 ```
 
 ## Conventions
