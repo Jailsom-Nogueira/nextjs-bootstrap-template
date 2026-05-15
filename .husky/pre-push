@@ -1,1 +1,7 @@
 npm run typecheck
+
+if [ "$CHANGELOG_GENERATED" != "1" ]; then
+  echo "❌ Direct 'git push' is blocked. Run 'npm run push' to auto-generate the changelog and push."
+  echo "   Emergency bypass: HUSKY=0 git push --no-verify (don't.)"
+  exit 1
+fi

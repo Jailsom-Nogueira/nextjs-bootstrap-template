@@ -1,0 +1,27 @@
+name: Slack release notify
+
+on:
+  push:
+    branches: [main]
+
+jobs:
+  notify:
+    runs-on: ubuntu-latest
+    # Skip silently if no webhook configured. Secrets are not directly testable in `if`,
+    # so guard at runtime inside the step.
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 50
+      - name: Build payload + post to Slack
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+        run: |
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "SLACK_WEBHOOK_URL not set — skipping notification."
+            exit 0
+          fi
+          VERSION=$(node -p "require('./package.json').version")
+          COMMITS=$(git log -10 --pretty=format:"• %s (%h) - %an" | sed 's/"/\\"/g')
+          PAYLOAD=$(printf '{"text":"*nextjs-bootstrap-template v%s* pushed to main\\n%s"}' "$VERSION" "$COMMITS")
+          curl -sS -X POST -H "Content-type: application/json" --data "$PAYLOAD" "$SLACK_WEBHOOK_URL"

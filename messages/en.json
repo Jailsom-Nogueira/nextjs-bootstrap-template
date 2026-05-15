@@ -1,0 +1,53 @@
+{
+  "common": {
+    "appName": "Bootstrap",
+    "loading": "Loading...",
+    "error": "Something went wrong",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit"
+  },
+  "nav": {
+    "home": "Home",
+    "dashboard": "Dashboard",
+    "admin": "Admin",
+    "signIn": "Sign in",
+    "signOut": "Sign out"
+  },
+  "auth": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "email": "Email",
+    "password": "Password"
+  },
+  "theme": {
+    "toggle": "Toggle theme",
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "errors": {
+    "notFound": "Page not found",
+    "unauthorized": "You are not authorized to view this page",
+    "serverError": "Server error. Please try again."
+  },
+  "home": {
+    "title": "Next.js Bootstrap Template",
+    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edit src/app/[locale]/page.tsx to begin."
+  },
+  "admin": {
+    "title": "Admin Dashboard",
+    "users": "Users",
+    "settings": "Settings",
+    "role": "Role",
+    "name": "Name",
+    "createdAt": "Created"
+  },
+  "locale": {
+    "switch": "Switch language",
+    "en": "English",
+    "pt": "Português",
+    "es": "Español"
+  }
+}

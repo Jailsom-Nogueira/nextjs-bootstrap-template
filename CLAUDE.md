@@ -24,3 +24,4 @@ None defined yet. If you find yourself repeating a workflow more than 3 times, a
 - Next 16 made Turbopack the default — do NOT pass `--turbopack` flags; they're already implicit.
 - The `middleware.ts` convention is being renamed to `proxy.ts` in Next 16+. We're staying on `middleware.ts` until shadcn/Supabase docs migrate.
 - Tailwind v4 uses `@theme` in CSS, NOT a `tailwind.config.ts`. Don't create one.
+- Plans go in `.plans/` (archived ones in `.plans/archived/`); docs go in `.docs/`. Push with `npm run push` (the pre-push hook blocks raw `git push`).

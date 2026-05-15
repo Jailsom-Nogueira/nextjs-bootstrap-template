@@ -27,3 +27,7 @@ next 16.2.6 · react 19.2.6 · TS 5.6+ strict · Tailwind v4 · shadcn/ui · @su
 ```
 npm run check && npm run test
 ```
+
+## Conventions
+
+- Plans in `.plans/` (archived in `.plans/archived/`). Docs in `.docs/`. Push via `npm run push` (pre-push hook blocks raw `git push`).

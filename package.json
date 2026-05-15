@@ -29,8 +29,7 @@
     "db:types": "bash scripts/generate-types.sh",
     "email:dev": "email dev --dir emails",
     "commit": "commitlint --edit",
-    "changeset": "changeset",
-    "release": "changeset publish"
+    "push": "npx tsx scripts/generate-changelog.ts && git add CHANGELOG.md package.json && git commit --no-verify -m \"chore: update changelog for push\" && CHANGELOG_GENERATED=1 git push"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",
@@ -46,6 +45,7 @@
     "framer-motion": "12.38.0",
     "lucide-react": "1.16.0",
     "next": "16.2.6",
+    "next-intl": "4.12.0",
     "next-themes": "0.4.6",
     "pino": "10.3.1",
     "posthog-js": "1.373.4",
@@ -64,7 +64,6 @@
     "zustand": "5.0.13"
   },
   "devDependencies": {
-    "@changesets/cli": "2.31.0",
     "@commitlint/cli": "21.0.1",
     "@commitlint/config-conventional": "21.0.1",
     "@eslint-community/eslint-plugin-eslint-comments": "4.7.1",
@@ -91,6 +90,7 @@
     "prettier-plugin-tailwindcss": "0.8.0",
     "react-email": "6.1.4",
     "tailwindcss": "4.3.0",
+    "tsx": "4.22.0",
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.3",
     "vitest": "4.1.6"

@@ -1,0 +1,53 @@
+{
+  "common": {
+    "appName": "Bootstrap",
+    "loading": "Carregando...",
+    "error": "Algo deu errado",
+    "save": "Salvar",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "edit": "Editar"
+  },
+  "nav": {
+    "home": "Início",
+    "dashboard": "Painel",
+    "admin": "Admin",
+    "signIn": "Entrar",
+    "signOut": "Sair"
+  },
+  "auth": {
+    "signIn": "Entrar",
+    "signUp": "Cadastrar",
+    "email": "E-mail",
+    "password": "Senha"
+  },
+  "theme": {
+    "toggle": "Alternar tema",
+    "light": "Claro",
+    "dark": "Escuro",
+    "system": "Sistema"
+  },
+  "errors": {
+    "notFound": "Página não encontrada",
+    "unauthorized": "Você não tem permissão para acessar esta página",
+    "serverError": "Erro no servidor. Tente novamente."
+  },
+  "home": {
+    "title": "Template Bootstrap Next.js",
+    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edite src/app/[locale]/page.tsx para começar."
+  },
+  "admin": {
+    "title": "Painel de Administração",
+    "users": "Usuários",
+    "settings": "Configurações",
+    "role": "Função",
+    "name": "Nome",
+    "createdAt": "Criado em"
+  },
+  "locale": {
+    "switch": "Trocar idioma",
+    "en": "English",
+    "pt": "Português",
+    "es": "Español"
+  }
+}

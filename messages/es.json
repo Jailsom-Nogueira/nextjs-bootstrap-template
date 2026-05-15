@@ -1,0 +1,53 @@
+{
+  "common": {
+    "appName": "Bootstrap",
+    "loading": "Cargando...",
+    "error": "Algo salió mal",
+    "save": "Guardar",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "edit": "Editar"
+  },
+  "nav": {
+    "home": "Inicio",
+    "dashboard": "Panel",
+    "admin": "Admin",
+    "signIn": "Iniciar sesión",
+    "signOut": "Cerrar sesión"
+  },
+  "auth": {
+    "signIn": "Iniciar sesión",
+    "signUp": "Registrarse",
+    "email": "Correo electrónico",
+    "password": "Contraseña"
+  },
+  "theme": {
+    "toggle": "Cambiar tema",
+    "light": "Claro",
+    "dark": "Oscuro",
+    "system": "Sistema"
+  },
+  "errors": {
+    "notFound": "Página no encontrada",
+    "unauthorized": "No tiene autorización para ver esta página",
+    "serverError": "Error del servidor. Inténtelo de nuevo."
+  },
+  "home": {
+    "title": "Plantilla Bootstrap Next.js",
+    "subtitle": "Next.js 16 + Supabase + PostHog + Resend. Edita src/app/[locale]/page.tsx para empezar."
+  },
+  "admin": {
+    "title": "Panel de Administración",
+    "users": "Usuarios",
+    "settings": "Ajustes",
+    "role": "Rol",
+    "name": "Nombre",
+    "createdAt": "Creado"
+  },
+  "locale": {
+    "switch": "Cambiar idioma",
+    "en": "English",
+    "pt": "Português",
+    "es": "Español"
+  }
+}
