@@ -169,6 +169,8 @@ Per-agent config files (thin imports/stubs — AGENTS.md remains the source of t
 - `.clinerules/00-base.md` + `.clineignore` — Cline
 - `.aider.conf.yml` + `CONVENTIONS.md` — Aider
 - `.codex/setup.sh` — Codex Cloud sandbox setup
+- `.agents/skills/` — universal agent skills added via `npx skills add <package>` (loaded by Amp, Antigravity, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Hermes, Kimi, OpenCode, Warp). Currently installed: `agent-browser` (browser automation CLI). Restore reproducibly with `npx skills experimental_install` against `skills-lock.json`.
+- `skills-lock.json` — pin of installed universal skills (commit; treat like a lockfile)
 
 Never duplicate AGENTS.md content into any of the above — keep them as thin imports/stubs.
 
