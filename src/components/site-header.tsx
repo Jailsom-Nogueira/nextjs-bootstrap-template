@@ -5,6 +5,9 @@ import { Link } from "@/i18n/navigation";
 import { LocaleSwitcher } from "@/components/locale-switcher";
 import { ThemeToggle } from "@/components/theme-toggle";
 
+// TODO: set REPO_URL to the real GitHub repo URL once published.
+const REPO_URL = "https://github.com";
+
 /**
  * Top sticky header.
  *
@@ -15,7 +18,7 @@ export async function SiteHeader() {
   const t = await getTranslations("header");
 
   return (
-    <header className="border-border/40 bg-background/80 supports-[backdrop-filter]:bg-background/60 sticky top-0 z-50 w-full border-b backdrop-blur">
+    <header className="border-border bg-background/95 supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"
@@ -26,16 +29,17 @@ export async function SiteHeader() {
         </Link>
 
         <nav aria-label="Primary" className="flex items-center gap-1 sm:gap-2">
-          <a
-            href="#features"
+          <Link
+            href="/#features"
             className="hover:text-foreground text-muted-foreground focus-visible:ring-ring hidden rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none sm:inline-flex"
           >
             {t("docs")}
-          </a>
+          </Link>
           <a
-            href="https://github.com"
+            href={REPO_URL}
             target="_blank"
             rel="noreferrer noopener"
+            aria-label={`${t("github")} (opens in new tab)`}
             className="hover:text-foreground text-muted-foreground focus-visible:ring-ring hidden rounded-md px-3 py-2 text-sm font-medium transition-colors focus-visible:ring-2 focus-visible:outline-none sm:inline-flex"
           >
             {t("github")}

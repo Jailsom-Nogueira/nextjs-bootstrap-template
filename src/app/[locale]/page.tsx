@@ -14,6 +14,9 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 
+// TODO: set REPO_URL to the real GitHub repo URL once published.
+const REPO_URL = "https://github.com";
+
 type FeatureKey = "auth" | "aiNative" | "performance" | "i18n" | "a11y" | "qaLoop";
 
 type StackItem = { name: string; version: string };
@@ -90,7 +93,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <a href="https://github.com" target="_blank" rel="noreferrer noopener">
+                <a href={REPO_URL} target="_blank" rel="noreferrer noopener">
                   <GitBranch className="mr-2 h-4 w-4" aria-hidden="true" />
                   {t("cta_secondary")}
                 </a>
@@ -114,7 +117,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* FEATURES */}
-      <section id="features" className="border-border/40 border-t py-16 md:py-24">
+      <section id="features" className="border-border border-t py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">
@@ -145,7 +148,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
       </section>
 
       {/* STACK */}
-      <section className="bg-muted/30 border-border/40 border-t py-16 md:py-24">
+      <section className="bg-muted/30 border-border border-t py-16 md:py-24">
         <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
           <div className="mx-auto max-w-2xl text-center">
             <h2 className="text-foreground text-3xl font-bold tracking-tight md:text-4xl">

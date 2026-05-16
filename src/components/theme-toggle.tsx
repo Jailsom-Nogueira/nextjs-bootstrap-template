@@ -1,53 +1,72 @@
 "use client";
 
-import { Moon, Sun, Monitor } from "lucide-react";
+import { Moon, Sun } from "lucide-react";
 import { useTheme } from "next-themes";
 import { useTranslations } from "next-intl";
+import { useSyncExternalStore } from "react";
 
 import { cn } from "@/lib/utils";
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu";
 
+/**
+ * `useSyncExternalStore`-based mounted check. Returns false on the server
+ * pass and during the first client render; true afterwards. Idiomatic in
+ * React 19 (no setState-in-effect, ESLint-clean).
+ */
+function useMounted(): boolean {
+  return useSyncExternalStore(
+    subscribe,
+    () => true,
+    () => false,
+  );
+}
+
+function subscribe(): () => void {
+  // No-op: we only care about the snapshot value flipping from server (false)
+  // to client (true) on hydration. Never re-emits.
+  return () => undefined;
+}
+
+/**
+ * One-click theme toggle. Cycles light ↔ dark.
+ *
+ * System preference is honored on first load (via `defaultTheme="system"` in
+ * the ThemeProvider) but explicit user clicks resolve to a concrete
+ * light/dark value — that's the UX users expect from a toggle button.
+ *
+ * Renders a placeholder of the same size on the server pass to avoid layout
+ * shift on hydration. After mount, swaps in the real icon for the current
+ * resolved theme.
+ */
 export function ThemeToggle({ className }: { className?: string }) {
-  const { setTheme } = useTheme();
+  const { resolvedTheme, setTheme } = useTheme();
   const t = useTranslations("theme");
+  const mounted = useMounted();
+
+  const isDark = resolvedTheme === "dark";
+  const next = isDark ? "light" : "dark";
+  const label = isDark ? t("light") : t("dark");
 
   return (
-    <DropdownMenu>
-      <DropdownMenuTrigger
-        aria-label={t("toggle")}
-        className={cn(
-          "border-border bg-background text-foreground hover:bg-accent relative inline-flex h-9 w-11 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none",
-          className,
-        )}
-      >
-        <Sun
-          className="h-4 w-4 scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90"
-          aria-hidden="true"
-        />
-        <Moon
-          className="absolute h-4 w-4 scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0"
-          aria-hidden="true"
-        />
-      </DropdownMenuTrigger>
-      <DropdownMenuContent align="end">
-        <DropdownMenuItem onSelect={() => setTheme("light")}>
-          <Sun className="mr-2 h-4 w-4" aria-hidden="true" />
-          {t("light")}
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => setTheme("dark")}>
-          <Moon className="mr-2 h-4 w-4" aria-hidden="true" />
-          {t("dark")}
-        </DropdownMenuItem>
-        <DropdownMenuItem onSelect={() => setTheme("system")}>
-          <Monitor className="mr-2 h-4 w-4" aria-hidden="true" />
-          {t("system")}
-        </DropdownMenuItem>
-      </DropdownMenuContent>
-    </DropdownMenu>
+    <button
+      type="button"
+      onClick={() => setTheme(next)}
+      aria-label={label}
+      title={label}
+      className={cn(
+        "border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring relative inline-flex h-9 w-9 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none",
+        className,
+      )}
+    >
+      {mounted ? (
+        isDark ? (
+          <Sun className="h-4 w-4" aria-hidden="true" />
+        ) : (
+          <Moon className="h-4 w-4" aria-hidden="true" />
+        )
+      ) : (
+        <span className="block h-4 w-4" aria-hidden="true" />
+      )}
+      <span className="sr-only">{t("toggle")}</span>
+    </button>
   );
 }

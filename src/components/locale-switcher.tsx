@@ -32,7 +32,7 @@ export function LocaleSwitcher({ className }: { className?: string }) {
       <DropdownMenuTrigger
         aria-label={t("switch")}
         className={cn(
-          "border-border bg-background text-foreground hover:bg-accent inline-flex h-9 min-w-11 items-center justify-center gap-1.5 rounded-md border px-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none",
+          "border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring inline-flex h-9 min-w-11 items-center justify-center gap-1.5 rounded-md border px-2.5 text-sm transition-colors focus-visible:ring-2 focus-visible:outline-none",
           className,
         )}
       >
