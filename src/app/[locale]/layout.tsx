@@ -4,6 +4,7 @@ import { notFound } from "next/navigation";
 import { PostHogProvider } from "@/lib/analytics/posthog-client";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
+import { HtmlLangSync } from "@/components/html-lang-sync";
 import { routing } from "@/i18n/routing";
 
 export function generateStaticParams() {
@@ -27,6 +28,7 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
+      <HtmlLangSync locale={locale} />
       <PostHogProvider>
         <div className="flex min-h-screen flex-col">
           <SiteHeader />

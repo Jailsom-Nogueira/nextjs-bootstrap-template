@@ -18,7 +18,7 @@ export async function SiteHeader() {
   const t = await getTranslations("header");
 
   return (
-    <header className="border-border bg-background/95 supports-[backdrop-filter]:bg-background/80 sticky top-0 z-50 w-full border-b backdrop-blur">
+    <header className="border-border bg-background sticky top-0 z-50 w-full border-b">
       <div className="mx-auto flex h-14 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         <Link
           href="/"

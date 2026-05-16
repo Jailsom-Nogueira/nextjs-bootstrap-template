@@ -21,37 +21,32 @@ function useMounted(): boolean {
 }
 
 function subscribe(): () => void {
-  // No-op: we only care about the snapshot value flipping from server (false)
-  // to client (true) on hydration. Never re-emits.
   return () => undefined;
 }
 
 /**
  * One-click theme toggle. Cycles light ↔ dark.
  *
- * System preference is honored on first load (via `defaultTheme="system"` in
- * the ThemeProvider) but explicit user clicks resolve to a concrete
- * light/dark value — that's the UX users expect from a toggle button.
- *
- * Renders a placeholder of the same size on the server pass to avoid layout
- * shift on hydration. After mount, swaps in the real icon for the current
- * resolved theme.
+ * Hydration discipline: the SAME static `aria-label` and `title` ("Toggle
+ * theme") render on server and client. The visual icon (Sun in dark mode,
+ * Moon in light mode) only flips AFTER mount via `useSyncExternalStore`,
+ * so the server pass renders an inert placeholder of the same dimensions
+ * — no CLS, no aria-label mismatch.
  */
 export function ThemeToggle({ className }: { className?: string }) {
   const { resolvedTheme, setTheme } = useTheme();
   const t = useTranslations("theme");
   const mounted = useMounted();
 
-  const isDark = resolvedTheme === "dark";
+  const isDark = mounted && resolvedTheme === "dark";
   const next = isDark ? "light" : "dark";
-  const label = isDark ? t("light") : t("dark");
 
   return (
     <button
       type="button"
       onClick={() => setTheme(next)}
-      aria-label={label}
-      title={label}
+      aria-label={t("toggle")}
+      title={t("toggle")}
       className={cn(
         "border-border bg-background text-foreground hover:bg-accent hover:text-accent-foreground focus-visible:ring-ring relative inline-flex h-9 w-9 items-center justify-center rounded-md border transition-colors focus-visible:ring-2 focus-visible:outline-none",
         className,
@@ -66,7 +61,6 @@ export function ThemeToggle({ className }: { className?: string }) {
       ) : (
         <span className="block h-4 w-4" aria-hidden="true" />
       )}
-      <span className="sr-only">{t("toggle")}</span>
     </button>
   );
 }

@@ -243,9 +243,16 @@ if [ "$STRICT" -eq 1 ]; then
     print_summary
     exit "$FIRST_FAIL_EXIT"
   fi
+
+  # Gate 8: qa:visual (browser-side QA — boots dev server, screenshots, console, axe-core)
+  if ! run_gate "qa:visual" "npm run qa:visual" npm run qa:visual; then
+    print_summary
+    exit "$FIRST_FAIL_EXIT"
+  fi
 else
   print_skip "test:e2e"      "not --strict (run with: npm run qa:strict)"
   print_skip "bundle-budget" "not --strict (run with: npm run qa:strict)"
+  print_skip "qa:visual"     "not --strict (run with: npm run qa:strict, or directly: npm run qa:visual)"
 fi
 
 print_summary

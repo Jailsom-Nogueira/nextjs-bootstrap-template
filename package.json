@@ -22,6 +22,7 @@
     "qa": "bash scripts/qa-loop.sh",
     "qa:strict": "bash scripts/qa-loop.sh --strict",
     "qa:quiet": "bash scripts/qa-loop.sh --quiet",
+    "qa:visual": "bash scripts/qa-visual-runner.sh",
     "prompt:context": "tsx scripts/prompt-context.ts",
     "pack": "npx -y repomix --include 'src/**,supabase/migrations/**,messages/**,.agents/**,AGENTS.md,CLAUDE.md,GEMINI.md' --ignore '**/*.test.ts,**/*.test.tsx,**/*.spec.ts' --output .agent-cache/repomix.xml --style xml --quiet",
     "test": "vitest run",
@@ -71,6 +72,7 @@
     "zustand": "5.0.13"
   },
   "devDependencies": {
+    "@axe-core/playwright": "4.11.3",
     "@commitlint/cli": "21.0.1",
     "@commitlint/config-conventional": "21.0.1",
     "@eslint-community/eslint-plugin-eslint-comments": "4.7.1",
