@@ -32,7 +32,7 @@ Ask one focused question only when ambiguity changes artifact type, side effects
 | `.plans/`             | Active implementation plans. Completed or superseded plans move to `.plans/archived/`.   |
 | Tool-specific files   | Thin adapters only. They point back to AGENTS.md and must not duplicate canonical rules. |
 
-If a new fact could fit in more than one layer, decide the layer explicitly and prefer the dedicated file over AGENTS.md.
+If a new fact could fit in more than one layer, decide the layer explicitly and prefer the dedicated file over AGENTS.md. The full convention — including the four meta-rules for adding directories, adapters, sync gates, and indexes — lives in `.agents/references/repo-structure.md`. Read it before creating a new directory or per-tool adapter.
 
 ## Non-negotiable invariants
 

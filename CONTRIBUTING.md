@@ -36,6 +36,7 @@ Fill `.env.local` with your own Supabase project values before running flows tha
 - TypeScript stays strict. Do not use `any` as an escape hatch.
 - Do not add `eslint-disable`, skipped tests, commented-out code, or unreviewed `@ts-expect-error` to make gates pass.
 - Keep AGENTS.md terse. Long-form teaching belongs in `CONCEPTS.md`; operational rules belong in `.agents/rules/`; procedures belong in `.agents/workflows/`; lookup material belongs in `.agents/references/`.
+- Every agent-facing directory has a `README.md` index that lists its files and points back to AGENTS.md. The convention (meta-rules, anti-patterns, "how to add a new directory or adapter") lives in `.agents/references/repo-structure.md`. Read it before adding directories or per-tool adapters.
 - Keep template defaults generic. If a value must be product-specific, document it as something the generated app owner should replace.
 - Update README, CONCEPTS, AGENTS, or `.agents/*` when behavior or conventions change.
 

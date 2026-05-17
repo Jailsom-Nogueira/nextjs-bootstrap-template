@@ -9,6 +9,7 @@ These files are **not rules**. They map territory (artifact taxonomy, important 
 | File                   | What it contains                                                                                    |
 | ---------------------- | --------------------------------------------------------------------------------------------------- |
 | `artifact-layers.md`   | Where to put specs, plans, docs, runbooks, ADRs, concepts, and local artifacts. Task inference too. |
+| `repo-structure.md`    | Meta-rules for agent-facing directories: READMEs, thin adapters, sync gates, anti-patterns.         |
 | `key-files.md`         | Map of the most important source/config files with a one-line purpose each.                         |
 | `shared-components.md` | Inventory of shadcn primitives and shared UI components with their paths.                           |
 | `analytics.md`         | Event catalog: name, where it fires, properties, PII scrubbing.                                     |
@@ -16,6 +17,7 @@ These files are **not rules**. They map territory (artifact taxonomy, important 
 ## When to load
 
 - Creating, editing, moving, or archiving a durable artifact (spec, plan, doc) → `artifact-layers.md` first.
+- Adding a new directory, a new per-tool adapter, or noticing two files that must stay in sync → `repo-structure.md` first.
 - Looking for "where does X live" → `key-files.md`.
 - Building a new UI surface → `shared-components.md` before reinventing primitives.
 - Adding analytics events or auditing instrumentation → `analytics.md`.
