@@ -24,20 +24,21 @@ If you find a missing key during review, fix the bundle that lacks it before mer
 
 The three bundles share the same top-level structure. Keys are semantic, not positional (no `label1`, `label2`):
 
-| Namespace  | Purpose                                                                       |
-| ---------- | ----------------------------------------------------------------------------- |
-| `common`   | Generic short labels reused everywhere: `loading`, `error`, `save`, `cancel`. |
-| `nav`      | Navigation entries: `home`, `dashboard`, `admin`, `signIn`, `signOut`.        |
-| `header`   | Site header strings: brand, docs, GitHub link.                                |
-| `auth`     | Login / signup flow: form labels, button text, error copy.                    |
-| `theme`    | Theme toggle UI (light / dark / system).                                      |
-| `errors`   | App-level error states.                                                       |
-| `home`     | Landing page copy.                                                            |
-| `features` | Feature highlight cards on the home page.                                     |
-| `stack`    | Stack section on the home page.                                               |
-| `footer`   | Footer links and disclaimers.                                                 |
-| `admin`    | Admin dashboard surface.                                                      |
-| `locale`   | Self-name for each locale (used by the locale switcher).                      |
+| Namespace  | Purpose                                                                                                        |
+| ---------- | -------------------------------------------------------------------------------------------------------------- |
+| `common`   | Generic short labels reused everywhere: `loading`, `error`, `save`, `cancel`.                                  |
+| `nav`      | Navigation entries: `home`, `dashboard`, `admin`, `signIn`, `signOut`.                                         |
+| `header`   | Site header strings: brand, docs, GitHub link.                                                                 |
+| `auth`     | Login / signup flow: form labels, button text, error copy.                                                     |
+| `theme`    | Theme toggle UI (light / dark / system).                                                                       |
+| `errors`   | App-level error states.                                                                                        |
+| `home`     | Landing page copy.                                                                                             |
+| `features` | Feature highlight cards on the home page.                                                                      |
+| `stack`    | Stack section on the home page.                                                                                |
+| `about`    | About page: long-form description of the template (purpose, stack, conventions, agent surface, QA, structure). |
+| `footer`   | Footer links and disclaimers.                                                                                  |
+| `admin`    | Admin dashboard surface.                                                                                       |
+| `locale`   | Self-name for each locale (used by the locale switcher).                                                       |
 
 ## How to use a translation
 

@@ -31,6 +31,7 @@ type ViewportName = "desktop" | "mobile";
 
 const ROUTES: ReadonlyArray<string> = [
   "/",
+  "/about",
   "/login",
   "/signup",
   "/dashboard",

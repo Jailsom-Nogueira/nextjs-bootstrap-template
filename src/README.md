@@ -21,23 +21,24 @@ This README is a **top-level map only**. Each subfolder owns its own internal or
 
 ## `app/`
 
-| Path                                                 | Purpose                                                                  |
-| ---------------------------------------------------- | ------------------------------------------------------------------------ |
-| `app/layout.tsx`                                     | Root layout. Loads PostHog, theme provider, sets html lang.              |
-| `app/globals.css`                                    | Tailwind v4 `@theme` tokens (light + dark), CSS variables.               |
-| `app/manifest.ts`, `app/robots.ts`, `app/sitemap.ts` | Generated metadata files (PWA manifest, robots.txt, sitemap.xml).        |
-| `app/api/health/route.ts`                            | Liveness probe used by the visual QA runner and external monitors.       |
-| `app/[locale]/layout.tsx`                            | Locale-scoped layout. NextIntl provider, theme, PostHog wiring, Toaster. |
-| `app/[locale]/page.tsx`                              | Home page (lazyClient demo).                                             |
-| `app/[locale]/loading.tsx`                           | Streaming skeleton.                                                      |
-| `app/[locale]/(auth)/login/page.tsx`                 | Login form.                                                              |
-| `app/[locale]/(auth)/signup/page.tsx`                | Signup form.                                                             |
-| `app/[locale]/(auth)/callback/route.ts`              | Supabase OAuth callback handler.                                         |
-| `app/[locale]/(dashboard)/dashboard/page.tsx`        | Gated user dashboard.                                                    |
-| `app/[locale]/(admin)/admin/layout.tsx`              | Role-gated server component (calls `isAdmin()`).                         |
-| `app/[locale]/(admin)/admin/page.tsx`                | Admin home.                                                              |
-| `app/[locale]/(admin)/admin/users/page.tsx`          | Admin users list.                                                        |
-| `app/[locale]/(admin)/admin/loading.tsx`             | Admin route skeleton.                                                    |
+| Path                                                 | Purpose                                                                              |
+| ---------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| `app/layout.tsx`                                     | Root layout. Loads PostHog, theme provider, sets html lang.                          |
+| `app/globals.css`                                    | Tailwind v4 `@theme` tokens (light + dark), CSS variables.                           |
+| `app/manifest.ts`, `app/robots.ts`, `app/sitemap.ts` | Generated metadata files (PWA manifest, robots.txt, sitemap.xml).                    |
+| `app/api/health/route.ts`                            | Liveness probe used by the visual QA runner and external monitors.                   |
+| `app/[locale]/layout.tsx`                            | Locale-scoped layout. NextIntl provider, theme, PostHog wiring, Toaster.             |
+| `app/[locale]/page.tsx`                              | Home page (lazyClient demo).                                                         |
+| `app/[locale]/about/page.tsx`                        | Public template overview: purpose, stack, conventions, agent surface, QA, structure. |
+| `app/[locale]/loading.tsx`                           | Streaming skeleton.                                                                  |
+| `app/[locale]/(auth)/login/page.tsx`                 | Login form.                                                                          |
+| `app/[locale]/(auth)/signup/page.tsx`                | Signup form.                                                                         |
+| `app/[locale]/(auth)/callback/route.ts`              | Supabase OAuth callback handler.                                                     |
+| `app/[locale]/(dashboard)/dashboard/page.tsx`        | Gated user dashboard.                                                                |
+| `app/[locale]/(admin)/admin/layout.tsx`              | Role-gated server component (calls `isAdmin()`).                                     |
+| `app/[locale]/(admin)/admin/page.tsx`                | Admin home.                                                                          |
+| `app/[locale]/(admin)/admin/users/page.tsx`          | Admin users list.                                                                    |
+| `app/[locale]/(admin)/admin/loading.tsx`             | Admin route skeleton.                                                                |
 
 Route groups in parentheses (`(auth)`, `(dashboard)`, `(admin)`) do not appear in URLs; they exist to scope layouts without polluting the URL space.
 
