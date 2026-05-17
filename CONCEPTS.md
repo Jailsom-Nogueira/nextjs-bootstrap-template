@@ -53,8 +53,9 @@ contents.
 **What it is.** `AGENTS.md` at the repo root is the single source of truth (SSOT)
 for AI coding agents — Claude Code, Cursor, Codex, Aider, Cline, Devin, Gemini,
 and any future tool that follows the [agents.md](https://agents.md) convention.
-It declares the project's stack, the non-negotiable rules ("never use `any`",
-"never bypass `npm run qa`"), a task-type index, and links to deeper rule files.
+It is a terse routing hub: it points to the source files for stack details,
+non-negotiable invariants, task classification, artifact layers, QA, and deeper
+rule files instead of duplicating all of that content inline.
 
 **Why this project uses it.** Without an SSOT, every agent reads slightly
 different instructions, drifts in different directions, and produces
@@ -66,9 +67,8 @@ point at AGENTS.md**: `CLAUDE.md`, `GEMINI.md`, `CONVENTIONS.md`,
 
 **How to use it.**
 
-- Keep it under ~400 lines. Beyond that, agents skim and miss invariants.
-- Use tables (NEVER/ALWAYS) for hard rules — agents parse them more reliably
-  than prose.
+- Keep it under ~200 lines. Beyond that, agents skim and miss the routing decisions.
+- Use short tables/lists for routing and hard invariants; keep detailed do/don't examples in `.agents/rules/*`.
 - Cross-link to `.agents/rules/*.md` instead of inlining detail.
 - Update it when an invariant changes; never silently let practice drift.
 - Per-agent files (`CLAUDE.md`, `.cursor/rules/00-base.mdc`, etc.) should
@@ -86,7 +86,7 @@ point at AGENTS.md**: `CLAUDE.md`, `GEMINI.md`, `CONVENTIONS.md`,
 
 **How to extend it.**
 
-- New invariant → add a NEVER/ALWAYS row.
+- New invariant → add it to the AGENTS.md invariant list and keep the detailed rule in the dedicated `.agents/rules/*` file.
 - New tool category → add a row in the task-type index.
 - New deep rule → create `.agents/rules/<topic>.md` and link from AGENTS.md.
 
@@ -125,7 +125,7 @@ to the current task.
 **How to extend it.**
 
 - New domain → add `.agents/rules/<topic>.md`, register it in the AGENTS.md
-  task-type index and Domain rules table.
+  task router and rule catalog.
 - New runbook → add to `.agents/workflows/`.
 
 ---
