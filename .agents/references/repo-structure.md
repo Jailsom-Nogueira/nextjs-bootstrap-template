@@ -62,6 +62,7 @@ Agent-facing directories and their state. "agent-facing" means a tool (human or 
 | `.codex/`      | Yes        | Codex Cloud sandbox bootstrap.                                            | Bootstrap layer, not rules.                                                  |
 | `.cursor/`     | Yes        | Cursor MCP config + auto-attaching rule stubs.                            | Thin adapters; obligatory `mcp.json` duplication guarded by `mcp-sync` gate. |
 | `.docs/`       | Yes        | Durable product/technical docs, specs, architecture, decisions, runbooks. | Has its own taxonomy. See `.docs/README.md`.                                 |
+| `.husky/`      | Yes        | Git hooks (commit-msg, pre-commit, pre-push) installed by Husky.          | Last-line local gate before code leaves the dev machine.                     |
 | `.plans/`      | Yes        | Active implementation plans; archived plans under `.plans/archived/`.     | One MD per plan, slug-dated.                                                 |
 | `.github/`     | Yes        | CI workflows, issue/PR templates, CODEOWNERS, Dependabot.                 | GitHub conventions.                                                          |
 | `e2e/`         | Yes        | Playwright end-to-end tests.                                              | Pair with `playwright.config.ts` at root.                                    |
