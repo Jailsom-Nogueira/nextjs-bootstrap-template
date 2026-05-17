@@ -20,4 +20,4 @@ fi
 supabase gen types typescript --project-id "$PROJECT_REF" --schema public \
   > src/supabase/database.types.ts
 
-echo "✓ Wrote src/supabase/database.types.ts"
+echo "Wrote src/supabase/database.types.ts"

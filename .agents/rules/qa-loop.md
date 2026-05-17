@@ -30,12 +30,13 @@ The loop is deliberately mechanical so an agent can execute it without judgment 
 ## 3. Order of gates (cheapest → most expensive — DO NOT REORDER)
 
 ```text
-format:check → lint → typecheck → test → build → e2e (strict) → bundle-budget (strict) → qa:visual (strict/UI)
+format:check → text-hygiene → lint → typecheck → test → build → e2e (strict) → bundle-budget (strict) → qa:visual (strict/UI)
 ```
 
 Reasons for the order:
 
-- `format:check` and `lint` are cheap; fix them first or you'll pay for slow re-runs.
+- `format:check`, `text-hygiene`, and `lint` are cheap; fix them first or you'll pay for slow re-runs.
+- `text-hygiene` catches decorative emoji/symbol drift in tracked text before it reaches agent-facing docs or command output.
 - `typecheck` catches the bulk of refactor breakage.
 - `test` runs the unit suite — fast, deterministic.
 - `build` is the expensive one; only worth running when the cheaper gates are clean.
@@ -48,6 +49,7 @@ DO NOT reorder these to "get to the failing test faster". The order is a contrac
 | Gate          | Most common cause                                                                           | Fix                                                                                     |
 | ------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | format:check  | Prettier hasn't been run                                                                    | `npm run format` then re-run                                                            |
+| text-hygiene  | Decorative emoji/symbols in tracked text                                                    | Replace symbols with plain words such as PASS, FAIL, Warning, Good, Bad, directory      |
 | lint          | New ESLint rule violation                                                                   | READ the rule message, fix the code (NEVER `eslint-disable` — `eslint-comments/no-use`) |
 | typecheck     | Missing type / wrong type / API drift                                                       | Fix types; NEVER use `any` (rule #1 in AGENTS.md)                                       |
 | test          | Logic regression                                                                            | Fix the code, not the test (unless the test was wrong — justify in commit message)      |

@@ -123,7 +123,7 @@ function walk(dir: string, depth: number, prefix: string): void {
       continue;
     }
     const isDir = s.isDirectory();
-    out(`${prefix}${isDir ? "📁 " : "📄 "}${name}`);
+    out(`${prefix}${isDir ? "[dir] " : "[file] "}${name}`);
     if (isDir) walk(full, depth + 1, prefix + "  ");
   }
 }

@@ -70,7 +70,7 @@
     },
     "qaLoop": {
       "title": "QA in loop",
-      "description": "npm run qa cycles format, lint, typecheck, test, and build until every gate is green."
+      "description": "npm run qa cycles format, text hygiene, lint, typecheck, test, and build until every gate is green."
     }
   },
   "stack": {

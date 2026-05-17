@@ -27,6 +27,6 @@
 
 ## Forbidden
 
-- ❌ `console.log("foo")` — use the logger.
-- ❌ Throwing strings: `throw "oops"` — always `throw new Error(...)`.
-- ❌ Silently swallowing errors: `catch {}` without at least a log.
+- Forbidden: `console.log("foo")` — use the logger.
+- Forbidden: throwing strings: `throw "oops"` — always `throw new Error(...)`.
+- Forbidden: silently swallowing errors: `catch {}` without at least a log.

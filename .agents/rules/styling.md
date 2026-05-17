@@ -19,7 +19,7 @@
 
 ## Forbidden
 
-- ❌ `style={{ color: "#fff" }}` — use a token class.
-- ❌ `className={\`foo ${bar}\`}`— use`cn("foo", bar)`.
-- ❌ Adding a new color directly in a component — add it to `@theme` first.
-- ❌ Installing MUI, Emotion, styled-components, Pigment — anything not Tailwind/shadcn.
+- Forbidden: `style={{ color: "#fff" }}` — use a token class.
+- Forbidden: `className={\`foo ${bar}\`}`— use`cn("foo", bar)`.
+- Forbidden: adding a new color directly in a component — add it to `@theme` first.
+- Forbidden: installing MUI, Emotion, styled-components, Pigment — anything not Tailwind/shadcn.

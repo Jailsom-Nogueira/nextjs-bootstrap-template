@@ -4,7 +4,7 @@
 
 ## NEVER / ALWAYS
 
-| ❌ NEVER                                 | ✅ ALWAYS                                                                |
+| NEVER                                    | ALWAYS                                                                   |
 | ---------------------------------------- | ------------------------------------------------------------------------ |
 | `any`                                    | `unknown` or real type                                                   |
 | `console.log`                            | `logger` from `@/lib/logger/logger`                                      |

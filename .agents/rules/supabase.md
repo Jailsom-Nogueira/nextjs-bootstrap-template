@@ -27,7 +27,7 @@
 
 ## Forbidden
 
-- ❌ Service role in a `'use client'` file.
-- ❌ Importing `server-admin` from anywhere except trusted server contexts.
-- ❌ `select('*')` (use explicit columns).
-- ❌ Bypassing RLS by routing user queries through the admin client.
+- Forbidden: service role in a `'use client'` file.
+- Forbidden: importing `server-admin` from anywhere except trusted server contexts.
+- Forbidden: `select('*')` (use explicit columns).
+- Forbidden: bypassing RLS by routing user queries through the admin client.

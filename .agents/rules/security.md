@@ -25,6 +25,6 @@
 
 ## Forbidden
 
-- ❌ `select('*')` on user-facing reads. Be explicit about columns.
-- ❌ Service role in a `'use client'` file or in middleware.
-- ❌ Reading secrets via `process.env` in components — always go through `env`.
+- Forbidden: `select('*')` on user-facing reads. Be explicit about columns.
+- Forbidden: service role in a `'use client'` file or in middleware.
+- Forbidden: reading secrets via `process.env` in components — always go through `env`.

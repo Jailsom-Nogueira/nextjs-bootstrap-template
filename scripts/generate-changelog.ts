@@ -1,5 +1,5 @@
 /**
- * Carevia-style CHANGELOG generator.
+ * Generated CHANGELOG flow.
  *
  * Build script (not application code) — uses console.* directly because the
  * pino logger pulls in worker threads and is overkill for a CLI one-shot.

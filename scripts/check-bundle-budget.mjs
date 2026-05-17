@@ -10,8 +10,8 @@
  * shaped roughly like:
  *
  *   Route (app)                              Size  First Load JS
- *   ┌ ○ /                                   1.2 kB        178 kB
- *   ├ ○ /admin                              0.9 kB        201 kB
+ *   <tree> <static> /                       1.2 kB        178 kB
+ *   <tree> <static> /admin                  0.9 kB        201 kB
  *   ...
  *   + First Load JS shared by all                          112 kB
  *
@@ -60,17 +60,24 @@ const log = raw.replace(/\x1b\[[0-9;]*m/g, "");
 
 /**
  * Parse one of the build-output table rows. Examples we want to match:
- *   ┌ ○ /                                     1.2 kB        178 kB
- *   ├ ƒ /api/health                            142 B           0 B
- *   ├ ○ /admin                                512 B         223 kB
+ *   <tree> <static> /                         1.2 kB        178 kB
+ *   <tree> <dynamic> /api/health              142 B           0 B
+ *   <tree> <static> /admin                    512 B         223 kB
  *
  * We extract: route path, "First Load JS" value (last size column).
  * We deliberately ignore the "+ First Load JS shared by all" summary row.
  */
 const SIZE = "(\\d+(?:\\.\\d+)?)\\s*(B|kB|MB)";
+const ROUTE_MARKER = String.raw`(?:\u25CB|\u25CF|ƒ|λ|\u25D0)`;
 const ROW_RE = new RegExp(
   // tree-glyph + route-type marker + route path + 2 size columns
-  String.raw`^[\s│├└┌─]*[○●ƒλ◐]\s+(\/\S*)\s+` + SIZE + String.raw`\s+` + SIZE + String.raw`\s*$`,
+  String.raw`^[\s│├└┌─]*` +
+    ROUTE_MARKER +
+    String.raw`\s+(\/\S*)\s+` +
+    SIZE +
+    String.raw`\s+` +
+    SIZE +
+    String.raw`\s*$`,
   "gm",
 );
 
@@ -136,7 +143,7 @@ console.log(`  routes: ${routes.length}`);
 for (const r of routes) {
   const ok = r.firstLoadKb <= BUDGET_KB;
   const color = ok ? GREEN : RED;
-  const mark = ok ? "✓" : "✗";
+  const mark = ok ? "PASS" : "FAIL";
   console.log(
     `  ${color}${mark}${RESET}  ${r.route.padEnd(40)}  ${r.firstLoadRaw} (${r.firstLoadKb.toFixed(1)} kB)`,
   );

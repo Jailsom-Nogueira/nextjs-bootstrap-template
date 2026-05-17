@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Next.js 16 + Supabase + PostHog + Resend template with batteries included.",
-  "author": "Jailsom Nogueira <jailsom.nogueira@gmail.com>",
+  "author": "Template Maintainer <maintainer@example.com>",
   "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
@@ -17,7 +17,8 @@
     "typecheck": "tsc --noEmit",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "check": "npm run lint && npm run typecheck && npm run format:check",
+    "check:text-hygiene": "node scripts/check-text-hygiene.mjs",
+    "check": "npm run check:text-hygiene && npm run lint && npm run typecheck && npm run format:check",
     "ci-check": "npm run check && npm run test && npm run build",
     "qa": "bash scripts/qa-loop.sh",
     "qa:strict": "bash scripts/qa-loop.sh --strict",

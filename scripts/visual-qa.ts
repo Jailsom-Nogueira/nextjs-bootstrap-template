@@ -258,7 +258,7 @@ async function main(): Promise<void> {
       ) {
         continue;
       }
-      console.error(`▶ ${r.url}  (theme=${r.theme}, viewport=${r.viewport})`);
+      console.error(`URL ${r.url}  (theme=${r.theme}, viewport=${r.viewport})`);
       if (r.hydrationMismatch) console.error(`    HYDRATION mismatch detected`);
       for (const e of remainingErrors) console.error(`    [error] ${e}`);
       for (const w of remainingWarnings) console.error(`    [warn]  ${w}`);
@@ -273,7 +273,7 @@ async function main(): Promise<void> {
     return;
   }
 
-  console.warn(`\nAll ${rows.length} visual-QA rows passed. ✅`);
+  console.warn(`\nAll ${rows.length} visual-QA rows passed.`);
 }
 
 main().catch((err: unknown) => {

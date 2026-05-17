@@ -8,4 +8,4 @@ import { env } from "../src/env";
 const _ = env.NEXT_PUBLIC_SITE_URL;
 void _;
 
-console.warn("✓ env validation passed");
+console.warn("env validation passed");

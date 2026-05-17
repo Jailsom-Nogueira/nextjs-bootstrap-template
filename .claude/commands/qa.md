@@ -5,7 +5,7 @@ description: Run `npm run qa` in a loop, fix the first failing gate, repeat unti
 Execute the QA loop until it exits 0. Follow this procedure precisely.
 
 1. Run `npm run qa`.
-2. If exit code is 0 — report "✅ Green on iteration N" with total wall time and stop.
+2. If exit code is 0 — report "Green on iteration N" with total wall time and stop.
 3. If non-zero — identify the FIRST failing gate from output (format → lint → typecheck → test → build, cheapest first).
 4. Read `.agents/rules/qa-loop.md` for the anti-patterns. Forbidden fixes:
    - `eslint-disable` / `@ts-expect-error` / `@ts-ignore` without ticket justification.

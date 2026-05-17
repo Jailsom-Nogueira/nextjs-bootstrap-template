@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, Hermes, etc.) working in this repo.
+Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, etc.) working in this repo.
 **Read this file first.** Then infer the task type from evidence and load EVERY rule listed for that type below.
 
 <role>
@@ -24,14 +24,14 @@ You are a senior full-stack engineer working on a Next.js 16 + Supabase template
 - vitest + @testing-library + playwright
 - eslint 9 flat + prettier + husky + commitlint
 - auth gating: proxy + layout role check via `profiles.role`
-- changelog: Carevia-style `npm run push` (no changesets)
+- changelog: generated `npm run push` flow (no changesets)
 </stack>
 
 ## The QA-in-loop iron rule
 
 No task is complete until the relevant QA loop exits 0:
 
-- `npm run qa` — REQUIRED for every task; code-side gates (format → lint → typecheck → test → build)
+- `npm run qa` — REQUIRED for every task; code-side gates (format → text-hygiene → lint → typecheck → test → build)
 - `npm run qa:visual` — REQUIRED for UI/browser-facing changes; console errors/warnings, hydration mismatches, axe-core WCAG 2.2 AA violations, screenshots saved to `.agent-cache/visual-qa/`
 
 Run the loop:
@@ -67,7 +67,7 @@ BEFORE doing any task, classify its type using the protocol above and load EVERY
 
 | Task type                        | Rules to load (in order)                                                                                                                |
 | -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| 🔁 **ANY task (always)**         | **qa-loop.md (run `npm run qa` until exit 0 — see iron rule above)**                                                                    |
+| **ANY task (always)**            | **qa-loop.md (run `npm run qa` until exit 0 — see iron rule above)**                                                                    |
 | UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md → run `npm run qa:visual`          |
 | Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                                                   |
 | Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                                                          |
@@ -110,7 +110,7 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | write plans/specs at repo root or arbitrary locations                              | active plans in `.plans/`; archived plans in `.plans/archived/`; technical/product docs in `.docs/` |
 | assume the prompt explicitly names the task type                                   | infer task type from files, symptoms, active plans, diff, and requested output before loading rules |
 | create/edit/move durable artifacts without choosing the artifact layer             | read `.agents/references/artifact-layers.md` and put the artifact in the correct layer              |
-| deliver local HTML/report artifacts only as a terminal-clickable path/link         | open/verify in browser yourself or serve via localhost and report the verified URL + file path      |
+| deliver generated artifacts without verifying their intended consumer              | verify browser/report/parser output yourself; report file path/local URL only after verification    |
 | skip the changelog flow                                                            | use `npm run push` to generate CHANGELOG + push (pre-push hook blocks direct push)                  |
 | leave functions >50 lines or files mixing 3+ unrelated concerns                    | small composable units; single responsibility; pure functions where possible                        |
 | leave commented-out code, `console.log`s, TODO without ticket                      | clean code on every commit; reference the issue/ticket for any TODO                                 |
@@ -168,15 +168,15 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | `.agents/workflows/multi-agent.md` | When handing work to / receiving from a subagent |
 | `.agents/workflows/qa-loop.md`     | Any time you write or modify code                |
 
-## Skills (model-specific)
+## Tool-specific adapters
 
-If a model-specific skill folder exists in this repo, load relevant skills BEFORE writing code. Hermes loads its skills automatically; other agents must load them explicitly.
+If a tool-specific skill/rule folder exists in this repo, load the relevant adapter BEFORE writing code. Keep adapters thin and repo-local; do not depend on a maintainer's global agent configuration.
 
-| Location            | Audience                                    |
-| ------------------- | ------------------------------------------- |
-| `.claude/skills/`   | Claude Code skill files (if present)        |
-| `.cursor/rules/`    | Cursor IDE rules (if present)               |
-| `~/.hermes/skills/` | Hermes agent skills (auto-loaded by Hermes) |
+| Location          | Audience                                      |
+| ----------------- | --------------------------------------------- |
+| `.claude/skills/` | Claude Code skill files (if present)          |
+| `.cursor/rules/`  | Cursor IDE rules (if present)                 |
+| `.agents/skills/` | Universal skill entrypoints installed in repo |
 
 ## Cross-agent surface
 
@@ -189,7 +189,7 @@ Per-agent config files (thin imports/stubs — AGENTS.md remains the source of t
 - `.clinerules/00-base.md` + `.clineignore` — Cline
 - `.aider.conf.yml` + `CONVENTIONS.md` — Aider
 - `.codex/setup.sh` — Codex Cloud sandbox setup
-- `.agents/skills/` — universal agent skills added via `npx skills add <package>` (loaded by Amp, Antigravity, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Hermes, Kimi, OpenCode, Warp). Currently installed: `agent-browser` (browser automation CLI). Restore reproducibly with `npx skills experimental_install` against `skills-lock.json`.
+- `.agents/skills/` — universal agent skills added via `npx skills add <package>` (loaded by compatible agent tools such as Amp, Antigravity, Cline, Codex, Cursor, Gemini CLI, GitHub Copilot, Kimi, OpenCode, and Warp). Currently installed: `agent-browser` (browser automation CLI). Restore reproducibly with `npx skills experimental_install` against `skills-lock.json`.
 - `skills-lock.json` — pin of installed universal skills (commit; treat like a lockfile)
 
 Never duplicate AGENTS.md content into any of the above — keep them as thin imports/stubs.
@@ -217,8 +217,8 @@ If the loop hits its 10-iteration cap, escalate per `.agents/rules/qa-loop.md` (
 
 Also run the self-review checklist (`.agents/workflows/self-review.md`) — the QA loop is the mechanical part; self-review is the judgment part.
 
-Commit format: Conventional Commits. Pushing is done via `npm run push` (Carevia-style) which auto-generates the changelog and runs the pre-push gate.
+Commit format: Conventional Commits. Pushing is done via `npm run push`, which auto-generates the changelog and runs the pre-push gate.
 
 ## Self-check anti-pattern
 
-If you're tempted to skip reading a rule because "this is a small change", **stop**. The Carevia analysis showed agents skip rules ~40% more often on small changes than large ones, and small changes are where regressions hide. ALWAYS load the task-type index above before touching code.
+If you're tempted to skip reading a rule because "this is a small change", **stop**. Prior agent audits show small changes are where rule-skipping and regressions cluster. ALWAYS load the task-type index above before touching code.

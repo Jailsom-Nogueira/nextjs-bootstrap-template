@@ -27,6 +27,6 @@
 
 ## Forbidden
 
-- ❌ `posthog.capture("string_event")` — use `track(EVENT.X)`.
-- ❌ Sending `{ email }` as a property — let `scrubPII` redact it, or just don't pass it.
-- ❌ Tracking from middleware. It runs on every request — far too noisy.
+- Forbidden: `posthog.capture("string_event")` — use `track(EVENT.X)`.
+- Forbidden: sending `{ email }` as a property — let `scrubPII` redact it, or just don't pass it.
+- Forbidden: tracking from middleware. It runs on every request — far too noisy.

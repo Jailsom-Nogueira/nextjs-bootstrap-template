@@ -78,7 +78,7 @@ When creating a standalone HTML/report/prototype artifact:
 2. Verify it parses and opens.
 3. Prefer opening it directly for the user via browser automation or OS scripting.
 4. If a clickable URL is needed, serve over localhost with `python3 -m http.server <port> --bind 127.0.0.1` and open the browser yourself.
-5. Do **not** rely on terminal-clickable `file:///...` links or bare absolute paths as the only delivery path. Some terminals intercept clicks with their own browser layer.
+5. Do **not** treat a printed path or generated URL as proof of delivery. Verify with the intended renderer first.
 6. Report both the local file path and the verified browser URL when a server is running.
 
 ## Anti-patterns
@@ -87,5 +87,5 @@ When creating a standalone HTML/report/prototype artifact:
 - Reading both spec and plan templates for every docs task.
 - Treating "continue" as unclassifiable; inspect active plans and recent commits.
 - Treating "this is ugly" as a generic bug; it is a UI/a11y/responsiveness task until proven otherwise.
-- Delivering a local HTML artifact by printing a clickable terminal path and assuming it opened correctly.
+- Delivering a generated artifact by printing its path and assuming it opened or rendered correctly.
 - Deleting completed plans instead of moving them to `.plans/archived/`.

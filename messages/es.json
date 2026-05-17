@@ -70,7 +70,7 @@
     },
     "qaLoop": {
       "title": "QA en bucle",
-      "description": "npm run qa ejecuta formato, lint, typecheck, pruebas y build en secuencia hasta que cada paso pase."
+      "description": "npm run qa ejecuta formato, higiene de texto, lint, typecheck, pruebas y build en secuencia hasta que cada paso pase."
     }
   },
   "stack": {

@@ -22,10 +22,10 @@ Verify on the PostHog Web Vitals dashboard before declaring a feature done.
 - Fetch in parallel:
 
   ```ts
-  // ✅ parallel
+  // Good: parallel
   const [user, prefs] = await Promise.all([getUser(), getPrefs()]);
 
-  // ❌ waterfall
+  // Bad: waterfall
   const user = await getUser();
   const prefs = await getPrefs();
   ```
