@@ -69,6 +69,7 @@ The directory map with conventions (when to add a README, when to add a sync gat
 │   ├── runbooks/                                    — (empty — on-call runbooks)
 │   └── specs/                                       — (empty — written specs land here)
 ├── .github/
+│   ├── INDEX.md                                     — directory index (renamed from README.md so GitHub uses the root README)
 │   ├── CODEOWNERS                                   — owner mapping for PR reviews
 │   ├── dependabot.yml                               — weekly npm + GitHub Actions bumps
 │   ├── ISSUE_TEMPLATE/

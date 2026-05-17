@@ -20,6 +20,8 @@ Why: a contributor entering a folder cold should never need to grep, run blind, 
 
 Exceptions: a directory holding ONE generated or self-evident file (for example `emails/welcome.tsx` alone) may skip the README until a second file is added. When in doubt, add the README — they are cheap.
 
+**`.github/` exception:** GitHub renders any `README.md` placed inside `.github/` as the **profile/repo README on the homepage**, overriding the root `README.md`. Do not name the `.github/` index `README.md` — use `INDEX.md` (or any other name) so the root README stays canonical. The index still lists every workflow, template, and config file with its purpose; just the filename changes. Same trade-off may apply to any other directory GitHub treats specially in the future.
+
 ### 2. Canonical content lives in `.agents/`; everything else is a thin adapter
 
 `.agents/rules/`, `.agents/references/`, `.agents/workflows/`, and `.agents/skills/` are the canonical home for project rules, lookup catalogs, repeatable procedures, and installed skills. AGENTS.md at the repo root is the routing hub that points into them.
@@ -54,23 +56,23 @@ Symmetrically: do not invent a file because a README lists it. If you find the i
 
 Agent-facing directories and their state. "agent-facing" means a tool (human or AI) needs to navigate this directory to do work.
 
-| Directory      | Has README | What it holds                                                             | Notes                                                                        |
-| -------------- | ---------- | ------------------------------------------------------------------------- | ---------------------------------------------------------------------------- |
-| `.agents/`     | Yes        | Canonical rules, references, workflows, skills.                           | Hub for agent guidance. See `.agents/README.md`.                             |
-| `.claude/`     | Yes        | Claude Code slash commands.                                               | Thin adapter; project memory is `CLAUDE.md` at root.                         |
-| `.clinerules/` | Yes        | Cline base rules.                                                         | Thin adapter; points back to AGENTS.md.                                      |
-| `.codex/`      | Yes        | Codex Cloud sandbox bootstrap.                                            | Bootstrap layer, not rules.                                                  |
-| `.cursor/`     | Yes        | Cursor MCP config + auto-attaching rule stubs.                            | Thin adapters; obligatory `mcp.json` duplication guarded by `mcp-sync` gate. |
-| `.docs/`       | Yes        | Durable product/technical docs, specs, architecture, decisions, runbooks. | Has its own taxonomy. See `.docs/README.md`.                                 |
-| `.husky/`      | Yes        | Git hooks (commit-msg, pre-commit, pre-push) installed by Husky.          | Last-line local gate before code leaves the dev machine.                     |
-| `.plans/`      | Yes        | Active implementation plans; archived plans under `.plans/archived/`.     | One MD per plan, slug-dated.                                                 |
-| `.github/`     | Yes        | CI workflows, issue/PR templates, CODEOWNERS, Dependabot.                 | GitHub conventions.                                                          |
-| `e2e/`         | Yes        | Playwright end-to-end tests.                                              | Pair with `playwright.config.ts` at root.                                    |
-| `emails/`      | Yes        | react-email preview entry points (re-exports of canonical templates).     | Two-layer pattern documented in `emails/README.md`.                          |
-| `messages/`    | Yes        | next-intl translation bundles (en/pt/es).                                 | Editing rule: add the same key to all three files in one commit.             |
-| `scripts/`     | Yes        | QA loop, prompt-context, hygiene checks, changelog, bundle budget, etc.   | Owns the QA-in-loop gate set.                                                |
-| `src/`         | Yes        | Application source: App Router, components, lib, hooks, Supabase clients. | Top-level README documents the subfolder map; deeper structure self-evident. |
-| `supabase/`    | Yes        | Supabase CLI config, SQL migrations, seed.                                | Pair with `.agents/rules/supabase.md` for migration conventions.             |
+| Directory      | Has README          | What it holds                                                             | Notes                                                                                                                                                  |
+| -------------- | ------------------- | ------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `.agents/`     | Yes                 | Canonical rules, references, workflows, skills.                           | Hub for agent guidance. See `.agents/README.md`.                                                                                                       |
+| `.claude/`     | Yes                 | Claude Code slash commands.                                               | Thin adapter; project memory is `CLAUDE.md` at root.                                                                                                   |
+| `.clinerules/` | Yes                 | Cline base rules.                                                         | Thin adapter; points back to AGENTS.md.                                                                                                                |
+| `.codex/`      | Yes                 | Codex Cloud sandbox bootstrap.                                            | Bootstrap layer, not rules.                                                                                                                            |
+| `.cursor/`     | Yes                 | Cursor MCP config + auto-attaching rule stubs.                            | Thin adapters; obligatory `mcp.json` duplication guarded by `mcp-sync` gate.                                                                           |
+| `.docs/`       | Yes                 | Durable product/technical docs, specs, architecture, decisions, runbooks. | Has its own taxonomy. See `.docs/README.md`.                                                                                                           |
+| `.husky/`      | Yes                 | Git hooks (commit-msg, pre-commit, pre-push) installed by Husky.          | Last-line local gate before code leaves the dev machine.                                                                                               |
+| `.plans/`      | Yes                 | Active implementation plans; archived plans under `.plans/archived/`.     | One MD per plan, slug-dated.                                                                                                                           |
+| `.github/`     | Yes (as `INDEX.md`) | CI workflows, issue/PR templates, CODEOWNERS, Dependabot.                 | GitHub conventions. Index file is `INDEX.md`, NOT `README.md` — see rule 1 exception (GitHub renders `.github/README.md` as the repo homepage README). |
+| `e2e/`         | Yes                 | Playwright end-to-end tests.                                              | Pair with `playwright.config.ts` at root.                                                                                                              |
+| `emails/`      | Yes                 | react-email preview entry points (re-exports of canonical templates).     | Two-layer pattern documented in `emails/README.md`.                                                                                                    |
+| `messages/`    | Yes                 | next-intl translation bundles (en/pt/es).                                 | Editing rule: add the same key to all three files in one commit.                                                                                       |
+| `scripts/`     | Yes                 | QA loop, prompt-context, hygiene checks, changelog, bundle budget, etc.   | Owns the QA-in-loop gate set.                                                                                                                          |
+| `src/`         | Yes                 | Application source: App Router, components, lib, hooks, Supabase clients. | Top-level README documents the subfolder map; deeper structure self-evident.                                                                           |
+| `supabase/`    | Yes                 | Supabase CLI config, SQL migrations, seed.                                | Pair with `.agents/rules/supabase.md` for migration conventions.                                                                                       |
 
 Tool-specific stub files at the repo root (`CLAUDE.md`, `GEMINI.md`, `CONVENTIONS.md`, `.aider.conf.yml`, `.clineignore`, `.mcp.json`, `skills-lock.json`, `.editorconfig`, `.gitattributes`, `.gitignore`, `.npmrc`, `.nvmrc`, `.prettierignore`, `commitlint.config.mjs`, `components.json`, `eslint.config.mjs`, `next.config.ts`, `package.json`, `playwright.config.ts`, `postcss.config.mjs`, `prettier.config.mjs`, `tsconfig.json`, `vercel.json`, `vitest.config.ts`, `vitest.setup.ts`) do not need READMEs; the README at the repo root indexes them in its "Root files — by purpose" section.
 
