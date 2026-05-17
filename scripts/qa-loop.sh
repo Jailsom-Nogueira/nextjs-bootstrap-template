@@ -184,25 +184,31 @@ if ! run_gate "text-hygiene" "npm run check:text-hygiene" npm run check:text-hyg
   exit "$FIRST_FAIL_EXIT"
 fi
 
-# Gate 3: lint
+# Gate 3: mcp-sync — .mcp.json (root) and .cursor/mcp.json must stay byte-identical.
+if ! run_gate "mcp-sync" "npm run check:mcp-sync" npm run check:mcp-sync; then
+  print_summary
+  exit "$FIRST_FAIL_EXIT"
+fi
+
+# Gate 4: lint
 if ! run_gate "lint" "npm run lint" npm run lint; then
   print_summary
   exit "$FIRST_FAIL_EXIT"
 fi
 
-# Gate 4: typecheck
+# Gate 5: typecheck
 if ! run_gate "typecheck" "npm run typecheck" npm run typecheck; then
   print_summary
   exit "$FIRST_FAIL_EXIT"
 fi
 
-# Gate 5: test
+# Gate 6: test
 if ! run_gate "test" "npm run test" npm run test; then
   print_summary
   exit "$FIRST_FAIL_EXIT"
 fi
 
-# Gate 6: build (tee output to node_modules/.cache/qa-build.log so the bundle-budget gate can parse it)
+# Gate 7: build (tee output to node_modules/.cache/qa-build.log so the bundle-budget gate can parse it)
 build_start=$(date +%s)
 log ""
 log "${C_BLUE}===== GATE: build =====${C_RESET}"
@@ -238,19 +244,19 @@ log "${C_GREEN}===== END GATE: build (PASS exit=0 duration=${build_dur}s) =====$
 
 # ---- strict-only gates ---------------------------------------------------
 if [ "$STRICT" -eq 1 ]; then
-  # Gate 7: test:e2e
+  # Gate 8: test:e2e
   if ! run_gate "test:e2e" "npm run test:e2e" npm run test:e2e; then
     print_summary
     exit "$FIRST_FAIL_EXIT"
   fi
 
-  # Gate 8: bundle-budget
+  # Gate 9: bundle-budget
   if ! run_gate "bundle-budget" "node scripts/check-bundle-budget.mjs" node scripts/check-bundle-budget.mjs; then
     print_summary
     exit "$FIRST_FAIL_EXIT"
   fi
 
-  # Gate 9: qa:visual (browser-side QA — boots dev server, screenshots, console, axe-core)
+  # Gate 10: qa:visual (browser-side QA — boots dev server, screenshots, console, axe-core)
   if ! run_gate "qa:visual" "npm run qa:visual" npm run qa:visual; then
     print_summary
     exit "$FIRST_FAIL_EXIT"

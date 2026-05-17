@@ -1,4 +1,5 @@
 {
+  "_comment": "Canonical MCP server list for this repo. Claude Code and Codex CLI read this file. .cursor/mcp.json must stay byte-identical (Cursor reads only .cursor/mcp.json). The check:mcp-sync QA gate enforces parity.",
   "mcpServers": {
     "supabase": {
       "command": "npx",

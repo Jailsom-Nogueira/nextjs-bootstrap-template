@@ -443,28 +443,29 @@ lives in [CONCEPTS.md](./CONCEPTS.md).
 
 ## Scripts
 
-| Script                                     | Purpose                                                  |
-| ------------------------------------------ | -------------------------------------------------------- |
-| `dev`                                      | Next dev server (Turbopack)                              |
-| `build`                                    | Production build                                         |
-| `start`                                    | Run prod build                                           |
-| `lint` / `lint:fix`                        | ESLint flat config                                       |
-| `typecheck`                                | `tsc --noEmit`                                           |
-| `format` / `format:check`                  | Prettier                                                 |
-| `check:text-hygiene`                       | Reject decorative emoji/symbols in tracked text          |
-| `check`                                    | text hygiene + lint + typecheck + format:check           |
-| `ci-check`                                 | check + test + build                                     |
-| `qa` / `qa:strict` / `qa:quiet`            | Fix-until-green QA loop (full deterministic gate)        |
-| `test`                                     | Vitest run (all tests)                                   |
-| `test:agent`                               | **Agent fast lane** — vitest on changed files only       |
-| `test:watch` / `test:ui` / `test:coverage` | Vitest variants                                          |
-| `test:e2e` / `test:e2e:ui`                 | Playwright                                               |
-| `prompt:context`                           | Print a paste-ready project snapshot for chat-UI LLMs    |
-| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml` |
-| `db:types`                                 | Generate Supabase types                                  |
-| `email:dev`                                | react-email preview server                               |
-| `push`                                     | Generate CHANGELOG + push                                |
-| `prepare`                                  | Husky install                                            |
+| Script                                     | Purpose                                                   |
+| ------------------------------------------ | --------------------------------------------------------- |
+| `dev`                                      | Next dev server (Turbopack)                               |
+| `build`                                    | Production build                                          |
+| `start`                                    | Run prod build                                            |
+| `lint` / `lint:fix`                        | ESLint flat config                                        |
+| `typecheck`                                | `tsc --noEmit`                                            |
+| `format` / `format:check`                  | Prettier                                                  |
+| `check:text-hygiene`                       | Reject decorative emoji/symbols in tracked text           |
+| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift          |
+| `check`                                    | text-hygiene + mcp-sync + lint + typecheck + format:check |
+| `ci-check`                                 | check + test + build                                      |
+| `qa` / `qa:strict` / `qa:quiet`            | Fix-until-green QA loop (full deterministic gate)         |
+| `test`                                     | Vitest run (all tests)                                    |
+| `test:agent`                               | **Agent fast lane** — vitest on changed files only        |
+| `test:watch` / `test:ui` / `test:coverage` | Vitest variants                                           |
+| `test:e2e` / `test:e2e:ui`                 | Playwright                                                |
+| `prompt:context`                           | Print a paste-ready project snapshot for chat-UI LLMs     |
+| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`  |
+| `db:types`                                 | Generate Supabase types                                   |
+| `email:dev`                                | react-email preview server                                |
+| `push`                                     | Generate CHANGELOG + push                                 |
+| `prepare`                                  | Husky install                                             |
 
 **Fast lane vs. full lane:** use `test:agent` during inner-loop iteration (vitest --changed, dot
 reporter, no coverage). Use `qa` as the definition-of-done gate — it runs every check in
@@ -612,7 +613,8 @@ remove `--read-only` — do NOT commit that change. Set `SUPABASE_ACCESS_TOKEN` 
 first (`https://supabase.com/dashboard/account/tokens`).
 
 Both `.mcp.json` (Claude Code, Codex CLI, etc.) and `.cursor/mcp.json` (Cursor) exist for cross-tool
-compatibility — they hold the same JSON.
+compatibility — they hold the same JSON. The `mcp-sync` QA gate (`npm run check:mcp-sync`) fails the
+build if they drift, so edit `.mcp.json` and run `cp .mcp.json .cursor/mcp.json` after any change.
 
 ### Specs and plans
 
