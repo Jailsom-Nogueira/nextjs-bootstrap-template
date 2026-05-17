@@ -1,24 +1,57 @@
 # nextjs-bootstrap-template
 
-> **New to any of these concepts?** See [CONCEPTS.md](./CONCEPTS.md) before changing the
-> structure. It teaches every tool/pattern used here (what, why, how, common mistakes).
+Open-source, agent-ready starter for production Next.js apps.
 
-> **AI agents: start here**
->
-> - Read [AGENTS.md](./AGENTS.md) — the canonical rules hub. Infer task type from files/symptoms/output, not just prompt wording.
-> - Read [CONCEPTS.md](./CONCEPTS.md) if any term in AGENTS.md feels unfamiliar.
-> - Four commands you need: `npm install`, `npm run dev`, `npm run qa`, `npm run test:agent`.
-> - Five invariants: no `any`, no `console.log`, no `SUPABASE_SERVICE_ROLE_KEY` in client code, no
->   `.select('*')`, `npm run qa` exit 0 = done.
-> - Run `npm run prompt:context` to paste a fresh project snapshot into ChatGPT/Claude/Gemini web
->   UIs.
-> - MCP servers configured in `.mcp.json` (Supabase read-only, Playwright, Context7). See "MCP
->   servers" below.
-> - Per-tool config: `.claude/commands/*` slash commands (Claude Code), `.cursor/rules/*.mdc`
->   (Cursor), `.clinerules/00-base.md` (Cline), `.aider.conf.yml` (Aider), `.codex/setup.sh` (Codex
->   Cloud).
+This template combines a modern Next.js 16 application stack with Supabase auth/database patterns, PostHog analytics, Resend email, i18n, deterministic QA loops, visual regression checks, and first-class instructions for AI coding agents.
 
-Next.js 16 + Supabase + PostHog + Resend template with batteries included.
+Author and maintainer: Jailsom Nogueira.
+License: MIT.
+
+## Who this is for
+
+Use this template when you want a new web app that starts with:
+
+- Next.js App Router, React 19, TypeScript strict mode, Tailwind v4, and shadcn/ui.
+- Supabase auth/database conventions with typed clients, RLS-first thinking, and admin-role gates.
+- Optional PostHog analytics and Resend transactional email.
+- English, Portuguese, and Spanish i18n wiring via next-intl.
+- Vitest, Playwright, axe-based visual QA, lint, typecheck, build, commit hooks, and CI.
+- Agent-friendly project guidance through AGENTS.md, .agents rules, Claude Code commands, Cursor/Cline/Aider/Codex adapters, and prompt-context generation.
+
+The template is intentionally product-agnostic. Replace the app copy, Supabase project, analytics keys, email sender, CODEOWNERS, and repository URL when generating a real product.
+
+## Use this template
+
+From GitHub, click "Use this template" and create your own repository.
+
+From a terminal with GitHub CLI:
+
+```bash
+gh repo create my-app --template Jailsom-Nogueira/nextjs-bootstrap-template --public --clone
+cd my-app
+cp .env.example .env.local
+nvm use
+npm install
+npm run qa
+npm run dev
+```
+
+If you clone instead of generating from the template, update at least these files before shipping your product:
+
+- `package.json` name, description, repository, bugs, homepage, and author if ownership changes.
+- `LICENSE` and `README.md` maintainer details if ownership changes.
+- `.github/CODEOWNERS` for your owning user or team.
+- `.env.example` and `NEXT_PUBLIC_REPOSITORY_URL` for your repository.
+- User-facing text in `messages/{en,pt,es}.json`.
+
+## AI agents: start here
+
+- Read [AGENTS.md](./AGENTS.md) first. It is the routing hub, not a giant rule dump.
+- Infer task type from files, symptoms, active plans, diff, and requested output.
+- Load task-specific rules from `.agents/rules/` before editing.
+- Read [CONCEPTS.md](./CONCEPTS.md) if a term or convention is unfamiliar.
+- Use `npm run prompt:context` to print a paste-ready project snapshot for chat-UI agents.
+- Definition of done for repo-changing work is `npm run qa` exit 0; UI/browser-facing work also needs `npm run qa:visual`.
 
 ## Stack
 
@@ -113,30 +146,33 @@ in this list, it does not belong at the root.
 
 **Package management**
 
-| File                | One-liner                                    |
-| ------------------- | -------------------------------------------- |
-| `package.json`      | Scripts + deps (exact pins for React + Next) |
-| `package-lock.json` | npm lockfile (committed; never delete)       |
-| `.npmrc`            | `save-exact=true` (exact dependency pins)    |
-| `.nvmrc`            | Node 22 (matches `engines.node`)             |
+| File                | One-liner                                                               |
+| ------------------- | ----------------------------------------------------------------------- |
+| `package.json`      | Scripts + deps + npm-private flag to prevent accidental package publish |
+| `package-lock.json` | npm lockfile (committed; never delete)                                  |
+| `.npmrc`            | `save-exact=true` (exact dependency pins)                               |
+| `.nvmrc`            | Node 22 (matches `engines.node`)                                        |
 
 **Git / GitHub**
 
-| File             | One-liner                                             |
-| ---------------- | ----------------------------------------------------- |
-| `.gitattributes` | LF normalization for text, binary mark for images     |
-| `.gitignore`     | Standard Next/Node ignores + `.agent-cache/`, `.env*` |
-| `LICENSE`        | MIT © Template Maintainer                             |
-| `CHANGELOG.md`   | Auto-generated by `npm run push`. **Do NOT edit.**    |
+| File              | One-liner                                             |
+| ----------------- | ----------------------------------------------------- |
+| `.gitattributes`  | LF normalization for text, binary mark for images     |
+| `.gitignore`      | Standard Next/Node ignores + `.agent-cache/`, `.env*` |
+| `LICENSE`         | MIT (c) Jailsom Nogueira                              |
+| `AUTHORS.md`      | Original author and maintainer                        |
+| `CONTRIBUTING.md` | Contribution workflow and quality bar                 |
+| `SECURITY.md`     | Vulnerability reporting policy                        |
+| `CHANGELOG.md`    | Auto-generated by `npm run push`. **Do NOT edit.**    |
 
 **AI agent hub + per-agent stubs**
 
 | File               | One-liner                                                                |
 | ------------------ | ------------------------------------------------------------------------ |
 | `AGENTS.md`        | **Source of truth.** Rules hub + ambiguous task-type inference.          |
-| `CLAUDE.md`        | Claude Code stub — `@`-imports `AGENTS.md` + `qa-loop.md`                |
-| `GEMINI.md`        | Compressed rules table for Gemini                                        |
-| `CONVENTIONS.md`   | 3-line stub for Aider — points to `AGENTS.md`                            |
+| `CLAUDE.md`        | Claude Code stub — `@`-imports `AGENTS.md`                               |
+| `GEMINI.md`        | Gemini stub — points back to `AGENTS.md`                                 |
+| `CONVENTIONS.md`   | Thin conventions pointer for tools that read a shared conventions file   |
 | `README.md`        | This file — humans first, agents second                                  |
 | `skills-lock.json` | Lockfile for universal agent skills installed under `.agents/skills/`    |
 | `CONCEPTS.md`      | Concept explainers — start here if any term in `AGENTS.md` is unfamiliar |
@@ -145,7 +181,7 @@ in this list, it does not belong at the root.
 
 | File              | One-liner                                                      |
 | ----------------- | -------------------------------------------------------------- |
-| `.aider.conf.yml` | Tells Aider to auto-load `CONVENTIONS.md` + `AGENTS.md`        |
+| `.aider.conf.yml` | Tells Aider to auto-load `AGENTS.md`                           |
 | `.clineignore`    | Files/folders Cline must not read (build output, lockfiles)    |
 | `.mcp.json`       | Root MCP config (Claude Code, Codex CLI): Supabase RO + others |
 
@@ -245,8 +281,6 @@ in this list, it does not belong at the root.
 │   │   ├── bug_report.md                            — bug issue template
 │   │   └── feature_request.md                       — feature issue template
 │   ├── PULL_REQUEST_TEMPLATE.md                     — PR checklist
-│   ├── skills/
-│   │   └── agent-browser/SKILL.md                 — universal agent-browser skill installed via npx skills
 │   └── workflows/
 │       ├── ci.yml                                   — runs `npm run qa` on PR + main
 │       ├── e2e.yml                                  — Playwright on PR (with report artifact)
@@ -550,8 +584,8 @@ This repo is agent-friendly:
 
 - `AGENTS.md` — primary instructions hub (read first)
 - `CONCEPTS.md` — concept explainers (read if any term is unfamiliar)
-- `CLAUDE.md` — Claude Code-specific stub (`@`-imports AGENTS.md + qa-loop.md)
-- `GEMINI.md` — compressed rules for Gemini
+- `CLAUDE.md` — Claude Code-specific stub (`@`-imports AGENTS.md)
+- `GEMINI.md` — Gemini-specific stub that points back to AGENTS.md
 - `.agents/rules/` — per-domain conventions (styling, security, supabase, etc.)
 - `.agents/references/` — file maps + component inventory
 - `.agents/workflows/` — checklists and handoff contracts
@@ -560,7 +594,7 @@ This repo is agent-friendly:
 - `.claude/commands/*.md` — Claude Code slash commands (`/spec`, `/plan`, `/qa`, `/prompt-context`,
   `/migration`, `/component`)
 - `.clinerules/00-base.md` + `.clineignore` — Cline rules + context exclusions
-- `.aider.conf.yml` + `CONVENTIONS.md` — Aider auto-reads AGENTS.md
+- `.aider.conf.yml` + `CONVENTIONS.md` — Aider reads AGENTS.md; CONVENTIONS.md remains a thin pointer
 - `.codex/setup.sh` — Codex Cloud sandbox bootstrap
 
 ### MCP servers
@@ -588,6 +622,13 @@ compatibility — they hold the same JSON.
   `.plans/<YYYY-MM-DD>-<slug>.md`. Use the `/plan <spec-path>` slash command. Move completed plans
   to `.plans/archived/`.
 
+## Community and maintenance
+
+- Author and maintainer: Jailsom Nogueira.
+- Contributions: see `CONTRIBUTING.md`.
+- Security issues: see `SECURITY.md`.
+- Template consumers: replace CODEOWNERS, package metadata, repository URL, product copy, and environment values for your generated app.
+
 ## License
 
-MIT © Template Maintainer
+MIT (c) 2026 Jailsom Nogueira

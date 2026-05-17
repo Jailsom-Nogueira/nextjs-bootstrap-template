@@ -8,16 +8,19 @@
 
 ## Verification
 
-- [ ] `npm run check` passes
-- [ ] `npm run test` passes
-- [ ] `npm run build` passes (if substantial)
-- [ ] Manually tested the user-visible change
-- [ ] Added a changeset (`npx changeset`) if user-visible
+- [ ] `npm run qa` passes
+- [ ] `npm run qa:visual` passes for UI/browser-facing changes
+- [ ] `npm run qa:strict` passes before release-ready PRs
+- [ ] Docs, examples, or templates were updated when behavior changed
 
-## Screenshots
+## Screenshots / recordings
 
-<!-- For UI changes. -->
+<!-- Required for UI changes. Link screenshots from .agent-cache/visual-qa/ or attach generated artifacts. -->
 
-## Related
+## Generated apps / template impact
 
-<!-- Issues / discussions. -->
+<!-- If this changes template defaults, explain what users must replace after generating a new app. -->
+
+## Related issues / discussions
+
+<!-- Closes #123, links, or context. -->

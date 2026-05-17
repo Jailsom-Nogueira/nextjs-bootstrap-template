@@ -26,7 +26,7 @@ export const env = createEnv({
     NEXT_PUBLIC_REPOSITORY_URL: z
       .string()
       .url()
-      .default("https://github.com/your-org/nextjs-bootstrap-template"),
+      .default("https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template"),
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,

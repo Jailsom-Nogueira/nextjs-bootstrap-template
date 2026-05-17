@@ -2,8 +2,8 @@
   "name": "nextjs-bootstrap-template",
   "version": "0.1.0",
   "private": true,
-  "description": "Next.js 16 + Supabase + PostHog + Resend template with batteries included.",
-  "author": "Template Maintainer <maintainer@example.com>",
+  "description": "Agent-ready Next.js 16 + Supabase starter with auth, i18n, analytics, email, QA loops, and multi-agent coding docs.",
+  "author": "Jailsom Nogueira <jailsom.nogueira@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=22.0.0"
@@ -118,6 +118,25 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/your-org/nextjs-bootstrap-template.git"
-  }
+    "url": "git+https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template.git"
+  },
+  "keywords": [
+    "nextjs",
+    "nextjs-template",
+    "supabase",
+    "typescript",
+    "tailwindcss",
+    "shadcn-ui",
+    "posthog",
+    "resend",
+    "i18n",
+    "playwright",
+    "vitest",
+    "ai-agents",
+    "agents-md"
+  ],
+  "bugs": {
+    "url": "https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/issues"
+  },
+  "homepage": "https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template#readme"
 }
