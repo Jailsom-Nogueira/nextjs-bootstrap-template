@@ -65,7 +65,7 @@ Agent-facing directories and their state. "agent-facing" means a tool (human or 
 | `.plans/`      | Yes        | Active implementation plans; archived plans under `.plans/archived/`.     | One MD per plan, slug-dated.                                                 |
 | `.github/`     | Yes        | CI workflows, issue/PR templates, CODEOWNERS, Dependabot.                 | GitHub conventions.                                                          |
 | `e2e/`         | Yes        | Playwright end-to-end tests.                                              | Pair with `playwright.config.ts` at root.                                    |
-| `emails/`      | No         | react-email templates (currently one).                                    | Skipped per rule 1 exception (single self-evident file). Add when grown.     |
+| `emails/`      | Yes        | react-email preview entry points (re-exports of canonical templates).     | Two-layer pattern documented in `emails/README.md`.                          |
 | `messages/`    | Yes        | next-intl translation bundles (en/pt/es).                                 | Editing rule: add the same key to all three files in one commit.             |
 | `scripts/`     | Yes        | QA loop, prompt-context, hygiene checks, changelog, bundle budget, etc.   | Owns the QA-in-loop gate set.                                                |
 | `src/`         | Yes        | Application source: App Router, components, lib, hooks, Supabase clients. | Top-level README documents the subfolder map; deeper structure self-evident. |
