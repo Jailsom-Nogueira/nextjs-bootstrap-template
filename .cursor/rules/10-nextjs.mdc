@@ -8,25 +8,12 @@ globs:
 alwaysApply: false
 ---
 
-## Next.js 16 / React 19 conventions
+Auto-attaching Cursor pointer. The canonical rules for this surface live at:
 
-- **Server Components first.** `'use client'` lives on the leaves; never on a layout or page when a leaf could carry it.
-- **Async dynamic APIs (Next 15+).** `cookies()`, `headers()`, `params`, `searchParams` are all async — always `await` them. Sync access is a runtime error.
-- **Server Actions.** Mark with `'use server'` at the top of the file or function. Validate inputs server-side with zod even when the client already validated.
-- **Cache busting.** Use `revalidatePath('/route')` or `revalidateTag('tag')` from a mutation server action. Do NOT use `force-dynamic` to "fix" stale data — find the real cause.
-- **Parallel data fetches.** Use `Promise.all` for independent reads inside a Server Component to avoid waterfalls.
-- **Route-level loading.** Ship `loading.tsx` next to every meaningful route segment; wrap below-fold content in `<Suspense>` with a sensible fallback.
-- **Lazy heavy components.** Charts, editors, maps, PDF, 3D, rich-text — load via `lazyClient` from `@/lib/lazy` (or `next/dynamic` for one-offs). Keep `'use client'` boundaries minimal.
-- **Images.** `next/image` with explicit `width`/`height`. `priority` ONLY on the LCP hero image. Decorative images get `alt=""`.
-- **Links.** `<Link prefetch>` is the default; only opt out for huge below-fold routes.
-- **Navigation snappiness.** `await` only critical work pre-navigate. Fire-and-forget non-critical work via `void` + `startTransition(() => router.push(...))` / `useTransitionRouter()`.
+- `.agents/rules/performance.md` — Server Components, Web Vitals, INP, bundle budget.
+- `.agents/rules/lazy-loading.md` — `next/dynamic`, `Suspense`, route-level `loading.tsx`.
+- `.agents/rules/clean-code.md` — function size, naming, immutability.
+- `.agents/rules/file-organization.md` — naming, layout, path alias, `types.ts`.
+- `.docs/nextjs-conventions.md` — concrete Next 16 / React 19 do/don't table.
 
-## Don'ts
-
-- Don't `'use client'` on layouts or pages.
-- Don't sync-read `cookies()`/`headers()` (Next 15+ breaks this).
-- Don't add barrel `index.ts` re-exports (hurts tree-shake + cycles).
-- Don't use parallel/intercepting routes unless the UX truly requires them.
-- Don't call `router.refresh()` in event handlers without measuring — prefer `revalidatePath`/`revalidateTag` from a server action.
-
-See `.agents/rules/performance.md` and `.agents/rules/lazy-loading.md` for the full sheet.
+Read those before editing files matched by the globs above. Do not duplicate their content here. If this stub disagrees with AGENTS.md or with the rule files above, those win and this stub should be patched.

@@ -1,33 +1,17 @@
 ---
 description: Accessibility (WCAG 2.2 AA) and i18n (next-intl pt/es/en) rules. Auto-attach when working on user-facing UI or translations.
-globs: []
+globs:
+  - src/app/**
+  - src/components/**
+  - messages/**
 alwaysApply: false
 ---
 
-## Accessibility — WCAG 2.2 AA targets
+Auto-attaching Cursor pointer. The canonical rules for this surface live at:
 
-- Contrast: 4.5:1 for body text, 3:1 for large text (≥18pt or 14pt bold) and non-text UI.
-- Touch targets: 44×44 CSS px min (48 preferred). Spacing exception applies for inline links.
-- Keyboard: every interactive element reachable; logical tab order; visible `focus-visible:ring-2`.
-- Semantic HTML: real `<button>`, `<a>`, `<label>`, `<nav>`, `<main>` — not `<div>`s with click handlers.
-- Images: meaningful `alt` (or `alt=""` for decorative). Always pass `width`/`height` to prevent CLS.
-- State must never be conveyed by color alone — pair with icon + text.
-- Respect `prefers-reduced-motion`; gate animations behind it.
+- `.agents/rules/accessibility.md` — WCAG 2.2 AA, focus, contrast, motion.
+- `.agents/rules/responsiveness.md` — mobile-first, breakpoints, container queries.
+- `.agents/rules/i18n.md` — next-intl setup, messages, locale routing.
+- `.agents/rules/styling.md` — Tailwind v4 tokens, `cn()`, dark mode.
 
-## Internationalization — next-intl v4
-
-- Never hardcode user-facing strings. Use `useTranslations()` (client) or `getTranslations()` (server).
-- All keys must exist in all three locales: `messages/en.json`, `messages/pt.json`, `messages/es.json`.
-- PT-BR is the Brazilian variant — natural, native phrasing (NOT European Portuguese).
-- ES is professional Latin-American Spanish.
-- Routing helpers come from `@/i18n/navigation` — `Link`, `redirect`, `useRouter`. Do NOT import these from `next/navigation` in the localized app tree.
-- Numbers, dates, currencies: use `useFormatter()` / `getFormatter()`; never string-concatenate locale-specific output.
-- Avoid forced re-translation rebuilds: when changing a string, update the same key in all 3 files in the same commit.
-
-## Don'ts
-
-- Don't use placeholder names like `t('label1')`. Use semantic key paths: `dashboard.userMenu.signOut`.
-- Don't ship icon-only buttons without an `aria-label`.
-- Don't disable focus rings to "make it look cleaner".
-
-See `.agents/rules/accessibility.md`, `.agents/rules/responsiveness.md`, `.agents/rules/i18n.md`.
+Read those before editing files matched by the globs above. Do not duplicate their content here. If this stub disagrees with AGENTS.md or with the rule files above, those win and this stub should be patched.
