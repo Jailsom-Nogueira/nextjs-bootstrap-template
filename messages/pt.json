@@ -6,12 +6,16 @@
     "save": "Salvar",
     "cancel": "Cancelar",
     "delete": "Excluir",
-    "edit": "Editar"
+    "edit": "Editar",
+    "copy": {
+      "copy": "Copiar para a \u00e1rea de transfer\u00eancia",
+      "copied": "Copiado"
+    }
   },
   "nav": {
-    "home": "Início",
+    "home": "In\u00edcio",
     "dashboard": "Painel",
-    "admin": "Admin",
+    "admin": "Administra\u00e7\u00e3o",
     "signIn": "Entrar",
     "signOut": "Sair"
   },
@@ -22,7 +26,7 @@
   },
   "auth": {
     "signIn": "Entrar",
-    "signUp": "Cadastrar",
+    "signUp": "Criar conta",
     "email": "E-mail",
     "password": "Senha"
   },
@@ -33,68 +37,141 @@
     "system": "Sistema"
   },
   "errors": {
-    "notFound": "Página não encontrada",
-    "unauthorized": "Você não tem permissão para acessar esta página",
+    "notFound": "P\u00e1gina n\u00e3o encontrada",
+    "unauthorized": "Voc\u00ea n\u00e3o tem permiss\u00e3o para ver esta p\u00e1gina",
     "serverError": "Erro no servidor. Tente novamente."
   },
   "home": {
-    "eyebrow": "v0.1.0 — template bootstrap",
-    "title": "Lance apps Next.js mais rápido, com proteções de IA já incluídas.",
-    "subtitle": "Um template Next.js 16 nível produção: autenticação e RLS no Supabase, internacionalização completa, modo escuro, acessibilidade, orçamentos de performance e um hub AGENTS.md que faz os agentes de IA cumprirem o combinado.",
-    "cta_primary": "Abrir o painel",
-    "cta_secondary": "Ver no GitHub",
-    "quickStart_label": "Início rápido"
+    "hello": "Ol\u00e1, mundo",
+    "helloAria": "Ol\u00e1, mundo \u2014 uma pequena tradi\u00e7\u00e3o para dar sorte",
+    "eyebrow": "v0.1.0 \u2014 template de bootstrap",
+    "title": "Entregue apps Next.js mais r\u00e1pido, com guardrails de IA prontos.",
+    "subtitle": "Um template Next.js 16 production-grade. Autentica\u00e7\u00e3o Supabase + RLS, i18n completo, dark mode, acessibilidade, or\u00e7amentos de performance e um hub AGENTS.md que faz agentes de IA renderem de verdade.",
+    "ctaPrimary": "Conhe\u00e7a este template",
+    "ctaSecondary": "Ver no GitHub",
+    "quickStartLabel": "In\u00edcio r\u00e1pido"
   },
   "features": {
-    "sectionTitle": "Feito pra produção",
-    "sectionSubtitle": "Cada padrão deste template existe pra evitar uma classe de erro. Abra AGENTS.md ou CONCEPTS.md pra entender o porquê.",
+    "sectionTitle": "Feito para entregar",
+    "sectionSubtitle": "Cada default deste template existe para evitar uma classe de erro. Abra AGENTS.md ou CONCEPTS.md para a hist\u00f3ria completa.",
     "auth": {
-      "title": "Autenticação e RLS",
-      "description": "Supabase SSR com 4 clientes especializados. Row-Level Security como camada principal de autorização."
+      "title": "Auth & RLS",
+      "description": "Supabase SSR com divis\u00e3o em 4 clients. Row-Level Security \u00e9 a fronteira prim\u00e1ria de autoriza\u00e7\u00e3o."
     },
     "aiNative": {
       "title": "AI-Native",
-      "description": "AGENTS.md, CONCEPTS.md, configuração MCP, regras do Cursor, comandos do Claude Code e script prompt-context — tudo incluído."
+      "description": "AGENTS.md, CONCEPTS.md, configura\u00e7\u00e3o MCP, regras Cursor, slash commands Claude, script prompt-context \u2014 tudo embutido."
     },
     "performance": {
       "title": "Performance",
-      "description": "Server Components por padrão, lazy loading, metas de Core Web Vitals e diagnóstico de orçamento de bundle no QA estrito."
+      "description": "Server Components primeiro, lazy loading, metas de Core Web Vitals e diagn\u00f3stico de bundle no QA estrito."
     },
     "i18n": {
-      "title": "Internacionalização",
-      "description": "English, Portuguese e Spanish prontos. Adicione um idioma editando um arquivo só."
+      "title": "Internacionaliza\u00e7\u00e3o",
+      "description": "Ingl\u00eas, portugu\u00eas e espanhol prontos. Adicione um locale editando um arquivo."
     },
     "a11y": {
       "title": "WCAG 2.2 AA",
-      "description": "Mobile-first, navegação por teclado, anéis de foco e estados que não dependem só de cor — padrões que passam em uma auditoria."
+      "description": "Mobile-first, navega\u00e7\u00e3o por teclado, focus rings, estado sem depender s\u00f3 de cor \u2014 defaults que passam em auditoria."
     },
     "qaLoop": {
       "title": "QA em loop",
-      "description": "npm run qa executa formatação, higiene de texto, lint, typecheck, testes e build em sequência até cada etapa passar."
+      "description": "npm run qa cicla format, hygiene, lint, typecheck, test e build at\u00e9 todos os gates ficarem verdes."
     }
   },
   "stack": {
     "sectionTitle": "Stack",
-    "sectionSubtitle": "Moderna, opinativa e — de propósito — sem firulas."
+    "sectionSubtitle": "Moderno, opinativo e t\u00e9dio de prop\u00f3sito."
+  },
+  "about": {
+    "metaTitle": "Sobre este template",
+    "metaDescription": "O que o template Next.js bootstrap entrega out of the box: stack, conven\u00e7\u00f5es, surface de agentes e loop de QA.",
+    "eyebrow": "Sobre este template",
+    "back": "Voltar para o in\u00edcio",
+    "title": "Um bootstrap Next.js 16 feito para humanos e agentes de IA.",
+    "subtitle": "Este template j\u00e1 cabea os defaults chatos de production-grade para voc\u00ea focar no produto. Tudo aqui \u00e9 opinativo de prop\u00f3sito; cada default existe para evitar uma classe de erro.",
+    "highlightsHeading": "Destaques",
+    "highlights": {
+      "auth": {
+        "title": "Auth & RLS",
+        "description": "Supabase SSR, divis\u00e3o em 4 clients, Row-Level Security como fronteira prim\u00e1ria de autoriza\u00e7\u00e3o."
+      },
+      "aiNative": {
+        "title": "AI-Native",
+        "description": "Hub AGENTS.md, regras .agents/, config MCP, adapters Cursor + Claude + Cline + Codex + Aider."
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Server Components primeiro, lazy loading, or\u00e7amento de First Load JS por rota cobrado pelo CI."
+      },
+      "i18n": {
+        "title": "Internacionaliza\u00e7\u00e3o",
+        "description": "next-intl com bundles en / pt / es. Locale do navegador na primeira visita; escolha do usu\u00e1rio persistida."
+      },
+      "a11y": {
+        "title": "WCAG 2.2 AA",
+        "description": "Navega\u00e7\u00e3o por teclado, focus rings, HTML sem\u00e2ntico, varreduras axe-core no QA visual."
+      },
+      "qaLoop": {
+        "title": "QA em loop",
+        "description": "npm run qa cicla format \u2192 lint \u2192 typecheck \u2192 test \u2192 build at\u00e9 todos os gates verdes."
+      },
+      "theming": {
+        "title": "Theming",
+        "description": "Tokens Tailwind v4 @theme, claro / escuro via next-themes, sem hex inline \u2014 s\u00f3 design tokens."
+      },
+      "docs": {
+        "title": "Docs no repo",
+        "description": "Cada diret\u00f3rio tem README \u00edndice; regras can\u00f4nicas vivem em .agents/, adapters apontam para AGENTS.md."
+      }
+    },
+    "sections": {
+      "purpose": {
+        "title": "O que este template \u00e9",
+        "body": "Um starter production-grade para apps Next.js full-stack. Empacota as decis\u00f5es que voc\u00ea gastaria uma sprint tomando: estrat\u00e9gia de auth, i18n, theming, acessibilidade, or\u00e7amentos de performance, observabilidade, e-mail transacional e um playbook documentado para agentes de IA. Gere um app a partir dele, apague o que n\u00e3o precisa, entregue o resto."
+      },
+      "stack": {
+        "title": "A stack",
+        "body": "Next.js 16 (App Router, React 19, TypeScript strict), Tailwind v4, shadcn/ui (radix-nova). Supabase via @supabase/ssr com 4 clients (browser, server, server-admin, proxy). next-intl para i18n com en/pt/es. PostHog para product analytics com PII scrubbing embutido. Resend para e-mail transacional. Zod 4 para schemas. Vitest + Playwright para testes. Pino para logging estruturado."
+      },
+      "conventions": {
+        "title": "Conven\u00e7\u00f5es que voc\u00ea n\u00e3o precisa inventar",
+        "body": "Server Components por padr\u00e3o. Sem `select('*')`. Service role key \u00e9 server-only (imposto por guard import 'server-only'). Todo acesso a process.env passa por src/env.ts (validado por zod no boot). Nunca hardcode strings de UI; sempre useTranslations / getTranslations. S\u00f3 alias @/* \u2014 nada de subir relativo. Conventional Commits, gate pre-push do husky exigindo CHANGELOG auto-gerado."
+      },
+      "agentSurface": {
+        "title": "A surface de agentes",
+        "body": "AGENTS.md na raiz \u00e9 o hub de roteamento. Regras can\u00f4nicas vivem em .agents/rules/, material de consulta em .agents/references/, procedimentos em .agents/workflows/, skills instaladas em .agents/skills/. Arquivos por ferramenta (CLAUDE.md, GEMINI.md, .cursor/rules/*, .clinerules/*, .aider.conf.yml, .codex/setup.sh) s\u00e3o thin adapters que apontam para AGENTS.md. Dois arquivos duplicados (.mcp.json e .cursor/mcp.json) ficam em sincronia por um gate de CI."
+      },
+      "qa": {
+        "title": "QA no loop",
+        "body": "npm run qa roda cada gate localmente do mais barato ao mais caro: prettier, text hygiene, mcp-sync, ESLint, tsc --noEmit, vitest, next build. O mesmo script roda no GitHub Actions \u2014 verde local significa verde remoto. npm run qa:strict adiciona Playwright E2E, or\u00e7amento de bundle por rota e varredura visual (screenshots por rota \u00d7 locale \u00d7 tema \u00d7 viewport, checagens axe-core WCAG 2.2 AA)."
+      },
+      "structure": {
+        "title": "Estrutura do repo",
+        "body": "Toda dir agent-facing tem README \u00edndice listando os arquivos e apontando para AGENTS.md. Conte\u00fado can\u00f4nico vive em .agents/; o resto \u00e9 thin adapter. Duplica\u00e7\u00f5es obrigat\u00f3rias (quando ferramentas exigem nomes diferentes) s\u00e3o guardadas por um sync gate. Veja .agents/references/repo-structure.md para as meta-regras e anti-patterns."
+      }
+    },
+    "ctaRepo": "Abrir no GitHub",
+    "ctaHome": "Voltar para o in\u00edcio"
   },
   "footer": {
-    "copyright": "© 2026 Bootstrap Template",
-    "license": "Licença MIT",
+    "copyright": "\u00a9 2026 Bootstrap Template",
+    "license": "Licen\u00e7a MIT",
     "docs": "Docs",
     "github": "GitHub"
   },
   "admin": {
-    "title": "Painel de Administração",
-    "users": "Usuários",
-    "settings": "Configurações",
-    "role": "Função",
+    "title": "Painel administrativo",
+    "users": "Usu\u00e1rios",
+    "settings": "Configura\u00e7\u00f5es",
+    "role": "Papel",
     "name": "Nome",
     "createdAt": "Criado em"
   },
   "locale": {
     "switch": "Trocar idioma",
-    "en": "English",
-    "pt": "Português",
-    "es": "Español"
+    "en": "Ingl\u00eas",
+    "pt": "Portugu\u00eas",
+    "es": "Espanhol"
   }
 }

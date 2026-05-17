@@ -1,9 +1,10 @@
 import { getTranslations, setRequestLocale } from "next-intl/server";
 import {
   Accessibility,
+  BookOpen,
   GitBranch,
   Globe,
-  Rocket,
+  Hand,
   Shield,
   ShieldCheck,
   Sparkles,
@@ -13,6 +14,7 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
+import { CopyButton } from "@/components/copy-button";
 
 import { siteConfig } from "@/config/site";
 
@@ -47,6 +49,8 @@ const STACK: ReadonlyArray<StackItem> = [
   { name: "Playwright", version: "1" },
 ];
 
+const QUICK_START_SNIPPET = "npm install && npm run dev";
+
 export default async function Home({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   setRequestLocale(locale);
@@ -71,6 +75,12 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
         <div className="mx-auto max-w-7xl px-4 py-20 sm:px-6 md:py-32 lg:px-8">
           <div className="mx-auto flex max-w-3xl flex-col items-center text-center">
+            {/* Tiny "Hello World" greeting — a small tradition for luck. */}
+            <p className="text-muted-foreground mb-2 inline-flex items-center gap-1.5 text-xs font-medium tracking-wider uppercase">
+              <Hand className="h-3.5 w-3.5" aria-hidden="true" />
+              <span aria-label={t("helloAria")}>{t("hello")}</span>
+            </p>
+
             <Badge variant="secondary" className="mb-6 gap-1.5">
               <Sparkles className="h-3 w-3" aria-hidden="true" />
               {t("eyebrow")}
@@ -86,29 +96,30 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
 
             <div className="mt-8 flex flex-col items-center gap-3 sm:flex-row sm:gap-4">
               <Button asChild size="lg">
-                <Link href="/dashboard">
-                  <Rocket className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {t("cta_primary")}
+                <Link href="/about">
+                  <BookOpen className="mr-2 h-4 w-4" aria-hidden="true" />
+                  {t("ctaPrimary")}
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
                 <a href={siteConfig.repositoryUrl} target="_blank" rel="noreferrer noopener">
                   <GitBranch className="mr-2 h-4 w-4" aria-hidden="true" />
-                  {t("cta_secondary")}
+                  {t("ctaSecondary")}
                 </a>
               </Button>
             </div>
 
-            {/* Quick-start terminal snippet */}
+            {/* Quick-start terminal snippet with copy-to-clipboard */}
             <div className="mt-12 w-full max-w-xl">
               <p className="text-muted-foreground mb-2 text-left text-xs font-medium tracking-wider uppercase">
-                {t("quickStart_label")}
+                {t("quickStartLabel")}
               </p>
               <div className="border-border bg-muted text-foreground flex items-center gap-3 rounded-lg border p-3 font-mono text-sm">
                 <span className="text-primary select-none" aria-hidden="true">
                   $
                 </span>
-                <code className="text-foreground/90">npm install &amp;&amp; npm run dev</code>
+                <code className="text-foreground/90 flex-1 text-left">{QUICK_START_SNIPPET}</code>
+                <CopyButton text={QUICK_START_SNIPPET} />
               </div>
             </div>
           </div>

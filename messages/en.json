@@ -6,7 +6,11 @@
     "save": "Save",
     "cancel": "Cancel",
     "delete": "Delete",
-    "edit": "Edit"
+    "edit": "Edit",
+    "copy": {
+      "copy": "Copy to clipboard",
+      "copied": "Copied"
+    }
   },
   "nav": {
     "home": "Home",
@@ -38,12 +42,14 @@
     "serverError": "Server error. Please try again."
   },
   "home": {
+    "hello": "Hello, world",
+    "helloAria": "Hello, world — a small tradition for luck",
     "eyebrow": "v0.1.0 \u2014 bootstrap template",
     "title": "Ship Next.js apps faster, with AI guardrails baked in.",
     "subtitle": "A production-grade Next.js 16 template. Supabase auth + RLS, full i18n, dark mode, accessibility, performance budgets, and an AGENTS.md hub that makes AI coding agents pull their weight.",
-    "cta_primary": "Open the dashboard",
-    "cta_secondary": "View on GitHub",
-    "quickStart_label": "Quick start"
+    "ctaPrimary": "Learn about this template",
+    "ctaSecondary": "View on GitHub",
+    "quickStartLabel": "Quick start"
   },
   "features": {
     "sectionTitle": "Built to ship",
@@ -76,6 +82,77 @@
   "stack": {
     "sectionTitle": "Stack",
     "sectionSubtitle": "Modern, opinionated, and boring on purpose."
+  },
+  "about": {
+    "metaTitle": "About this template",
+    "metaDescription": "What the Next.js bootstrap template gives you out of the box: the stack, the conventions, the agent surface, and the QA loop.",
+    "eyebrow": "About this template",
+    "back": "Back to home",
+    "title": "A Next.js 16 bootstrap built for humans and AI agents.",
+    "subtitle": "This template wires the boring, production-grade defaults so you can focus on product. Everything below is opinionated on purpose; every default exists to prevent a class of mistake.",
+    "highlightsHeading": "Highlights",
+    "highlights": {
+      "auth": {
+        "title": "Auth & RLS",
+        "description": "Supabase SSR, 4-client split, Row-Level Security as the primary authorization boundary."
+      },
+      "aiNative": {
+        "title": "AI-Native",
+        "description": "AGENTS.md hub, .agents/ rules, MCP config, Cursor + Claude + Cline + Codex + Aider adapters."
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Server Components first, lazy loading, per-route First Load JS budget enforced by CI."
+      },
+      "i18n": {
+        "title": "Internationalization",
+        "description": "next-intl with en / pt / es bundles. Browser locale detected on first visit; user choice persisted."
+      },
+      "a11y": {
+        "title": "WCAG 2.2 AA",
+        "description": "Keyboard navigation, focus rings, semantic HTML, axe-core sweeps in the visual QA loop."
+      },
+      "qaLoop": {
+        "title": "QA in loop",
+        "description": "npm run qa cycles format \u2192 lint \u2192 typecheck \u2192 test \u2192 build until every gate is green."
+      },
+      "theming": {
+        "title": "Theming",
+        "description": "Tailwind v4 @theme tokens, light / dark via next-themes, no inline hex \u2014 design tokens only."
+      },
+      "docs": {
+        "title": "Docs in repo",
+        "description": "Every directory has a README index; canonical rules live in .agents/, adapters point back to AGENTS.md."
+      }
+    },
+    "sections": {
+      "purpose": {
+        "title": "What this template is",
+        "body": "A production-grade starter for full-stack Next.js apps. It bundles the decisions you'd otherwise spend a sprint making: auth strategy, i18n, theming, accessibility, performance budgets, observability, transactional email, and a documented playbook for AI coding agents. Generate an app from it, delete what you don't need, ship the rest."
+      },
+      "stack": {
+        "title": "The stack",
+        "body": "Next.js 16 (App Router, React 19, TypeScript strict), Tailwind v4, shadcn/ui (radix-nova). Supabase via @supabase/ssr with a 4-client split (browser, server, server-admin, proxy). next-intl for i18n with en/pt/es. PostHog for product analytics with PII scrubbing baked in. Resend for transactional email. Zod 4 for schemas. Vitest + Playwright for tests. Pino for structured logging."
+      },
+      "conventions": {
+        "title": "Conventions you do not have to invent",
+        "body": "Server Components by default. No `select('*')`. Service role key is server-only (enforced by an import 'server-only' guard). All process.env access goes through src/env.ts (zod-validated at boot). Never hardcode user-facing strings; always use useTranslations / getTranslations. Path alias @/* only \u2014 no relative climb. Conventional Commits, husky pre-push gate that requires the auto-generated CHANGELOG entry."
+      },
+      "agentSurface": {
+        "title": "The agent surface",
+        "body": "AGENTS.md at the repo root is the routing hub. Canonical rules live in .agents/rules/, lookup material in .agents/references/, repeatable procedures in .agents/workflows/, installed skills in .agents/skills/. Per-tool files (CLAUDE.md, GEMINI.md, .cursor/rules/*, .clinerules/*, .aider.conf.yml, .codex/setup.sh) are thin adapters that point back to AGENTS.md. Two duplicated files (.mcp.json and .cursor/mcp.json) are kept in sync by a CI gate."
+      },
+      "qa": {
+        "title": "QA in the loop",
+        "body": "npm run qa runs every gate locally in cheapest-first order: prettier, text hygiene, mcp-sync, ESLint, tsc --noEmit, vitest, next build. The same script runs in GitHub Actions \u2014 local green means remote green. npm run qa:strict adds Playwright E2E, bundle-budget per route, and a visual QA sweep (route \u00d7 locale \u00d7 theme \u00d7 viewport screenshots, axe-core WCAG 2.2 AA checks)."
+      },
+      "structure": {
+        "title": "Repo structure",
+        "body": "Every agent-facing directory carries a README index that lists its files and points back to AGENTS.md. Canonical content lives in .agents/; everything else is a thin adapter. Obligatory duplication (when tools require different filenames) is guarded by a sync gate in the QA loop. See .agents/references/repo-structure.md for the meta-rules and anti-patterns."
+      }
+    },
+    "ctaRepo": "Open on GitHub",
+    "ctaHome": "Back to home"
   },
   "footer": {
     "copyright": "\u00a9 2026 Bootstrap Template",

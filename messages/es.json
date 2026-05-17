@@ -2,18 +2,22 @@
   "common": {
     "appName": "Bootstrap",
     "loading": "Cargando...",
-    "error": "Algo salió mal",
+    "error": "Algo sali\u00f3 mal",
     "save": "Guardar",
     "cancel": "Cancelar",
     "delete": "Eliminar",
-    "edit": "Editar"
+    "edit": "Editar",
+    "copy": {
+      "copy": "Copiar al portapapeles",
+      "copied": "Copiado"
+    }
   },
   "nav": {
     "home": "Inicio",
     "dashboard": "Panel",
     "admin": "Admin",
-    "signIn": "Iniciar sesión",
-    "signOut": "Cerrar sesión"
+    "signIn": "Iniciar sesi\u00f3n",
+    "signOut": "Cerrar sesi\u00f3n"
   },
   "header": {
     "brand": "Bootstrap",
@@ -21,10 +25,10 @@
     "github": "GitHub"
   },
   "auth": {
-    "signIn": "Iniciar sesión",
-    "signUp": "Registrarse",
-    "email": "Correo electrónico",
-    "password": "Contraseña"
+    "signIn": "Iniciar sesi\u00f3n",
+    "signUp": "Crear cuenta",
+    "email": "Correo",
+    "password": "Contrase\u00f1a"
   },
   "theme": {
     "toggle": "Cambiar tema",
@@ -33,58 +37,131 @@
     "system": "Sistema"
   },
   "errors": {
-    "notFound": "Página no encontrada",
-    "unauthorized": "No tiene autorización para ver esta página",
-    "serverError": "Error del servidor. Inténtelo de nuevo."
+    "notFound": "P\u00e1gina no encontrada",
+    "unauthorized": "No tienes permiso para ver esta p\u00e1gina",
+    "serverError": "Error del servidor. Int\u00e9ntalo de nuevo."
   },
   "home": {
-    "eyebrow": "v0.1.0 — plantilla bootstrap",
-    "title": "Despliega apps Next.js más rápido, con barreras de IA listas.",
-    "subtitle": "Una plantilla Next.js 16 lista para producción: autenticación y RLS con Supabase, internacionalización completa, modo oscuro, accesibilidad, presupuestos de rendimiento y un hub AGENTS.md que pone a trabajar a los agentes de IA.",
-    "cta_primary": "Abrir el panel",
-    "cta_secondary": "Ver en GitHub",
-    "quickStart_label": "Inicio rápido"
+    "hello": "Hola, mundo",
+    "helloAria": "Hola, mundo \u2014 una peque\u00f1a tradici\u00f3n para la suerte",
+    "eyebrow": "v0.1.0 \u2014 plantilla bootstrap",
+    "title": "Lanza apps de Next.js m\u00e1s r\u00e1pido, con guardrails de IA incluidos.",
+    "subtitle": "Una plantilla Next.js 16 production-grade. Auth Supabase + RLS, i18n completo, modo oscuro, accesibilidad, presupuestos de performance y un hub AGENTS.md que hace que los agentes de IA rindan de verdad.",
+    "ctaPrimary": "Conoce esta plantilla",
+    "ctaSecondary": "Ver en GitHub",
+    "quickStartLabel": "Inicio r\u00e1pido"
   },
   "features": {
-    "sectionTitle": "Hecho para producción",
-    "sectionSubtitle": "Cada valor predeterminado de esta plantilla existe para evitar una clase de error. Abre AGENTS.md o CONCEPTS.md para los detalles.",
+    "sectionTitle": "Hecho para entregar",
+    "sectionSubtitle": "Cada default en esta plantilla existe para evitarte una clase de error. Abre AGENTS.md o CONCEPTS.md para la historia completa.",
     "auth": {
-      "title": "Autenticación y RLS",
-      "description": "Supabase SSR con cuatro clientes especializados. Row-Level Security como la barrera principal de autorización."
+      "title": "Auth & RLS",
+      "description": "Supabase SSR con divisi\u00f3n en 4 clientes. Row-Level Security es el l\u00edmite primario de autorizaci\u00f3n."
     },
     "aiNative": {
       "title": "AI-Native",
-      "description": "AGENTS.md, CONCEPTS.md, configuración MCP, reglas de Cursor, comandos de Claude Code y script prompt-context — todo incluido."
+      "description": "AGENTS.md, CONCEPTS.md, config MCP, reglas Cursor, slash commands Claude, script prompt-context \u2014 todo incluido."
     },
     "performance": {
-      "title": "Rendimiento",
-      "description": "Server Components primero, lazy loading, objetivos de Core Web Vitals y diagnóstico de presupuesto de bundle en el QA estricto."
+      "title": "Performance",
+      "description": "Server Components primero, lazy loading, metas de Core Web Vitals y diagn\u00f3stico de bundle en el QA estricto."
     },
     "i18n": {
-      "title": "Internacionalización",
-      "description": "English, Portuguese y Spanish listos. Añade un idioma editando un solo archivo."
+      "title": "Internacionalizaci\u00f3n",
+      "description": "Ingl\u00e9s, portugu\u00e9s y espa\u00f1ol listos. Agrega un locale editando un solo archivo."
     },
     "a11y": {
       "title": "WCAG 2.2 AA",
-      "description": "Mobile-first, navegación por teclado, anillos de foco y estados que no dependen solo del color — valores predeterminados que pasan una auditoría."
+      "description": "Mobile-first, navegaci\u00f3n por teclado, focus rings, estado que no depende solo del color \u2014 defaults que pasan auditor\u00eda."
     },
     "qaLoop": {
       "title": "QA en bucle",
-      "description": "npm run qa ejecuta formato, higiene de texto, lint, typecheck, pruebas y build en secuencia hasta que cada paso pase."
+      "description": "npm run qa cicla format, hygiene, lint, typecheck, test y build hasta que todos los gates est\u00e9n verdes."
     }
   },
   "stack": {
     "sectionTitle": "Stack",
-    "sectionSubtitle": "Moderna, con opinión y, a propósito, sin florituras."
+    "sectionSubtitle": "Moderno, opinado y aburrido a prop\u00f3sito."
+  },
+  "about": {
+    "metaTitle": "Sobre esta plantilla",
+    "metaDescription": "Lo que la plantilla Next.js bootstrap entrega de fabrica: stack, convenciones, superficie de agentes y bucle de QA.",
+    "eyebrow": "Sobre esta plantilla",
+    "back": "Volver al inicio",
+    "title": "Un bootstrap Next.js 16 hecho para humanos y agentes de IA.",
+    "subtitle": "Esta plantilla ya conecta los defaults aburridos de production-grade para que te enfoques en el producto. Todo aqu\u00ed es opinado a prop\u00f3sito; cada default existe para evitarte una clase de error.",
+    "highlightsHeading": "Destacados",
+    "highlights": {
+      "auth": {
+        "title": "Auth & RLS",
+        "description": "Supabase SSR, divisi\u00f3n en 4 clientes, Row-Level Security como l\u00edmite primario de autorizaci\u00f3n."
+      },
+      "aiNative": {
+        "title": "AI-Native",
+        "description": "Hub AGENTS.md, reglas .agents/, config MCP, adapters Cursor + Claude + Cline + Codex + Aider."
+      },
+      "performance": {
+        "title": "Performance",
+        "description": "Server Components primero, lazy loading, presupuesto de First Load JS por ruta cobrado por el CI."
+      },
+      "i18n": {
+        "title": "Internacionalizaci\u00f3n",
+        "description": "next-intl con bundles en / pt / es. Locale del navegador en la primera visita; elecci\u00f3n del usuario persistida."
+      },
+      "a11y": {
+        "title": "WCAG 2.2 AA",
+        "description": "Navegaci\u00f3n por teclado, focus rings, HTML sem\u00e1ntico, barridos axe-core en el QA visual."
+      },
+      "qaLoop": {
+        "title": "QA en bucle",
+        "description": "npm run qa cicla format \u2192 lint \u2192 typecheck \u2192 test \u2192 build hasta que todos los gates est\u00e9n verdes."
+      },
+      "theming": {
+        "title": "Theming",
+        "description": "Tokens Tailwind v4 @theme, claro / oscuro v\u00eda next-themes, sin hex inline \u2014 solo design tokens."
+      },
+      "docs": {
+        "title": "Docs en el repo",
+        "description": "Cada dir tiene README \u00edndice; reglas can\u00f3nicas viven en .agents/, los adapters apuntan a AGENTS.md."
+      }
+    },
+    "sections": {
+      "purpose": {
+        "title": "Qu\u00e9 es esta plantilla",
+        "body": "Un starter production-grade para apps Next.js full-stack. Empaqueta las decisiones que de otra forma gastar\u00edas una sprint tomando: estrategia de auth, i18n, theming, accesibilidad, presupuestos de performance, observabilidad, correo transaccional y un playbook documentado para agentes de IA. Genera un app a partir de ella, borra lo que no necesites, env\u00eda el resto."
+      },
+      "stack": {
+        "title": "El stack",
+        "body": "Next.js 16 (App Router, React 19, TypeScript strict), Tailwind v4, shadcn/ui (radix-nova). Supabase v\u00eda @supabase/ssr con 4 clientes (browser, server, server-admin, proxy). next-intl para i18n con en/pt/es. PostHog para product analytics con PII scrubbing incluido. Resend para correo transaccional. Zod 4 para schemas. Vitest + Playwright para tests. Pino para logging estructurado."
+      },
+      "conventions": {
+        "title": "Convenciones que no tienes que inventar",
+        "body": "Server Components por defecto. Sin `select('*')`. La service role key es server-only (forzada por un guard import 'server-only'). Todo acceso a process.env pasa por src/env.ts (validado por zod en el boot). Nunca hardcodear strings de UI; siempre useTranslations / getTranslations. Solo alias @/* \u2014 nada de subir relativo. Conventional Commits, gate pre-push de husky exigiendo CHANGELOG autogenerado."
+      },
+      "agentSurface": {
+        "title": "La superficie de agentes",
+        "body": "AGENTS.md en la ra\u00edz es el hub de ruteo. Las reglas can\u00f3nicas viven en .agents/rules/, material de consulta en .agents/references/, procedimientos en .agents/workflows/, skills instaladas en .agents/skills/. Los archivos por herramienta (CLAUDE.md, GEMINI.md, .cursor/rules/*, .clinerules/*, .aider.conf.yml, .codex/setup.sh) son thin adapters que apuntan a AGENTS.md. Dos archivos duplicados (.mcp.json y .cursor/mcp.json) se mantienen en sincron\u00eda con un gate de CI."
+      },
+      "qa": {
+        "title": "QA en el bucle",
+        "body": "npm run qa corre cada gate localmente del m\u00e1s barato al m\u00e1s caro: prettier, text hygiene, mcp-sync, ESLint, tsc --noEmit, vitest, next build. El mismo script corre en GitHub Actions \u2014 verde local = verde remoto. npm run qa:strict suma Playwright E2E, presupuesto de bundle por ruta y un barrido visual (screenshots por ruta \u00d7 locale \u00d7 tema \u00d7 viewport, chequeos axe-core WCAG 2.2 AA)."
+      },
+      "structure": {
+        "title": "Estructura del repo",
+        "body": "Cada directorio agent-facing tiene README \u00edndice listando los archivos y apuntando a AGENTS.md. Contenido can\u00f3nico vive en .agents/; el resto es thin adapter. Las duplicaciones obligatorias (cuando las herramientas piden nombres distintos) est\u00e1n guardadas por un sync gate. Mira .agents/references/repo-structure.md para meta-reglas y anti-patrones."
+      }
+    },
+    "ctaRepo": "Abrir en GitHub",
+    "ctaHome": "Volver al inicio"
   },
   "footer": {
-    "copyright": "© 2026 Bootstrap Template",
+    "copyright": "\u00a9 2026 Bootstrap Template",
     "license": "Licencia MIT",
     "docs": "Docs",
     "github": "GitHub"
   },
   "admin": {
-    "title": "Panel de Administración",
+    "title": "Panel de administraci\u00f3n",
     "users": "Usuarios",
     "settings": "Ajustes",
     "role": "Rol",
@@ -93,8 +170,8 @@
   },
   "locale": {
     "switch": "Cambiar idioma",
-    "en": "English",
-    "pt": "Português",
-    "es": "Español"
+    "en": "Ingl\u00e9s",
+    "pt": "Portugu\u00e9s",
+    "es": "Espa\u00f1ol"
   }
 }
