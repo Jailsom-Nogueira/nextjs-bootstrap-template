@@ -10,7 +10,7 @@ Next.js 16 + React 19 + TypeScript strict + Tailwind v4 + shadcn/ui + Supabase +
 [![E2E](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/e2e.yml/badge.svg)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/e2e.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
 [![Node 22+](https://img.shields.io/badge/Node-22%2B-339933?logo=node.js&logoColor=white)](./.nvmrc)
-[![Use this template](https://img.shields.io/badge/Use%20this%20template-Jailsom--Nogueira%2Fnextjs--bootstrap--template-2ea44f?logo=github)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/generate)
+[![Use this template](https://img.shields.io/badge/Use%20this%20template-Jay--Nogueira-2ea44f?logo=github)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/generate)
 
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=000)](https://react.dev)
@@ -360,9 +360,9 @@ Supabase starts in `--read-only` mode. To enable write mode locally, edit `.mcp.
 
 ## Contributing and license
 
-- Author and maintainer: Jailsom Nogueira.
+- Author and maintainer: Jay Nogueira.
 - Contributions: see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
 - Security issues: see [`SECURITY.md`](./SECURITY.md).
 - Template consumers: replace CODEOWNERS, package metadata, repository URL, product copy, and environment values for your generated app.
 
-License: [MIT](./LICENSE) © 2026 Jailsom Nogueira.
+License: [MIT](./LICENSE) © 2026 Jay Nogueira.

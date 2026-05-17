@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "description": "Agent-ready Next.js 16 + Supabase starter with auth, i18n, analytics, email, QA loops, and multi-agent coding docs.",
-  "author": "Jailsom Nogueira <jailsom.nogueira@gmail.com>",
+  "author": "Jay Nogueira <jailsom.nogueira@gmail.com>",
   "license": "MIT",
   "engines": {
     "node": ">=22.0.0"

@@ -8,7 +8,7 @@ This repository is a starter template. Security fixes are applied to `main`. Gen
 
 Please report security issues privately to the maintainer instead of opening a public issue.
 
-Maintainer: Jailsom Nogueira
+Maintainer: Jay Nogueira
 Email: jailsom.nogueira@gmail.com
 GitHub: https://github.com/Jailsom-Nogueira
 
