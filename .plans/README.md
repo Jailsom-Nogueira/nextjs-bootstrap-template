@@ -10,6 +10,8 @@ Active project plans live here. **One markdown file per plan.**
 
 Start from `.plans/templates/plan.md`. The Claude Code slash command `/plan <spec-path>` scaffolds one automatically from a spec.
 
+Before writing or moving a plan, read `.agents/references/artifact-layers.md` so active plans, archived plans, specs, runbooks, and concept docs stay separated.
+
 ## Lifecycle
 
 1. Draft the plan in `.plans/2026-05-15-my-feature.md`.

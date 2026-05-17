@@ -1,7 +1,7 @@
 # AGENTS.md
 
 Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, Hermes, etc.) working in this repo.
-**Read this file first.** Then load EVERY rule listed under your task type below.
+**Read this file first.** Then infer the task type from evidence and load EVERY rule listed for that type below.
 
 <role>
 You are a senior full-stack engineer working on a Next.js 16 + Supabase template. You write production-grade TypeScript, prefer boring correctness over cleverness, and never ship code that hasn't passed `npm run check` and `npm run build` locally.
@@ -45,29 +45,45 @@ Run the loop:
 - See `.agents/rules/qa-loop.md` for the full protocol and `.agents/workflows/qa-loop.md` for the procedure.
 - Before opening a PR or releasing, run `npm run qa:strict` (adds e2e + bundle-budget + qa:visual).
 
+## Task classification protocol
+
+Do not require the user prompt to name the task type. Classify from evidence:
+
+1. Inspect mentioned paths, current `git status`, recent commits, active `.plans/*`, reported errors, touched files, and requested output.
+2. Infer every affected surface: code, UI, data, auth, API, analytics, tests, docs, specs, plans, runbooks, artifacts, release, or QA.
+3. Load the smallest safe union of rules for those surfaces. If unsure between two relevant types, load both; do not load unrelated templates "just in case".
+4. Ask one focused question only when the ambiguity changes artifact type, side effects, or user-visible behavior. If it does not, choose the safest default and continue.
+
+Examples:
+
+- "isso tá feio" / "page is garbage" → UI / styling / responsiveness / accessibility / visual QA.
+- "continua" → inspect active `.plans/*`, latest commits, and docs; infer the next slice from the plan, not from the word "continue".
+- "atualiza isso" → classify by the referenced file: spec, plan, README, CONCEPTS, AGENTS, runbook, or code.
+- "coloca no padrão" → inspect the target file and load the domain rule for that file type plus clean-code/file-organization.
+
 ## Mandatory reading — task-type index
 
-BEFORE doing any task, identify its type and load EVERY listed rule file. "I already know this" is not an excuse — the project-specific rules override your priors.
+BEFORE doing any task, classify its type using the protocol above and load EVERY listed rule file. "I already know this" is not an excuse — the project-specific rules override your priors.
 
-| Task type                        | Rules to load (in order)                                                                                                       |
-| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| 🔁 **ANY task (always)**         | **qa-loop.md (run `npm run qa` until exit 0 — see iron rule above)**                                                           |
-| UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md → run `npm run qa:visual` |
-| Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                                          |
-| Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                                                 |
-| Auth / role gates                | security.md → admin.md → supabase.md → clean-code.md                                                                           |
-| API routes / server actions      | security.md → supabase.md → error-handling.md → performance.md                                                                 |
-| Analytics / tracking             | analytics.md → security.md                                                                                                     |
-| New page / route                 | file-organization.md → performance.md → lazy-loading.md → accessibility.md → responsiveness.md → i18n.md                       |
-| Admin features                   | admin.md → security.md → supabase.md → accessibility.md                                                                        |
-| New i18n strings                 | i18n.md (all 3 locales: en, pt, es) → accessibility.md                                                                         |
-| Performance / interaction work   | performance.md → lazy-loading.md → clean-code.md                                                                               |
-| Refactor / cleanup               | clean-code.md → file-organization.md → applicable-domain-rules                                                                 |
-| Bug fix                          | applicable-domain-rules → clean-code.md → error-handling.md                                                                    |
-| Tests                            | self-review.md → applicable-domain-rules                                                                                       |
-| New spec / plan                  | `.docs/templates/spec.md` then `.plans/templates/plan.md`                                                                      |
+| Task type                        | Rules to load (in order)                                                                                                                |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| 🔁 **ANY task (always)**         | **qa-loop.md (run `npm run qa` until exit 0 — see iron rule above)**                                                                    |
+| UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md → run `npm run qa:visual`          |
+| Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                                                   |
+| Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                                                          |
+| Auth / role gates                | security.md → admin.md → supabase.md → clean-code.md                                                                                    |
+| API routes / server actions      | security.md → supabase.md → error-handling.md → performance.md                                                                          |
+| Analytics / tracking             | analytics.md → security.md                                                                                                              |
+| New page / route                 | file-organization.md → performance.md → lazy-loading.md → accessibility.md → responsiveness.md → i18n.md                                |
+| Admin features                   | admin.md → security.md → supabase.md → accessibility.md                                                                                 |
+| New i18n strings                 | i18n.md (all 3 locales: en, pt, es) → accessibility.md                                                                                  |
+| Performance / interaction work   | performance.md → lazy-loading.md → clean-code.md                                                                                        |
+| Refactor / cleanup               | clean-code.md → file-organization.md → applicable-domain-rules                                                                          |
+| Bug fix                          | applicable-domain-rules → clean-code.md → error-handling.md                                                                             |
+| Tests                            | self-review.md → applicable-domain-rules                                                                                                |
+| Docs / specs / plans / artifacts | `.agents/references/artifact-layers.md` first; then `.docs/templates/spec.md` only for specs, `.plans/templates/plan.md` only for plans |
 
-If your task spans multiple types, load the union of their rules. Don't pick and choose.
+If your task spans multiple types, load the union of their rules. Don't pick and choose. Do not read spec/plan templates for unrelated code-only tasks.
 
 ## Mandatory pre-flight checklist
 
@@ -92,6 +108,9 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | use color alone to convey state                                                    | pair color with icon + text                                                                         |
 | hardcode user-facing strings                                                       | i18n keys via `useTranslations()` / `getTranslations()`; messages in `messages/{en,pt,es}.json`     |
 | write plans/specs at repo root or arbitrary locations                              | active plans in `.plans/`; archived plans in `.plans/archived/`; technical/product docs in `.docs/` |
+| assume the prompt explicitly names the task type                                   | infer task type from files, symptoms, active plans, diff, and requested output before loading rules |
+| create/edit/move durable artifacts without choosing the artifact layer             | read `.agents/references/artifact-layers.md` and put the artifact in the correct layer              |
+| deliver local HTML/report artifacts only as a terminal-clickable path/link         | open/verify in browser yourself or serve via localhost and report the verified URL + file path      |
 | skip the changelog flow                                                            | use `npm run push` to generate CHANGELOG + push (pre-push hook blocks direct push)                  |
 | leave functions >50 lines or files mixing 3+ unrelated concerns                    | small composable units; single responsibility; pure functions where possible                        |
 | leave commented-out code, `console.log`s, TODO without ticket                      | clean code on every commit; reference the issue/ticket for any TODO                                 |
@@ -134,11 +153,12 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 
 ## References (lookup material, not rules)
 
-| File                                      | What's in it                  |
-| ----------------------------------------- | ----------------------------- |
-| `.agents/references/key-files.md`         | Map of important paths        |
-| `.agents/references/shared-components.md` | shadcn components + locations |
-| `.agents/references/analytics.md`         | Event catalog                 |
+| File                                      | What's in it                                 |
+| ----------------------------------------- | -------------------------------------------- |
+| `.agents/references/key-files.md`         | Map of important paths                       |
+| `.agents/references/shared-components.md` | shadcn components + locations                |
+| `.agents/references/analytics.md`         | Event catalog                                |
+| `.agents/references/artifact-layers.md`   | Artifact taxonomy + ambiguous-task inference |
 
 ## Workflows
 
@@ -176,9 +196,10 @@ Never duplicate AGENTS.md content into any of the above — keep them as thin im
 
 ## Documentation locations
 
-- `.plans/` — active project plans. One markdown file per plan; name format `YYYY-MM-DD-slug.md`.
+- `.docs/specs/` — durable product/technical specs. Use `.docs/templates/spec.md` when creating/editing a spec.
+- `.plans/` — active implementation plans. One markdown file per plan; name format `YYYY-MM-DD-slug.md`. Use `.plans/templates/plan.md` when creating/editing a plan.
 - `.plans/archived/` — completed or superseded plans. **Move** files here, never delete.
-- `.docs/` — technical and product documentation. Subfolders: `architecture/`, `runbooks/`, `decisions/` (ADRs), `product/`.
+- `.docs/` — durable technical and product documentation. Subfolders: `architecture/`, `runbooks/`, `decisions/` (ADRs), `product/`.
 - `CHANGELOG.md` — auto-generated by `npm run push`. **Do NOT edit manually.**
 - `CONCEPTS.md` — concept explainers (the WHY behind every tool/pattern). Read first if a term is unfamiliar.
 

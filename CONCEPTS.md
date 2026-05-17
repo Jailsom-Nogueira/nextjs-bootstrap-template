@@ -44,6 +44,7 @@ contents.
 24. [Prompt context & repo snapshotting](#24-prompt-context--repo-snapshotting)
 25. [Testing strategy (vitest + Playwright + fast lane)](#25-testing-strategy-vitest--playwright--fast-lane)
 26. [Spec & Plan templates](#26-spec--plan-templates)
+27. [Artifact layers and task inference](#27-artifact-layers-and-task-inference)
 
 ---
 
@@ -1212,6 +1213,57 @@ produce comparable artifacts. Acceptance criteria mean "done" is testable.
 - Refine the template based on what you actually fill in. Sections that
   are consistently empty should be removed; sections you keep adding by
   hand should be added.
+
+---
+
+## 27. Artifact layers and task inference
+
+**What it is.** Artifact layers define where each durable thing belongs: agent
+rules, lookup references, workflows, concepts, specs, plans, architecture docs,
+runbooks, product docs, README, and generated changelog. Task inference is the
+agent discipline of classifying work from files, symptoms, active plans, and
+requested outputs instead of trusting the prompt to name the task type.
+
+**Why this project uses it.** Real prompts are often vague: "continue", "update
+this", "make it right", "put it in the right place", "this page is bad". If the
+agent waits for perfect wording, it loads the wrong rules or asks unnecessary
+questions. If it loads everything, context gets noisy. The template therefore
+teaches agents to infer the smallest safe rule set from evidence.
+
+**Where it lives.**
+
+- `.agents/references/artifact-layers.md` — the taxonomy and inference protocol.
+- `AGENTS.md` — the terse task-classification protocol and task-type index.
+- `.docs/templates/spec.md` — loaded only when creating/editing specs.
+- `.plans/templates/plan.md` — loaded only when creating/editing plans.
+
+**How to use it.**
+
+- Start by inspecting the referenced path, current diff, active plan, latest
+  commits, or reported symptom.
+- Infer all affected surfaces: code, UI, auth, Supabase, docs, specs, plans,
+  artifacts, QA, release.
+- Load the union of relevant rule files, but do not load unrelated templates
+  "just in case".
+- If the ambiguity changes artifact type or side effects, ask one focused
+  question. Otherwise choose the safest default and proceed.
+
+**Common mistakes.**
+
+- Treating `AGENTS.md` as a dumping ground for every new concept.
+- Reading both spec and plan templates for every docs task.
+- Treating "continue" as unclassifiable instead of checking `.plans/` and recent
+  commits.
+- Delivering local HTML artifacts as only a clickable terminal path; terminals can
+  intercept local links. Open and verify in a browser, or serve over localhost and
+  open the browser yourself.
+
+**How to extend it.**
+
+- New durable artifact type → add it to `.agents/references/artifact-layers.md`.
+- New mandatory behavior → add a terse `NEVER/ALWAYS` row in `AGENTS.md` and a
+  deeper rule/workflow only if needed.
+- New teaching explanation → add it here, not to AGENTS.md.
 
 ---
 

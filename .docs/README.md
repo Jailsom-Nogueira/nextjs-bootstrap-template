@@ -4,6 +4,8 @@ Technical and product documentation. **One markdown file per topic.**
 
 ## Suggested layout
 
+Start with `.agents/references/artifact-layers.md` when deciding whether something belongs here, in `.plans/`, in `CONCEPTS.md`, or in AGENTS/rules.
+
 - `architecture.md` — high-level system design + Mermaid diagrams (file-shape doc).
 - `nextjs-conventions.md` — do/don't sheet for Next.js 16 patterns in this repo.
 - `architecture/` — deeper system design notes, sequence diagrams.

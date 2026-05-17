@@ -2,6 +2,8 @@
 
 > Implementation plan for spec: [`.docs/specs/<spec-file>.md`](../.docs/specs/<spec-file>.md)
 
+Before using this template, read `.agents/references/artifact-layers.md` to confirm this belongs as an implementation plan and not as a spec, runbook, ADR, or concept doc.
+
 - **Status:** Draft <!-- Draft | Approved | In progress | Done | Superseded -->
 - **Author:** <name>
 - **Date:** YYYY-MM-DD

@@ -5,7 +5,7 @@
 
 > 🤖 **AI agents: start here**
 >
-> - Read [AGENTS.md](./AGENTS.md) — the canonical rules hub.
+> - Read [AGENTS.md](./AGENTS.md) — the canonical rules hub. Infer task type from files/symptoms/output, not just prompt wording.
 > - Read [CONCEPTS.md](./CONCEPTS.md) if any term in AGENTS.md feels unfamiliar.
 > - Four commands you need: `npm install`, `npm run dev`, `npm run qa`, `npm run test:agent`.
 > - Five invariants: no `any`, no `console.log`, no `SUPABASE_SERVICE_ROLE_KEY` in client code, no
@@ -133,7 +133,7 @@ in this list, it does not belong at the root.
 
 | File             | One-liner                                                                |
 | ---------------- | ------------------------------------------------------------------------ |
-| `AGENTS.md`      | **Source of truth.** What every coding agent reads first.                |
+| `AGENTS.md`      | **Source of truth.** Rules hub + ambiguous task-type inference.          |
 | `CLAUDE.md`      | Claude Code stub — `@`-imports `AGENTS.md` + `qa-loop.md`                |
 | `GEMINI.md`      | Compressed rules table for Gemini                                        |
 | `CONVENTIONS.md` | 3-line stub for Aider — points to `AGENTS.md`                            |
@@ -156,23 +156,23 @@ in this list, it does not belong at the root.
 
 ### Root directories — by purpose
 
-| Directory      | One-liner                                                                        |
-| -------------- | -------------------------------------------------------------------------------- |
-| `.agents/`     | Modular rules/references/workflows that `AGENTS.md` cross-links                  |
-| `.claude/`     | Claude Code project slash commands (`/spec`, `/plan`, `/qa`, …)                  |
-| `.clinerules/` | Cline base rules (kept minimal; main rules in `AGENTS.md`)                       |
-| `.codex/`      | Codex Cloud sandbox bootstrap script                                             |
-| `.cursor/`     | Cursor IDE `.mdc` rules + Cursor-specific MCP config                             |
-| `.docs/`       | Technical/product docs, architecture diagrams, specs, templates                  |
-| `.github/`     | CI workflows, issue templates, PR template, dependabot, CODEOWNERS               |
-| `.husky/`      | Git hooks (`pre-commit`, `commit-msg`, `pre-push`)                               |
-| `.plans/`      | Active implementation plans; archive completed plans under `.plans/archived/`    |
-| `e2e/`         | Playwright end-to-end tests (`npm run test:e2e`)                                 |
-| `emails/`      | react-email templates rendered by `npm run email:dev`                            |
-| `messages/`    | next-intl translation bundles (`en.json` / `pt.json` / `es.json`)                |
-| `scripts/`     | Project-level scripts (QA loop, changelog, type gen, prompt-context, fast tests) |
-| `src/`         | Application source (App Router, components, lib, hooks, Supabase clients, i18n)  |
-| `supabase/`    | Supabase CLI config + SQL migrations + `seed.sql`                                |
+| Directory      | One-liner                                                                                          |
+| -------------- | -------------------------------------------------------------------------------------------------- |
+| `.agents/`     | Modular rules/references/workflows that `AGENTS.md` cross-links, including artifact-layer taxonomy |
+| `.claude/`     | Claude Code project slash commands (`/spec`, `/plan`, `/qa`, …)                                    |
+| `.clinerules/` | Cline base rules (kept minimal; main rules in `AGENTS.md`)                                         |
+| `.codex/`      | Codex Cloud sandbox bootstrap script                                                               |
+| `.cursor/`     | Cursor IDE `.mdc` rules + Cursor-specific MCP config                                               |
+| `.docs/`       | Technical/product docs, architecture diagrams, specs, templates                                    |
+| `.github/`     | CI workflows, issue templates, PR template, dependabot, CODEOWNERS                                 |
+| `.husky/`      | Git hooks (`pre-commit`, `commit-msg`, `pre-push`)                                                 |
+| `.plans/`      | Active implementation plans; archive completed plans under `.plans/archived/`                      |
+| `e2e/`         | Playwright end-to-end tests (`npm run test:e2e`)                                                   |
+| `emails/`      | react-email templates rendered by `npm run email:dev`                                              |
+| `messages/`    | next-intl translation bundles (`en.json` / `pt.json` / `es.json`)                                  |
+| `scripts/`     | Project-level scripts (QA loop, changelog, type gen, prompt-context, fast tests)                   |
+| `src/`         | Application source (App Router, components, lib, hooks, Supabase clients, i18n)                    |
+| `supabase/`    | Supabase CLI config + SQL migrations + `seed.sql`                                                  |
 
 ### Full ASCII tree
 
@@ -197,6 +197,7 @@ in this list, it does not belong at the root.
 │   │   └── supabase.md                              — 4-client split, RLS, types
 │   ├── references/
 │   │   ├── analytics.md                             — event catalog
+│   │   ├── artifact-layers.md                       — artifact taxonomy + task inference
 │   │   ├── key-files.md                             — map of important paths
 │   │   └── shared-components.md                     — shadcn component inventory
 │   └── workflows/

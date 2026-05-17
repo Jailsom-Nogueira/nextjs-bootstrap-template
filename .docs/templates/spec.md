@@ -2,6 +2,8 @@
 
 > One-line summary: what this changes and for whom.
 
+Before using this template, read `.agents/references/artifact-layers.md` to confirm this belongs as a spec and not as a plan, runbook, ADR, or concept doc.
+
 - **Status:** Draft <!-- Draft | In review | Approved | Implemented -->
 - **Author:** <name>
 - **Date:** YYYY-MM-DD
