@@ -8,6 +8,18 @@ Target: **WCAG 2.2 Level AA**. We ship to humans, including humans with disabili
 - Reach for ARIA only when no semantic element exists for the role. ARIA is a patch, not a feature.
 - One `<h1>` per page.
 
+## Landmarks: exactly one `<main>` per document
+
+The `<main>` landmark is owned by `src/app/[locale]/layout.tsx`. Every page, sub-layout, and `loading.tsx` renders **inside** that landmark, so they MUST use `<div>` / `<section>` / `<article>` — never another `<main>`. Nesting a second `<main>` violates WCAG 1.3.1 and confuses screen-reader landmark navigation.
+
+If a sub-layout has a sidebar + content split (e.g. `(admin)/admin/layout.tsx`), the content area is a `<div className="flex-1">`, not a `<main>`. Add an inline comment explaining the decision so future contributors don't "fix" it back to `<main>`.
+
+Other landmark rules:
+
+- `<header>` / `<footer>` belong to the site shell only (`SiteHeader`, `SiteFooter`). Page-internal section headings use `<header>` with no landmark role.
+- `<nav>` must carry an `aria-label` whenever there is more than one navigation region on the page (header nav + admin sidebar nav, for example).
+- `<aside>` is fine for genuinely complementary content (admin sidebar, related links). Don't use it as a fancy `<div>`.
+
 ## Keyboard navigation
 
 - Every interactive element must be reachable via Tab and operable with Enter / Space (buttons) or arrow keys (menus, listboxes).

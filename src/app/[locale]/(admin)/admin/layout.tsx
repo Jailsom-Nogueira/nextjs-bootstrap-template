@@ -34,7 +34,12 @@ export default async function AdminLayout({ children }: { children: React.ReactN
           </Link>
         </nav>
       </aside>
-      <main className="flex-1 p-6">{children}</main>
+      {/*
+       * NOTE: this is intentionally a <div>, not a <main>. The LocaleLayout
+       * already owns the one <main> landmark for the document; nesting a
+       * second <main> here would violate WCAG (exactly one main per doc).
+       */}
+      <div className="flex-1 p-6">{children}</div>
     </div>
   );
 }
