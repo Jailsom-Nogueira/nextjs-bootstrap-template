@@ -60,6 +60,7 @@ function run() {
   }
 
   const packageJsonPath = path.join(process.cwd(), "package.json");
+  const packageLockPath = path.join(process.cwd(), "package-lock.json");
   let version = "0.0.1";
 
   if (fs.existsSync(packageJsonPath)) {
@@ -72,6 +73,21 @@ function run() {
     pkg.version = version;
     fs.writeFileSync(packageJsonPath, JSON.stringify(pkg, null, 2) + "\n");
     console.warn(`Version bumped: ${currentVersion} -> ${version}`);
+  }
+
+  if (fs.existsSync(packageLockPath)) {
+    const raw = fs.readFileSync(packageLockPath, "utf-8");
+    const lockfile = JSON.parse(raw) as Record<string, unknown>;
+    lockfile.version = version;
+
+    const packages = lockfile.packages as Record<string, unknown> | undefined;
+    const rootPackage = packages?.[""] as Record<string, unknown> | undefined;
+    if (rootPackage) {
+      rootPackage.version = version;
+    }
+
+    fs.writeFileSync(packageLockPath, JSON.stringify(lockfile, null, 2) + "\n");
+    console.warn(`package-lock.json version synced to ${version}`);
   }
 
   const now = new Date();
