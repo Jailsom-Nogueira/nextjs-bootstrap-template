@@ -68,52 +68,37 @@ Paths are relative to repo root. Load files in the listed order.
 
 Do not read spec or plan templates for unrelated code-only tasks.
 
-## Rule catalog
+## Rule, reference, workflow, and adapter indexes
 
-| File                                 | Load when                                                                  |
-| ------------------------------------ | -------------------------------------------------------------------------- |
-| `.agents/rules/qa-loop.md`           | Any repo-changing task.                                                    |
-| `.agents/rules/styling.md`           | Touching TSX classes, Tailwind tokens, shadcn components, or dark mode.    |
-| `.agents/rules/responsiveness.md`    | Any UI layout or viewport-sensitive change.                                |
-| `.agents/rules/accessibility.md`     | Any UI or interactive behavior change.                                     |
-| `.agents/rules/performance.md`       | Browser/runtime performance, Server Components, Web Vitals, bundle impact. |
-| `.agents/rules/lazy-loading.md`      | Heavy components, below-the-fold sections, third-party widgets.            |
-| `.agents/rules/clean-code.md`        | Any code change or refactor.                                               |
-| `.agents/rules/file-organization.md` | New files, moved files, module boundaries, imports.                        |
-| `.agents/rules/forms.md`             | Forms, validation, inputs, submissions.                                    |
-| `.agents/rules/i18n.md`              | User-facing strings or locale routing.                                     |
-| `.agents/rules/security.md`          | Auth, API, env, CSP, secrets, RLS, third-party integrations.               |
-| `.agents/rules/error-handling.md`    | Async failures, `catch`, logging, error boundaries.                        |
-| `.agents/rules/supabase.md`          | Supabase clients, queries, migrations, generated DB types.                 |
-| `.agents/rules/analytics.md`         | PostHog events, event names, client/server tracking.                       |
-| `.agents/rules/admin.md`             | Admin routes, role gates, service-role access, `profiles.role`.            |
+When the task router above names files in `.agents/rules/`, `.agents/references/`, or `.agents/workflows/`, the directory's `README.md` is the canonical index of what lives there. Read the index file when you need to know what is available, then load only the listed file the task requires.
 
-## References and workflows
+| Index                          | Use when                                                                       |
+| ------------------------------ | ------------------------------------------------------------------------------ |
+| `.agents/README.md`            | Map of the whole `.agents/` tree (rules / references / workflows / skills).    |
+| `.agents/rules/README.md`      | Catalog of mandatory domain rules with load-when triggers per file.            |
+| `.agents/references/README.md` | Catalog of lookup material (artifact taxonomy, key files, components, events). |
+| `.agents/workflows/README.md`  | Catalog of repeatable procedures (QA loop, self-review, multi-agent handoff).  |
+| `.agents/skills/README.md`     | Inventory of universal agent skills installed via `npx skills`.                |
+| `.claude/README.md`            | Claude Code slash commands installed in this repo.                             |
+| `.clinerules/README.md`        | Cline base rules for this repo.                                                |
+| `.codex/README.md`             | Codex Cloud sandbox bootstrap and how it ties into the QA loop.                |
+| `.cursor/README.md`            | Cursor MCP config and auto-attaching rule stubs.                               |
 
-References are lookup material, not always-on rules:
-
-- `.agents/references/artifact-layers.md` - artifact taxonomy and ambiguous-task inference.
-- `.agents/references/key-files.md` - important project paths.
-- `.agents/references/shared-components.md` - shared UI component map.
-- `.agents/references/analytics.md` - event catalog.
-
-Workflows:
-
-- `.agents/workflows/qa-loop.md` - step-by-step QA procedure.
-- `.agents/workflows/self-review.md` - checklist before declaring done.
-- `.agents/workflows/multi-agent.md` - parent/subagent contract.
+If an index disagrees with this file, AGENTS.md wins and the index should be patched. If the index lists a file that does not exist, fix the index — do not invent the file.
 
 ## Tool-specific adapters
 
-Keep adapters thin and repo-local. They should load or point to AGENTS.md, not restate the whole rule set.
+Per-tool config files are thin adapters that load AGENTS.md, never canonical content. See the per-directory README for the up-to-date list. Quick map:
 
-- `CLAUDE.md`, `.claude/commands/*.md` - Claude Code memory and slash commands.
-- `GEMINI.md` - Gemini reminder stub.
-- `.cursor/rules/*.mdc`, `.cursor/mcp.json` - Cursor rules and MCP config.
-- `.clinerules/00-base.md`, `.clineignore` - Cline rules.
-- `.aider.conf.yml`, `CONVENTIONS.md` - Aider inputs and shared conventions pointer.
-- `.codex/setup.sh`, `.mcp.json` - Codex / MCP setup.
-- `.agents/skills/`, `skills-lock.json` - universal agent skills and lockfile.
+- `CLAUDE.md` + `.claude/` — Claude Code (project memory + slash commands).
+- `GEMINI.md` — Gemini reminder.
+- `.cursor/` — Cursor IDE (MCP config + auto-attach rule stubs).
+- `.clinerules/` + `.clineignore` — Cline.
+- `.aider.conf.yml` + `CONVENTIONS.md` — Aider.
+- `.codex/setup.sh` + `.mcp.json` — Codex Cloud / shared MCP root config.
+- `.agents/skills/` + `skills-lock.json` — universal agent skills.
+
+The `mcp-sync` QA gate (`npm run check:mcp-sync`) enforces that `.mcp.json` and `.cursor/mcp.json` stay byte-identical.
 
 ## Completion contract
 
