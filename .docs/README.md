@@ -8,6 +8,8 @@ Start with `.agents/references/artifact-layers.md` when deciding whether somethi
 
 - `architecture.md` — high-level system design + Mermaid diagrams (file-shape doc).
 - `nextjs-conventions.md` — do/don't sheet for Next.js 16 patterns in this repo.
+- `repo-tree.md` — full annotated tree of every tracked file and directory.
+- `assets/` — README screenshots and rendered diagrams.
 - `architecture/` — deeper system design notes, sequence diagrams.
 - `runbooks/` — operational guides: how to roll back, how to rotate keys, how to restore from backup.
 - `decisions/` — Architecture Decision Records (ADRs). One file per decision, immutable once accepted.

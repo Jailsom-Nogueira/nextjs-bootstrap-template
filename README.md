@@ -1,526 +1,311 @@
+<div align="center">
+
 # nextjs-bootstrap-template
 
-Open-source, agent-ready starter for production Next.js apps.
+**Open-source, agent-ready starter for production Next.js apps.**
 
-This template combines a modern Next.js 16 application stack with Supabase auth/database patterns, PostHog analytics, Resend email, i18n, deterministic QA loops, visual regression checks, and first-class instructions for AI coding agents.
+Next.js 16 + React 19 + TypeScript strict + Tailwind v4 + shadcn/ui + Supabase + i18n + analytics + email + deterministic QA loops + first-class instructions for AI coding agents.
 
-Author and maintainer: Jailsom Nogueira.
-License: MIT.
+[![CI](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/ci.yml/badge.svg)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/ci.yml)
+[![E2E](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/e2e.yml/badge.svg)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/actions/workflows/e2e.yml)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](./LICENSE)
+[![Node 22+](https://img.shields.io/badge/Node-22%2B-339933?logo=node.js&logoColor=white)](./.nvmrc)
+[![Use this template](https://img.shields.io/badge/Use%20this%20template-Jailsom--Nogueira%2Fnextjs--bootstrap--template-2ea44f?logo=github)](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/generate)
 
-## Who this is for
+[![Next.js 16](https://img.shields.io/badge/Next.js-16-000?logo=nextdotjs&logoColor=white)](https://nextjs.org)
+[![React 19](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=000)](https://react.dev)
+[![TypeScript](https://img.shields.io/badge/TypeScript-strict-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org)
+[![Tailwind v4](https://img.shields.io/badge/Tailwind-v4-38BDF8?logo=tailwindcss&logoColor=white)](https://tailwindcss.com)
+[![shadcn/ui](https://img.shields.io/badge/shadcn%2Fui-radix--nova-000?logo=shadcnui&logoColor=white)](https://ui.shadcn.com)
+[![Supabase](https://img.shields.io/badge/Supabase-SSR-3FCF8E?logo=supabase&logoColor=white)](https://supabase.com)
+[![PostHog](https://img.shields.io/badge/PostHog-client%2Bserver-F9BD2B?logo=posthog&logoColor=000)](https://posthog.com)
+[![Resend](https://img.shields.io/badge/Resend-transactional-000?logo=resend&logoColor=white)](https://resend.com)
+[![Zod 4](https://img.shields.io/badge/Zod-4-3068B7?logo=zod&logoColor=white)](https://zod.dev)
+[![Vitest](https://img.shields.io/badge/Vitest-4-6E9F18?logo=vitest&logoColor=white)](https://vitest.dev)
+[![Playwright](https://img.shields.io/badge/Playwright-chromium%20%2B%20webkit-2EAD33?logo=playwright&logoColor=white)](https://playwright.dev)
+[![WCAG 2.2 AA](https://img.shields.io/badge/WCAG-2.2%20AA-005A9C)](https://www.w3.org/WAI/WCAG22/quickref/)
+[![Conventional Commits](https://img.shields.io/badge/Conventional%20Commits-1.0.0-FE5196?logo=conventionalcommits&logoColor=white)](https://www.conventionalcommits.org)
 
-Use this template when you want a new web app that starts with:
+![Home page (light)](./.docs/assets/home-light-desktop.png)
 
-- Next.js App Router, React 19, TypeScript strict mode, Tailwind v4, and shadcn/ui.
-- Supabase auth/database conventions with typed clients, RLS-first thinking, and admin-role gates.
-- Optional PostHog analytics and Resend transactional email.
-- English, Portuguese, and Spanish i18n wiring via next-intl.
-- Vitest, Playwright, axe-based visual QA, lint, typecheck, build, commit hooks, and CI.
-- Agent-friendly project guidance through AGENTS.md, .agents rules, Claude Code commands, Cursor/Cline/Aider/Codex adapters, and prompt-context generation.
+<sub>Light + dark, three locales (en / pt / es), accessible by default. <a href="./.docs/assets/home-dark-desktop.png">See dark</a> · <a href="./.docs/assets/about-light-desktop.png">/about page</a></sub>
 
-The template is intentionally product-agnostic. Replace the app copy, Supabase project, analytics keys, email sender, CODEOWNERS, and repository URL when generating a real product.
+</div>
 
-## Use this template
+---
 
-From GitHub, click "Use this template" and create your own repository.
+## Why this template
 
-From a terminal with GitHub CLI:
+Spend a sprint making the boring decisions exactly once, then ship product. Every default exists to prevent a class of mistake:
+
+- **Auth & RLS** — Supabase SSR with a 4-client split. Row-Level Security is the primary authorization boundary.
+- **AI-Native** — `AGENTS.md` hub, `.agents/` rules, MCP config, Cursor / Claude / Cline / Codex / Aider adapters. New AI coding agent? It already knows how to behave here.
+- **Performance** — Server Components first, lazy loading, Core Web Vitals targets, per-route First Load JS budget enforced by CI.
+- **i18n** — English, Portuguese, Spanish wired via next-intl. Browser locale detected on first visit, user choice persisted in `NEXT_LOCALE` cookie.
+- **Accessibility** — WCAG 2.2 AA defaults: keyboard nav, focus rings, semantic HTML, axe-core sweeps in the visual QA loop.
+- **QA in loop** — `npm run qa` runs format → text hygiene → mcp-sync → lint → typecheck → test → build, cheapest first. The same script runs in CI. Local green = remote green.
+
+## Table of contents
+
+- [Quick start](#quick-start)
+- [Screenshots](#screenshots)
+- [Architecture](#architecture)
+- [Agent surface](#agent-surface)
+- [Project structure](#project-structure)
+- [Scripts](#scripts)
+- [Environment variables](#environment-variables)
+- [Internationalization](#internationalization)
+- [Admin panel](#admin-panel)
+- [CI/CD and deployment](#cicd-and-deployment)
+- [AI agents: start here](#ai-agents-start-here)
+- [Contributing and license](#contributing-and-license)
+
+## Quick start
+
+### Use this template
+
+The recommended path is to generate a fresh repo from the template. From GitHub: click **Use this template** at the top of [the repo page](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/generate). From a terminal with the GitHub CLI:
 
 ```bash
 gh repo create my-app --template Jailsom-Nogueira/nextjs-bootstrap-template --public --clone
 cd my-app
-cp .env.example .env.local
-nvm use
+cp .env.example .env.local        # fill at least the two NEXT_PUBLIC_SUPABASE_* keys
+nvm use                           # picks Node 22 from .nvmrc
 npm install
-npm run qa
-npm run dev
+npm run qa                        # green = ready to ship
+npm run dev                       # http://localhost:3000
 ```
 
-If you clone instead of generating from the template, update at least these files before shipping your product:
+### After generating
 
-- `package.json` name, description, repository, bugs, homepage, and author if ownership changes.
-- `LICENSE` and `README.md` maintainer details if ownership changes.
-- `.github/CODEOWNERS` for your owning user or team.
-- `.env.example` and `NEXT_PUBLIC_REPOSITORY_URL` for your repository.
-- User-facing text in `messages/{en,pt,es}.json`.
+Update these files for your product before shipping:
 
-## AI agents: start here
+- `package.json` — `name`, `description`, `repository`, `bugs`, `homepage`, `author`.
+- `LICENSE` and `README.md` — maintainer details if ownership changes.
+- `.github/CODEOWNERS` — your owning user or team.
+- `.env.example` and `NEXT_PUBLIC_REPOSITORY_URL` — your repository URL.
+- `messages/{en,pt,es}.json` — user-facing text.
 
-- Read [AGENTS.md](./AGENTS.md) first. It is the routing hub, not a giant rule dump.
-- Infer task type from files, symptoms, active plans, diff, and requested output.
-- Load task-specific rules from `.agents/rules/` before editing.
-- Read [CONCEPTS.md](./CONCEPTS.md) if a term or convention is unfamiliar.
-- Use `npm run prompt:context` to print a paste-ready project snapshot for chat-UI agents.
-- Definition of done for repo-changing work is `npm run qa` exit 0; UI/browser-facing work also needs `npm run qa:visual`.
+## Screenshots
 
-## Stack
+<table>
+<tr>
+<td align="center" width="50%"><strong>Home — light</strong></td>
+<td align="center" width="50%"><strong>Home — dark</strong></td>
+</tr>
+<tr>
+<td><img src="./.docs/assets/home-light-desktop.png" alt="Home page in light mode" /></td>
+<td><img src="./.docs/assets/home-dark-desktop.png" alt="Home page in dark mode" /></td>
+</tr>
+<tr>
+<td align="center" width="50%"><strong>About — light</strong></td>
+<td align="center" width="50%"><strong>About — dark</strong></td>
+</tr>
+<tr>
+<td><img src="./.docs/assets/about-light-desktop.png" alt="About page in light mode" /></td>
+<td><img src="./.docs/assets/about-dark-desktop.png" alt="About page in dark mode" /></td>
+</tr>
+</table>
 
-| Tech               | Version     | Purpose                                   |
-| ------------------ | ----------- | ----------------------------------------- |
-| Next.js            | 16.2.6      | Framework (App Router, Turbopack default) |
-| React              | 19.2.6      | UI                                        |
-| TypeScript         | 5.6+ strict | Type safety                               |
-| Tailwind CSS       | 4.x         | Styling (CSS-first `@theme`)              |
-| shadcn/ui          | latest      | Component primitives (radix-nova style)   |
-| Radix              | latest      | Headless UI (via shadcn)                  |
-| lucide-react       | latest      | Icons                                     |
-| framer-motion      | 12.x        | Animation                                 |
-| Supabase           | ssr 0.10.x  | Auth + DB + Storage                       |
-| @t3-oss/env-nextjs | 0.13.x      | Env validation (zod)                      |
-| PostHog            | js + node   | Analytics (reverse-proxied)               |
-| Resend             | 6.x         | Transactional email                       |
-| react-email        | 6.x         | Email templates                           |
-| next-themes        | 0.4.x       | Dark mode                                 |
-| react-hook-form    | 7.x         | Forms                                     |
-| zod                | 4.x         | Schema validation                         |
-| zustand            | 5.x         | Client state                              |
-| date-fns           | 4.x         | Date utilities                            |
-| pino               | 10.x        | Structured logging                        |
-| Vitest             | 4.x         | Unit tests                                |
-| Playwright         | 1.60.x      | E2E tests                                 |
-| ESLint             | 9.x         | Lint (flat config)                        |
-| Prettier           | 3.x         | Format                                    |
-| Husky              | 9.x         | Git hooks                                 |
-| commitlint         | 21.x        | Conventional commits                      |
-| next-intl          | 4.x         | i18n (en/pt/es)                           |
+Theme defaults match the user's system preference; the in-app toggle persists the override. Three locales (en / pt / es); language switcher is an inline segmented control in the header.
 
-## Quick start
+## Architecture
 
-```bash
-git clone <repo>
-cd nextjs-bootstrap-template
-cp .env.example .env.local
-# Fill in NEXT_PUBLIC_SUPABASE_URL, NEXT_PUBLIC_SUPABASE_ANON_KEY at minimum
-nvm use                  # picks Node 22 from .nvmrc
-npm install
-npm run db:types         # optional: generate Supabase types
-npm run dev              # http://localhost:3000
+### Defense in depth — four security layers
+
+```mermaid
+flowchart LR
+  subgraph Boot["1. Boot"]
+    ENV["src/env.ts<br/>t3-env + zod"]
+  end
+  subgraph Request["2. Request"]
+    PROXY["src/proxy.ts<br/>locale + session + admin gate"]
+  end
+  subgraph Database["3. Database"]
+    RLS["Row-Level Security<br/>supabase/migrations/*.sql"]
+  end
+  subgraph Handler["4. Handler"]
+    ACTION["Server Actions / Route Handlers<br/>re-validate every input with zod"]
+  end
+
+  ENV --> PROXY --> RLS --> ACTION
+
+  classDef ok fill:#e6f5ee,stroke:#3FCF8E,color:#0a3d2c;
+  class ENV,PROXY,RLS,ACTION ok;
 ```
 
-## Architecture overview
+Each layer fails closed: an attacker has to defeat all four. See [`CONCEPTS.md`](./CONCEPTS.md) for the why behind each. Deeper sequence and ER diagrams live in [`.docs/architecture.md`](./.docs/architecture.md).
 
-Four security layers, defense in depth:
+### Request flow
 
-1. **Env validation** — `src/env.ts` (t3-env + zod) fails at boot if anything required is missing.
-2. **Request proxy** — Supabase session refresh + route gating (`src/proxy.ts`).
-3. **RLS** — Row-Level Security on every Supabase table.
-4. **Server-side zod** — re-validate every input in Server Actions / Route Handlers.
+```mermaid
+sequenceDiagram
+  autonumber
+  participant U as User browser
+  participant E as Edge (Vercel)
+  participant P as proxy.ts
+  participant S as Supabase (SSR)
+  participant H as Route Handler / Page
 
-See [CONCEPTS.md](./CONCEPTS.md) for the why behind each layer.
+  U->>E: GET /admin/users
+  E->>P: next-intl + cookies
+  P->>S: getUser() — refresh session
+  S-->>P: user (or null)
+  alt admin route + role != admin
+    P-->>U: 302 to /
+  else
+    P->>H: forward with refreshed cookies
+    H->>S: from('profiles').select(...) with RLS
+    S-->>H: rows the policy allows
+    H-->>U: HTML / JSON
+  end
+```
+
+## Agent surface
+
+This repo is designed so AI coding agents pull their weight on day one. The hub is [`AGENTS.md`](./AGENTS.md). Every per-tool config is a thin adapter that points back to it.
+
+```mermaid
+flowchart TB
+  AGENTS["AGENTS.md<br/><sub>routing hub — single source of truth</sub>"]:::hub
+
+  subgraph Canonical[".agents/ — canonical content"]
+    RULES[".agents/rules/<br/><sub>15 rule sheets</sub>"]
+    REFS[".agents/references/<br/><sub>file maps, taxonomies</sub>"]
+    WF[".agents/workflows/<br/><sub>QA loop, self-review, handoff</sub>"]
+    SKILLS[".agents/skills/<br/><sub>installed agent skills</sub>"]
+  end
+
+  subgraph Adapters["Per-tool adapters — thin pointers"]
+    CLAUDE["CLAUDE.md<br/>Claude Code"]
+    CURSOR[".cursor/rules/*.mdc<br/>Cursor"]
+    CLINE[".clinerules/00-base.md<br/>Cline"]
+    AIDER[".aider.conf.yml<br/>Aider"]
+    CODEX[".codex/setup.sh<br/>Codex"]
+    GEMINI["GEMINI.md<br/>Gemini"]
+  end
+
+  subgraph MCP["Model Context Protocol"]
+    MCPROOT[".mcp.json<br/><sub>Claude Code, Codex CLI</sub>"]
+    MCPCURSOR[".cursor/mcp.json<br/><sub>Cursor — sync-gated copy</sub>"]
+  end
+
+  AGENTS --> RULES
+  AGENTS --> REFS
+  AGENTS --> WF
+  AGENTS --> SKILLS
+  CLAUDE -.-> AGENTS
+  CURSOR -.-> AGENTS
+  CLINE -.-> AGENTS
+  AIDER -.-> AGENTS
+  CODEX -.-> AGENTS
+  GEMINI -.-> AGENTS
+  MCPROOT === MCPCURSOR
+
+  classDef hub fill:#fde7c3,stroke:#d97706,color:#3a1f02,font-weight:bold;
+  classDef canon fill:#e6f5ee,stroke:#3FCF8E,color:#0a3d2c;
+  classDef adapter fill:#f3f4f6,stroke:#6b7280,color:#1f2937;
+  classDef mcp fill:#e9e5ff,stroke:#6366f1,color:#1e1b4b;
+
+  class RULES,REFS,WF,SKILLS canon;
+  class CLAUDE,CURSOR,CLINE,AIDER,CODEX,GEMINI adapter;
+  class MCPROOT,MCPCURSOR mcp;
+```
+
+**Rule:** canonical content lives in `.agents/`. Per-tool files are thin adapters that auto-attach by glob (where supported) and point back to AGENTS.md — they do not duplicate rule content. Obligatory duplication (`.mcp.json` ↔ `.cursor/mcp.json`, because Cursor only reads its own path) is guarded by the `mcp-sync` QA gate. Full conventions: [`.agents/references/repo-structure.md`](./.agents/references/repo-structure.md).
 
 ## Project structure
 
-The repo is intentionally flat. Every root-level file/folder has a single purpose. If a file is not
-in this list, it does not belong at the root.
+The repo is intentionally flat at the top level. Every agent-facing directory has a `README.md` index that lists its contents and points back to AGENTS.md.
 
-### Root files — by purpose
+| Directory      | What lives here                                                                                                         |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `.agents/`     | Canonical rules, references, workflows, skills. Cross-linked from AGENTS.md.                                            |
+| `.claude/`     | Claude Code slash commands (`/spec`, `/plan`, `/qa`, `/migration`, `/component`, `/prompt-context`).                    |
+| `.clinerules/` | Cline base rules (thin pointer to AGENTS.md).                                                                           |
+| `.codex/`      | Codex Cloud sandbox bootstrap.                                                                                          |
+| `.cursor/`     | Cursor MCP config + auto-attaching rule stubs.                                                                          |
+| `.docs/`       | Durable docs: architecture, conventions, ADRs, runbooks, specs, templates, README assets, full repo tree.               |
+| `.github/`     | CI workflows (`ci.yml`, `e2e.yml`), issue / PR templates, CODEOWNERS, Dependabot.                                       |
+| `.husky/`      | Git hooks: `commit-msg` (commitlint), `pre-commit` (lint-staged), `pre-push` (typecheck + CHANGELOG gate).              |
+| `.plans/`      | Active implementation plans. Completed plans move to `.plans/archived/`.                                                |
+| `e2e/`         | Playwright tests (`smoke`, `admin-gate`) + fixtures + global setup.                                                     |
+| `emails/`      | react-email preview entry points; canonical templates live under `src/lib/email/templates/`.                            |
+| `messages/`    | next-intl translation bundles (`en.json` / `pt.json` / `es.json`). Add new keys to all three in one commit.             |
+| `scripts/`     | QA loop, hygiene checks, mcp-sync, bundle budget, type generation, changelog generation, visual QA.                     |
+| `src/`         | Application source: App Router, components, lib, hooks, supabase clients, i18n. See [`src/README.md`](./src/README.md). |
+| `supabase/`    | Supabase CLI config + SQL migrations + `seed.sql`.                                                                      |
 
-**Build / framework configuration**
+<details>
+<summary><strong>Full annotated tree</strong> (250+ lines)</summary>
 
-| File                 | One-liner                                                             |
-| -------------------- | --------------------------------------------------------------------- |
-| `next.config.ts`     | Next 16 config: CSP, image domains, PostHog rewrites, bundle analyzer |
-| `next-env.d.ts`      | Generated Next.js TS shim (do not edit)                               |
-| `tsconfig.json`      | TS strict mode + `@/*` path alias + noUncheckedIndexedAccess          |
-| `postcss.config.mjs` | Tailwind v4 PostCSS plugin                                            |
-| `vercel.json`        | Vercel deploy hints (framework + function duration)                   |
-| `components.json`    | shadcn/ui registry pointer (radix-nova style)                         |
+See [`.docs/repo-tree.md`](./.docs/repo-tree.md) for every tracked file with a one-line purpose.
 
-**Lint / format / hooks**
-
-| File                    | One-liner                                                |
-| ----------------------- | -------------------------------------------------------- |
-| `eslint.config.mjs`     | ESLint 9 flat config — strict rules, no `eslint-disable` |
-| `prettier.config.mjs`   | Prettier 3 + `prettier-plugin-tailwindcss` (class sort)  |
-| `.prettierignore`       | Skips `.next`, lockfile, generated `CHANGELOG.md`        |
-| `.editorconfig`         | LF endings, 2-space indent, final newline                |
-| `commitlint.config.mjs` | Conventional Commits enforcement (commit-msg hook)       |
-
-**Testing**
-
-| File                   | One-liner                                                       |
-| ---------------------- | --------------------------------------------------------------- |
-| `vitest.config.ts`     | Vitest 4 — jsdom for `.tsx`, node for `.ts`, alias `@/*`        |
-| `vitest.setup.ts`      | Testing Library matchers + cleanup                              |
-| `playwright.config.ts` | Playwright — chromium + webkit, local dev server + global setup |
-
-**Package management**
-
-| File                | One-liner                                                               |
-| ------------------- | ----------------------------------------------------------------------- |
-| `package.json`      | Scripts + deps + npm-private flag to prevent accidental package publish |
-| `package-lock.json` | npm lockfile (committed; never delete)                                  |
-| `.npmrc`            | `save-exact=true` (exact dependency pins)                               |
-| `.nvmrc`            | Node 22 (matches `engines.node`)                                        |
-
-**Git / GitHub**
-
-| File              | One-liner                                             |
-| ----------------- | ----------------------------------------------------- |
-| `.gitattributes`  | LF normalization for text, binary mark for images     |
-| `.gitignore`      | Standard Next/Node ignores + `.agent-cache/`, `.env*` |
-| `LICENSE`         | MIT (c) Jailsom Nogueira                              |
-| `AUTHORS.md`      | Original author and maintainer                        |
-| `CONTRIBUTING.md` | Contribution workflow and quality bar                 |
-| `SECURITY.md`     | Vulnerability reporting policy                        |
-| `CHANGELOG.md`    | Auto-generated by `npm run push`. **Do NOT edit.**    |
-
-**AI agent hub + per-agent stubs**
-
-| File               | One-liner                                                                |
-| ------------------ | ------------------------------------------------------------------------ |
-| `AGENTS.md`        | **Source of truth.** Rules hub + ambiguous task-type inference.          |
-| `CLAUDE.md`        | Claude Code stub — `@`-imports `AGENTS.md`                               |
-| `GEMINI.md`        | Gemini stub — points back to `AGENTS.md`                                 |
-| `CONVENTIONS.md`   | Thin conventions pointer for tools that read a shared conventions file   |
-| `README.md`        | This file — humans first, agents second                                  |
-| `skills-lock.json` | Lockfile for universal agent skills installed under `.agents/skills/`    |
-| `CONCEPTS.md`      | Concept explainers — start here if any term in `AGENTS.md` is unfamiliar |
-
-**Per-agent / MCP config**
-
-| File              | One-liner                                                      |
-| ----------------- | -------------------------------------------------------------- |
-| `.aider.conf.yml` | Tells Aider to auto-load `AGENTS.md`                           |
-| `.clineignore`    | Files/folders Cline must not read (build output, lockfiles)    |
-| `.mcp.json`       | Root MCP config (Claude Code, Codex CLI): Supabase RO + others |
-
-**Environment**
-
-| File           | One-liner                                                                       |
-| -------------- | ------------------------------------------------------------------------------- |
-| `.env.example` | Placeholder env vars. **Never commit real secrets here — use `your-key-here`.** |
-
-### Root directories — by purpose
-
-| Directory      | One-liner                                                                                          |
-| -------------- | -------------------------------------------------------------------------------------------------- |
-| `.agents/`     | Modular rules/references/workflows that `AGENTS.md` cross-links, including artifact-layer taxonomy |
-| `.claude/`     | Claude Code project slash commands (`/spec`, `/plan`, `/qa`, …)                                    |
-| `.clinerules/` | Cline base rules (kept minimal; main rules in `AGENTS.md`)                                         |
-| `.codex/`      | Codex Cloud sandbox bootstrap script                                                               |
-| `.cursor/`     | Cursor IDE `.mdc` rules + Cursor-specific MCP config                                               |
-| `.docs/`       | Technical/product docs, architecture diagrams, specs, templates                                    |
-| `.github/`     | CI workflows, issue templates, PR template, dependabot, CODEOWNERS                                 |
-| `.husky/`      | Git hooks (`pre-commit`, `commit-msg`, `pre-push`)                                                 |
-| `.plans/`      | Active implementation plans; archive completed plans under `.plans/archived/`                      |
-| `e2e/`         | Playwright end-to-end tests (`npm run test:e2e`)                                                   |
-| `emails/`      | react-email templates rendered by `npm run email:dev`                                              |
-| `messages/`    | next-intl translation bundles (`en.json` / `pt.json` / `es.json`)                                  |
-| `scripts/`     | Project-level scripts (QA loop, changelog, type gen, prompt-context, fast tests)                   |
-| `src/`         | Application source (App Router, components, lib, hooks, Supabase clients, i18n)                    |
-| `supabase/`    | Supabase CLI config + SQL migrations + `seed.sql`                                                  |
-
-### Full ASCII tree
-
-```
-.
-├── .agents/                                         — modular agent rules (cross-linked from AGENTS.md)
-│   ├── rules/
-│   │   ├── accessibility.md                         — WCAG 2.2 AA, focus, contrast, motion
-│   │   ├── admin.md                                 — admin routes, role gates, service-role rules
-│   │   ├── analytics.md                             — PostHog wrappers, event names, PII scrub
-│   │   ├── clean-code.md                            — function size, naming, immutability
-│   │   ├── error-handling.md                        — logger, error boundaries, catch blocks
-│   │   ├── file-organization.md                     — naming, layout, path alias, types.ts
-│   │   ├── forms.md                                 — react-hook-form + zod pattern
-│   │   ├── i18n.md                                  — next-intl messages + locale routing
-│   │   ├── lazy-loading.md                          — next/dynamic, Suspense, loading.tsx
-│   │   ├── performance.md                           — Core Web Vitals, INP, bundle budget
-│   │   ├── qa-loop.md                               — fix-until-green QA loop (iron rule)
-│   │   ├── responsiveness.md                        — mobile-first, breakpoints, container queries
-│   │   ├── security.md                              — 4-layer defense, env, RLS, CSP
-│   │   ├── styling.md                               — Tailwind v4 tokens, cn(), dark mode
-│   │   └── supabase.md                              — 4-client split, RLS, types
-│   ├── references/
-│   │   ├── analytics.md                             — event catalog
-│   │   ├── artifact-layers.md                       — artifact taxonomy + task inference
-│   │   ├── key-files.md                             — map of important paths
-│   │   └── shared-components.md                     — shadcn component inventory
-│   ├── skills/
-│   │   └── agent-browser/SKILL.md                 — universal agent-browser skill installed via npx skills
-│   └── workflows/
-│       ├── multi-agent.md                           — handoff contracts between agents
-│       ├── qa-loop.md                               — the fix-until-green procedure
-│       └── self-review.md                           — judgment checklist before "done"
-├── .claude/
-│   └── commands/                                    — Claude Code project slash commands
-│       ├── component.md                             — `/component` — scaffold a shadcn component
-│       ├── migration.md                             — `/migration` — Supabase SQL migration
-│       ├── plan.md                                  — `/plan <spec-path>` — write an impl plan
-│       ├── prompt-context.md                        — `/prompt-context` — paste-ready snapshot
-│       ├── qa.md                                    — `/qa` — run the QA-in-loop
-│       └── spec.md                                  — `/spec` — write a feature spec
-├── .clinerules/
-│   └── 00-base.md                                   — Cline base rules (thin import of AGENTS.md)
-├── .codex/
-│   └── setup.sh                                     — Codex Cloud sandbox bootstrap
-├── .cursor/
-│   ├── mcp.json                                     — Cursor-specific MCP config (dup of .mcp.json)
-│   └── rules/                                       — Cursor `.mdc` rules (Always/Auto/Manual)
-│       ├── 00-base.mdc                              — always-applied baseline (no `any`, etc.)
-│       ├── 10-nextjs.mdc                            — Next 16 App Router conventions
-│       ├── 20-supabase.mdc                          — Supabase 4-client split + RLS
-│       ├── 30-tests.mdc                             — Vitest + Playwright patterns
-│       └── 40-a11y-i18n.mdc                         — a11y + i18n auto-attach on UI files
-├── .docs/
-│   ├── architecture.md                              — Mermaid flowchart + erDiagram + trust boundaries
-│   ├── nextjs-conventions.md                        — Next 16 do/don't table
-│   ├── README.md                                    — explains the .docs/ structure
-│   ├── templates/
-│   │   └── spec.md                                  — 90-line feature spec stencil
-│   ├── architecture/                                — (empty — drop ADRs / diagrams here)
-│   ├── decisions/                                   — (empty — ADRs)
-│   ├── product/                                     — (empty — PRDs)
-│   ├── runbooks/                                    — (empty — on-call runbooks)
-│   └── specs/                                       — (empty — written specs land here)
-├── .github/
-│   ├── CODEOWNERS                                   — owner mapping for PR reviews
-│   ├── dependabot.yml                               — weekly npm + GitHub Actions bumps
-│   ├── ISSUE_TEMPLATE/
-│   │   ├── bug_report.md                            — bug issue template
-│   │   └── feature_request.md                       — feature issue template
-│   ├── PULL_REQUEST_TEMPLATE.md                     — PR checklist
-│   └── workflows/
-│       ├── ci.yml                                   — runs `npm run qa` on PR + main
-│       ├── e2e.yml                                  — Playwright on PR (with report artifact)
-│       └── slack-release-notify.yml                 — Slack notify on push to main
-├── .husky/
-│   ├── commit-msg                                   — runs commitlint (Conventional Commits)
-│   ├── pre-commit                                   — runs lint-staged (eslint + prettier)
-│   └── pre-push                                     — typecheck + CHANGELOG_GENERATED guard
-├── .plans/
-│   ├── archived/                                    — completed plans (MOVE here, never delete)
-│   ├── README.md                                    — explains the plan workflow
-│   └── templates/
-│       └── plan.md                                  — 92-line implementation plan stencil
-├── e2e/
-│   ├── fixtures/                                    — Playwright test fixtures
-│   ├── global-setup.ts                              — global Playwright setup
-│   └── tests/
-│       ├── admin-gate.spec.ts                       — verifies admin gate redirects
-│       └── smoke.spec.ts                            — homepage smoke test
-├── emails/
-│   └── welcome.tsx                                  — react-email template (preview via `npm run email:dev`)
-├── messages/
-│   ├── en.json                                      — English (en-us) translations (default)
-│   ├── es.json                                      — Spanish (es-es) translations
-│   └── pt.json                                      — Portuguese (pt-br) translations
-├── scripts/
-│   ├── check-bundle-budget.mjs                      — per-route First Load JS budget check
-│   ├── check-env.ts                                 — manual env validation helper
-│   ├── generate-changelog.ts                        — generated CHANGELOG flow (`npm run push`)
-│   ├── generate-types.sh                            — Supabase type generation
-│   ├── prompt-context.ts                            — paste-ready project snapshot for chat UIs
-│   ├── qa-loop.sh                                   — the fix-until-green QA loop
-│   ├── qa-visual-runner.sh                          — boots dev server and runs visual QA
-│   ├── test-agent.sh                                — fast test lane (changed files only)
-│   └── visual-qa.ts                                 — Playwright + axe + screenshot sweep
-├── src/
-│   ├── app/                                         — App Router root
-│   │   ├── [locale]/                                — locale-routed UI (en/pt/es)
-│   │   │   ├── (admin)/admin/
-│   │   │   │   ├── layout.tsx                       — role-gated server component (isAdmin())
-│   │   │   │   ├── loading.tsx                      — route-level skeleton
-│   │   │   │   ├── page.tsx                         — admin home
-│   │   │   │   └── users/page.tsx                   — admin users list
-│   │   │   ├── (auth)/
-│   │   │   │   ├── callback/route.ts                — Supabase OAuth callback handler
-│   │   │   │   ├── login/page.tsx                   — login form
-│   │   │   │   └── signup/page.tsx                  — signup form
-│   │   │   ├── (dashboard)/dashboard/page.tsx       — gated user dashboard
-│   │   │   ├── layout.tsx                           — NextIntl + ThemeProvider + PostHog + Toaster
-│   │   │   ├── loading.tsx                          — streaming skeleton
-│   │   │   └── page.tsx                             — translated home (lazyClient demo)
-│   │   ├── api/
-│   │   │   └── health/route.ts                      — liveness probe
-│   │   ├── globals.css                              — Tailwind v4 `@theme` tokens (light + dark)
-│   │   ├── layout.tsx                               — minimal root `<html><body>`
-│   │   ├── manifest.ts                              — web app manifest
-│   │   ├── robots.ts                                — robots.txt
-│   │   └── sitemap.ts                               — sitemap.xml
-│   ├── components/
-│   │   ├── lazy/
-│   │   │   ├── heavy-chart-example.tsx              — demo of a lazy-loaded heavy component
-│   │   │   └── README.md                            — lazy convention doc
-│   │   ├── locale-switcher.tsx                      — DropdownMenu locale picker
-│   │   ├── theme-provider.tsx                       — next-themes wrapper
-│   │   ├── theme-toggle.tsx                         — light/dark/system toggle
-│   │   └── ui/                                      — 17 shadcn radix-nova primitives
-│   │       ├── avatar.tsx
-│   │       ├── badge.tsx
-│   │       ├── button.tsx
-│   │       ├── card.tsx
-│   │       ├── dialog.tsx
-│   │       ├── dropdown-menu.tsx
-│   │       ├── form.tsx
-│   │       ├── input.tsx
-│   │       ├── label.tsx
-│   │       ├── scroll-area.tsx
-│   │       ├── separator.tsx
-│   │       ├── sheet.tsx
-│   │       ├── skeleton.tsx
-│   │       ├── sonner.tsx
-│   │       ├── table.tsx
-│   │       ├── tabs.tsx
-│   │       └── tooltip.tsx
-│   ├── env.ts                                       — t3-env + zod boot-time env validation
-│   ├── hooks/
-│   │   └── use-supabase-user.ts                     — client hook returning the current user
-│   ├── i18n/
-│   │   ├── navigation.ts                            — Link/redirect/useRouter from createNavigation
-│   │   ├── request.ts                               — server-side messages loader
-│   │   └── routing.ts                               — defineRouting (en/pt/es, as-needed prefix)
-│   ├── lib/
-│   │   ├── analytics/
-│   │   │   ├── event-names.ts                       — centralized event name enum
-│   │   │   ├── events.ts                            — client `track()` wrapper
-│   │   │   ├── events-server.ts                     — server `trackServer()` wrapper
-│   │   │   ├── posthog-client.tsx                   — PostHogProvider, capture_performance: true
-│   │   │   ├── posthog-server.ts                    — server singleton (server-only)
-│   │   │   ├── scrub.ts                             — PII scrubber
-│   │   │   └── scrub.test.ts                        — scrub unit test
-│   │   ├── auth/
-│   │   │   ├── get-user-role.ts                     — read `profiles.role`
-│   │   │   ├── get-user.ts                          — current Supabase user
-│   │   │   ├── is-admin.ts                          — boolean wrapper around get-user-role
-│   │   │   └── is-admin.test.ts                     — is-admin unit test
-│   │   ├── email/
-│   │   │   ├── resend.ts                            — Resend client singleton (server-only)
-│   │   │   └── templates/
-│   │   │       └── welcome.tsx                      — react-email welcome template
-│   │   ├── lazy.test.tsx                            — lazy helper test
-│   │   ├── lazy.tsx                                 — `lazyClient<T>()` typed wrapper of next/dynamic
-│   │   ├── logger/
-│   │   │   └── logger.ts                            — pino structured logger
-│   │   ├── perf/
-│   │   │   └── start-transition-navigate.ts         — useTransitionRouter wraps router.push
-│   │   ├── utils.test.ts                            — `cn()` test
-│   │   └── utils.ts                                 — `cn()` helper (clsx + tailwind-merge)
-│   ├── proxy.ts                                     — next-intl + Supabase session + admin gate
-│   ├── supabase/                                    — browser/server/admin client split
-│   │   ├── client.ts                                — browser `createBrowserClient`
-│   │   ├── database.types.ts                        — generated by `npm run db:types`
-│   │   ├── server-admin.ts                          — service-role (server-only)
-│   │   └── server.ts                                — server `createClient` with cookies()
-│   └── types/
-│       └── database.ts                              — re-export from supabase/database.types
-└── supabase/
-    ├── config.toml                                  — local Supabase CLI config
-    ├── migrations/
-    │   └── 20260515003000_profiles_role.sql         — profiles + RLS + role-guard trigger
-    └── seed.sql                                     — seed data (placeholder)
-```
-
-## How concepts connect
-
-Use this map to jump from "this file confuses me" → the concept that explains it. Every concept
-lives in [CONCEPTS.md](./CONCEPTS.md).
-
-| You are looking at…                                                                             | Read CONCEPTS.md →                                     |
-| ----------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
-| `AGENTS.md`, `.agents/*`, `CLAUDE.md`, `.cursor/rules/*`, `CONVENTIONS.md`, `.mcp.json`         | Agent hub & SSOT; .agents/; MCP                        |
-| `src/supabase/*`, `supabase/migrations/*`                                                       | Supabase client split; RLS                             |
-| `src/proxy.ts`                                                                                  | Next 16 request proxy                                  |
-| `src/env.ts`, `.env.example`                                                                    | Type-safe env validation                               |
-| `src/i18n/*`, `messages/*`                                                                      | Internationalization                                   |
-| `src/app/[locale]/(admin)/*`, `supabase/migrations/*profiles_role*`, `src/lib/auth/is-admin.ts` | Role-gated admin                                       |
-| `src/lib/lazy.tsx`, `src/components/lazy/*`, `.agents/rules/lazy-loading.md`                    | Lazy loading                                           |
-| `scripts/qa-loop.sh`, `.agents/rules/qa-loop.md`, `.agents/workflows/qa-loop.md`                | QA in loop (the iron rule)                             |
-| `scripts/generate-changelog.ts`, `.husky/pre-push`, `npm run push`                              | Conventional Commits + generated changelog             |
-| `scripts/prompt-context.ts`, `npm run pack`                                                     | Prompt context & repo snapshotting                     |
-| `src/app/[locale]/*` (Server Components)                                                        | Server Components first                                |
-| Any form action / mutation                                                                      | Server Actions + revalidatePath/Tag                    |
-| `src/lib/analytics/*`, PostHog `capture_performance`                                            | Web Vitals                                             |
-| `src/components/theme-provider.tsx`, `src/app/globals.css` `@theme` block                       | Theming                                                |
-| Any `.tsx` with `className`                                                                     | Accessibility; Responsiveness                          |
-| `eslint.config.mjs`                                                                             | ESLint flat config + tight rules                       |
-| `vitest.config.ts`, `playwright.config.ts`, `scripts/test-agent.sh`                             | Testing strategy                                       |
-| `.docs/templates/spec.md`, `.plans/templates/plan.md`                                           | Spec & Plan templates; spec→plan→implement→review loop |
-| `.cursor/rules/*.mdc`                                                                           | Cursor rules                                           |
-| `.claude/commands/*.md`                                                                         | Claude Code slash commands                             |
-| `.husky/*`                                                                                      | Husky hooks                                            |
+</details>
 
 ## Scripts
 
-| Script                                     | Purpose                                                   |
-| ------------------------------------------ | --------------------------------------------------------- |
-| `dev`                                      | Next dev server (Turbopack)                               |
-| `build`                                    | Production build                                          |
-| `start`                                    | Run prod build                                            |
-| `lint` / `lint:fix`                        | ESLint flat config                                        |
-| `typecheck`                                | `tsc --noEmit`                                            |
-| `format` / `format:check`                  | Prettier                                                  |
-| `check:text-hygiene`                       | Reject decorative emoji/symbols in tracked text           |
-| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift          |
-| `check`                                    | text-hygiene + mcp-sync + lint + typecheck + format:check |
-| `ci-check`                                 | check + test + build                                      |
-| `qa` / `qa:strict` / `qa:quiet`            | Fix-until-green QA loop (full deterministic gate)         |
-| `test`                                     | Vitest run (all tests)                                    |
-| `test:agent`                               | **Agent fast lane** — vitest on changed files only        |
-| `test:watch` / `test:ui` / `test:coverage` | Vitest variants                                           |
-| `test:e2e` / `test:e2e:ui`                 | Playwright                                                |
-| `prompt:context`                           | Print a paste-ready project snapshot for chat-UI LLMs     |
-| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`  |
-| `db:types`                                 | Generate Supabase types                                   |
-| `email:dev`                                | react-email preview server                                |
-| `push`                                     | Generate CHANGELOG + push                                 |
-| `prepare`                                  | Husky install                                             |
+The full lane is `npm run qa` (fix-until-green, cheapest gate first, stops at first failure). The fast lane for inner-loop iteration is `npm run test:agent` (vitest `--changed`, no coverage).
 
-**Fast lane vs. full lane:** use `test:agent` during inner-loop iteration (vitest --changed, dot
-reporter, no coverage). Use `qa` as the definition-of-done gate — it runs every check in
-cheapest-first order and stops at the first failure.
+| Script            | What it does                                                                                |
+| ----------------- | ------------------------------------------------------------------------------------------- |
+| `dev`             | Next dev server (Turbopack).                                                                |
+| `build`           | Production build.                                                                           |
+| `qa`              | **Definition of done.** Format → text-hygiene → mcp-sync → lint → typecheck → test → build. |
+| `qa:strict`       | Above + Playwright E2E + bundle budget + visual QA sweep.                                   |
+| `qa:visual`       | Route × locale × theme × viewport sweep with axe-core (WCAG 2.2 AA).                        |
+| `test:agent`      | Fast lane: vitest on changed files only.                                                    |
+| `test:e2e`        | Playwright (chromium + webkit).                                                             |
+| `lint` / `format` | ESLint 9 flat config / Prettier 3 with class sort.                                          |
+| `typecheck`       | `tsc --noEmit` against TS strict mode.                                                      |
+| `db:types`        | Regenerate Supabase types into `src/supabase/database.types.ts`.                            |
+| `prompt:context`  | Print a paste-ready project snapshot for chat-UI agents.                                    |
+| `email:dev`       | react-email preview server (renders `emails/*.tsx`).                                        |
+| `push`            | Auto-generate CHANGELOG, bump patch version, commit, push.                                  |
+
+<details>
+<summary>Full script list</summary>
+
+| Script                                     | What it does                                               |
+| ------------------------------------------ | ---------------------------------------------------------- |
+| `start`                                    | Run prod build.                                            |
+| `lint:fix`                                 | ESLint with autofix.                                       |
+| `format:check`                             | Prettier check without writing.                            |
+| `check:text-hygiene`                       | Reject decorative emoji / symbols in tracked text.         |
+| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift.          |
+| `check`                                    | text-hygiene + mcp-sync + lint + typecheck + format:check. |
+| `ci-check`                                 | check + test + build.                                      |
+| `qa:quiet`                                 | QA loop with minimal output.                               |
+| `test`                                     | Vitest run (all tests).                                    |
+| `test:watch` / `test:ui` / `test:coverage` | Vitest variants.                                           |
+| `test:e2e:ui`                              | Playwright interactive mode.                               |
+| `analyze`                                  | Production build with `@next/bundle-analyzer`.             |
+| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`.  |
+| `commit`                                   | Manual commitlint check.                                   |
+| `prepare`                                  | Husky install hook.                                        |
+
+</details>
 
 ## Environment variables
 
-| Name                            | Required                | Description                            |
-| ------------------------------- | ----------------------- | -------------------------------------- |
-| `NEXT_PUBLIC_SITE_URL`          | yes (default localhost) | Public origin                          |
-| `NEXT_PUBLIC_SUPABASE_URL`      | yes                     | Supabase project URL                   |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | yes                     | Supabase anon key                      |
-| `SUPABASE_SERVICE_ROLE_KEY`     | optional                | Admin client (server-only)             |
-| `SUPABASE_PROJECT_REF`          | optional                | For `npm run db:types`                 |
-| `NEXT_PUBLIC_POSTHOG_KEY`       | optional                | Enables analytics                      |
-| `NEXT_PUBLIC_POSTHOG_HOST`      | optional                | Defaults to `/ingest` reverse proxy    |
-| `POSTHOG_API_KEY`               | optional                | Server-side PostHog (usually same key) |
-| `RESEND_API_KEY`                | optional                | Enables email                          |
-| `EMAIL_FROM`                    | optional                | Default from address                   |
+All env is validated at boot by [`src/env.ts`](./src/env.ts) (t3-env + zod). The build fails fast if a required var is missing — no silent `undefined` reaching prod.
 
-All are validated in `src/env.ts`. The build fails fast if a required var is missing.
-
-## Testing
-
-```bash
-npm test                # unit (vitest)
-npm run test:watch
-npm run test:coverage   # v8 coverage
-npm run test:e2e        # playwright (chromium + webkit)
-npm run test:e2e:ui     # interactive
-```
-
-## Code quality
-
-**QA-in-loop:** run `npm run qa` to execute every gate (format/text-hygiene/lint/typecheck/test/build) in
-cheapest-first order. Stops at the first failing gate. Iterate until exit 0 — that's the definition
-of done. CI runs the same script. Strict mode (`npm run qa:strict`) also runs e2e + bundle-budget diagnostics + visual QA;
-use before opening a PR. See `.agents/rules/qa-loop.md` for the protocol and
-`.agents/workflows/qa-loop.md` for the procedure.
-
-- **ESLint 9** flat config — extends `next/core-web-vitals`, `next/typescript`, plus tailwindcss +
-  eslint-comments. Bans `any`, `console.log`, deep relatives.
-- **Prettier 3** with `prettier-plugin-tailwindcss` for class sorting.
-- **Husky 9** hooks:
-  - `pre-commit` → `lint-staged` (eslint + prettier on changed files)
-  - `commit-msg` → `commitlint` (Conventional Commits)
-  - `pre-push` → `typecheck` + blocks direct push unless `CHANGELOG_GENERATED=1`
-- **lint-staged** — only formats/lints staged files for speed.
-- **Generated CHANGELOG flow** — `npm run push` runs `scripts/generate-changelog.ts`, which bumps the
-  patch version, prepends a dated block to `CHANGELOG.md`, commits, and pushes with
-  `CHANGELOG_GENERATED=1`. Do not edit `CHANGELOG.md` by hand.
+| Name                            | Required                | Description                             |
+| ------------------------------- | ----------------------- | --------------------------------------- |
+| `NEXT_PUBLIC_SITE_URL`          | yes (default localhost) | Public origin.                          |
+| `NEXT_PUBLIC_SUPABASE_URL`      | **yes**                 | Supabase project URL.                   |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | **yes**                 | Supabase anon key.                      |
+| `SUPABASE_SERVICE_ROLE_KEY`     | optional                | Admin client (server-only).             |
+| `SUPABASE_PROJECT_REF`          | optional                | For `npm run db:types`.                 |
+| `NEXT_PUBLIC_POSTHOG_KEY`       | optional                | Enables analytics.                      |
+| `NEXT_PUBLIC_POSTHOG_HOST`      | optional                | Defaults to `/ingest` reverse proxy.    |
+| `POSTHOG_API_KEY`               | optional                | Server-side PostHog (usually same key). |
+| `RESEND_API_KEY`                | optional                | Enables email.                          |
+| `EMAIL_FROM`                    | optional                | Default from address.                   |
 
 ## Internationalization
 
-Three locales out of the box via **next-intl v4**:
+Three locales out of the box via [next-intl v4](https://next-intl.dev):
 
 | Code | Language           | URL prefix     |
 | ---- | ------------------ | -------------- |
@@ -528,109 +313,56 @@ Three locales out of the box via **next-intl v4**:
 | `pt` | Portuguese (pt-br) | `/pt`          |
 | `es` | Spanish (es-es)    | `/es`          |
 
-`localePrefix: "as-needed"` keeps the default locale at root. Messages live in
-`messages/{en,pt,es}.json`. Routing helpers are exported from `@/i18n/navigation` — always import
-`Link`, `redirect`, `useRouter`, etc. from there.
+**Locale detection contract:** `localePrefix: "as-needed"` keeps the default locale at the root. On a first visit with no cookie, the proxy reads `Accept-Language` and redirects to the best match. The in-app segmented switcher writes a `NEXT_LOCALE` cookie that takes precedence forever after — browser default first time, user choice persisted thereafter.
 
-To add a locale: add the code to `src/i18n/routing.ts`, drop `messages/<code>.json`, add a label
-under `locale.<code>` in all bundles.
-
-See `.agents/rules/i18n.md` for the full rule sheet.
+To add a locale: add the code to [`src/i18n/routing.ts`](./src/i18n/routing.ts), drop a new bundle in `messages/`, add a label under `locale.<code>` to **all** existing bundles. Full rule sheet: [`.agents/rules/i18n.md`](./.agents/rules/i18n.md).
 
 ## Admin panel
 
-The admin panel lives at `src/app/[locale]/(admin)/admin/` and is gated by
-`public.profiles.role = 'admin'`.
+Bundled migration creates `public.profiles` with a `role text check ('user' | 'admin')` column, RLS policies (select-own-or-admin, update-own), a `guard_profile_role_change` trigger that blocks non-admins from changing the role column, and a `handle_new_user` trigger that auto-creates a profile row for every new `auth.users` insert.
 
-- **Migration:** `supabase/migrations/20260515003000_profiles_role.sql` creates the table, RLS
-  policies, a guard trigger that blocks non-admin role changes, and a `handle_new_user` trigger that
-  auto-creates a profile row.
-- **Gate (defense in depth):** the proxy redirects non-admins, and the layout calls `isAdmin()`
-  on the server to double-check.
-- **Make a user admin (dev):** `update public.profiles set role = 'admin' where id = '<uuid>';`
+**Gate is defense in depth:** the proxy redirects non-admins, AND the admin layout calls `isAdmin()` on the server to double-check.
 
-See `.agents/rules/admin.md` for the full rule sheet.
+Make a user admin (dev): `update public.profiles set role = 'admin' where id = '<uuid>';`. Don't need an admin panel? Remove the migration + `src/lib/auth/is-admin.ts` + `src/app/[locale]/(admin)/` + the `admin-gate` e2e spec. Full rules: [`.agents/rules/admin.md`](./.agents/rules/admin.md).
 
-## Plans and docs
-
-- `.plans/` — active plans (`YYYY-MM-DD-slug.md`).
-- `.plans/archived/` — move completed/superseded plans here (don't delete).
-- `.docs/` — technical and product docs. Suggested subfolders: `architecture/`, `runbooks/`,
-  `decisions/`, `product/`.
-
-## CI/CD
+## CI/CD and deployment
 
 `.github/workflows/`:
 
-- `ci.yml` — lint, typecheck, build, test on PR + main push
-- `e2e.yml` — Playwright on PR with report artifact
-- `slack-release-notify.yml` — posts version + recent commits to Slack on push to `main` (no-op when
-  `SLACK_WEBHOOK_URL` secret is unset)
+- `ci.yml` — runs `npm run qa` on every PR and push to `main`. Same script you run locally; no CI-only checks.
+- `e2e.yml` — Playwright (chromium + webkit) on every PR; uploads HTML report as artifact.
+- `slack-release-notify.yml` — posts version + recent commits to Slack on push to `main`. Skipped silently without `SLACK_WEBHOOK_URL`.
 
-Recommended branch protection: require `ci`, require linear history, require signed commits if you
-can.
+**Branch protection:** the `main` ruleset blocks deletion, blocks force-push, and requires the `qa` and `playwright` status checks to pass before merging a PR. See [Settings → Rules](https://github.com/Jailsom-Nogueira/nextjs-bootstrap-template/rules).
 
-## Deployment
+**Deployment:** built for Vercel. `vercel link`, then add every env from `.env.example` to Production + Preview environments. Push to `main` via `npm run push` → auto-deploy. Other platforms (Fly, Railway) work — just provide Node 22 and the env vars.
 
-Built for Vercel. After `vercel link`:
+## AI agents: start here
 
-1. Add all env vars from `.env.example` to the Vercel project (Production + Preview).
-2. Push to `main` via `npm run push` → auto-deploy + Slack notify (if `SLACK_WEBHOOK_URL` is set).
-
-Other platforms (Fly, Railway) work — just provide Node 22 and the env vars.
-
-## AI Agents
-
-This repo is agent-friendly:
-
-- `AGENTS.md` — primary instructions hub (read first)
-- `CONCEPTS.md` — concept explainers (read if any term is unfamiliar)
-- `CLAUDE.md` — Claude Code-specific stub (`@`-imports AGENTS.md)
-- `GEMINI.md` — Gemini-specific stub that points back to AGENTS.md
-- `.agents/rules/` — per-domain conventions (styling, security, supabase, etc.)
-- `.agents/references/` — file maps + component inventory
-- `.agents/workflows/` — checklists and handoff contracts
-- `.cursor/rules/*.mdc` — Cursor IDE auto-attaching rules
-- `.cursor/mcp.json` — Cursor MCP server config
-- `.claude/commands/*.md` — Claude Code slash commands (`/spec`, `/plan`, `/qa`, `/prompt-context`,
-  `/migration`, `/component`)
-- `.clinerules/00-base.md` + `.clineignore` — Cline rules + context exclusions
-- `.aider.conf.yml` + `CONVENTIONS.md` — Aider reads AGENTS.md; CONVENTIONS.md remains a thin pointer
-- `.codex/setup.sh` — Codex Cloud sandbox bootstrap
+1. Read [`AGENTS.md`](./AGENTS.md) — it's the routing hub, not a giant rule dump.
+2. Infer the task type from files, symptoms, active plans, the diff, and the requested output.
+3. Load task-specific rules from `.agents/rules/` before editing.
+4. Read [`CONCEPTS.md`](./CONCEPTS.md) if a term or convention is unfamiliar.
+5. Use `npm run prompt:context` to print a paste-ready project snapshot for chat-UI agents.
+6. **Definition of done** for repo-changing work is `npm run qa` exit 0; UI/browser-facing work also needs `npm run qa:visual`.
 
 ### MCP servers
 
-`.mcp.json` (and a duplicate `.cursor/mcp.json` for Cursor) wires three MCP servers:
+[`.mcp.json`](./.mcp.json) and a sync-gated copy at [`.cursor/mcp.json`](./.cursor/mcp.json) wire three Model Context Protocol servers:
 
-| Server       | What it does                                                       |
-| ------------ | ------------------------------------------------------------------ |
-| `supabase`   | Inspect schema, run RO queries on your linked Supabase project     |
-| `playwright` | Drive a real browser for e2e / visual checks from inside the agent |
-| `context7`   | Pull up-to-date library docs by request                            |
+| Server       | What it does                                                        |
+| ------------ | ------------------------------------------------------------------- |
+| `supabase`   | Inspect schema, run RO queries on your linked Supabase project.     |
+| `playwright` | Drive a real browser for e2e / visual checks from inside the agent. |
+| `context7`   | Pull up-to-date library docs by request.                            |
 
-The Supabase server starts in `--read-only` mode. To enable write mode locally, edit `.mcp.json` and
-remove `--read-only` — do NOT commit that change. Set `SUPABASE_ACCESS_TOKEN` in your environment
-first (`https://supabase.com/dashboard/account/tokens`).
+Supabase starts in `--read-only` mode. To enable write mode locally, edit `.mcp.json` and remove `--read-only` — do NOT commit that change. Set `SUPABASE_ACCESS_TOKEN` in your environment first ([dashboard tokens](https://supabase.com/dashboard/account/tokens)).
 
-Both `.mcp.json` (Claude Code, Codex CLI, etc.) and `.cursor/mcp.json` (Cursor) exist for cross-tool
-compatibility — they hold the same JSON. The `mcp-sync` QA gate (`npm run check:mcp-sync`) fails the
-build if they drift, so edit `.mcp.json` and run `cp .mcp.json .cursor/mcp.json` after any change.
-
-### Specs and plans
-
-- Feature spec template: `.docs/templates/spec.md` → write to `.docs/specs/<YYYY-MM-DD>-<slug>.md`.
-  Use the `/spec` slash command in Claude Code.
-- Implementation plan template: `.plans/templates/plan.md` → write to
-  `.plans/<YYYY-MM-DD>-<slug>.md`. Use the `/plan <spec-path>` slash command. Move completed plans
-  to `.plans/archived/`.
-
-## Community and maintenance
+## Contributing and license
 
 - Author and maintainer: Jailsom Nogueira.
-- Contributions: see `CONTRIBUTING.md`.
-- Security issues: see `SECURITY.md`.
+- Contributions: see [`CONTRIBUTING.md`](./CONTRIBUTING.md).
+- Security issues: see [`SECURITY.md`](./SECURITY.md).
 - Template consumers: replace CODEOWNERS, package metadata, repository URL, product copy, and environment values for your generated app.
 
-## License
-
-MIT (c) 2026 Jailsom Nogueira
+License: [MIT](./LICENSE) © 2026 Jailsom Nogueira.
