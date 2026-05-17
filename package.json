@@ -1,6 +1,6 @@
 {
   "name": "nextjs-bootstrap-template",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "private": true,
   "description": "Agent-ready Next.js 16 + Supabase starter with auth, i18n, analytics, email, QA loops, and multi-agent coding docs.",
   "author": "Jay Nogueira <jailsom.nogueira@gmail.com>",
