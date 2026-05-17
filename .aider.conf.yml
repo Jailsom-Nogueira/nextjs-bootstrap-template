@@ -4,6 +4,8 @@ read:
   - CONVENTIONS.md
 auto-lint: true
 lint-cmd: npm run lint
+# Fast inner-loop command for Aider. Final completion still requires AGENTS.md: npm run qa,
+# plus npm run qa:visual for UI/browser-facing work and npm run qa:strict before PR/release.
 test-cmd: npm run test:agent
 auto-commits: false
 attribute-author: true

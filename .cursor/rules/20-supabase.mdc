@@ -1,5 +1,5 @@
 ---
-description: Supabase 4-client split, RLS-first, service-role gating, migrations
+description: Supabase client split, RLS-first, service-role gating, migrations
 globs:
   - src/supabase/**
   - src/app/api/**
@@ -10,14 +10,14 @@ alwaysApply: false
 
 ## Supabase rules
 
-- **4-client split.** Pick the right one and never blur boundaries:
+- **Client split.** Pick the right one and never blur boundaries:
   - `src/supabase/client.ts` — browser (anon key, RLS-protected).
   - `src/supabase/server.ts` — Server Components, route handlers, server actions (anon key + user cookies).
   - `src/supabase/server-admin.ts` — service-role. MUST start with `import "server-only"`. Only for admin/cron paths after `isAdmin()` check.
-  - `src/supabase/middleware.ts` — edge session refresh only.
+  - `src/proxy.ts` — request-time locale routing, session refresh, and route gates.
 - **RLS first, zod second.** Every table has RLS enabled. Re-validate every input server-side with zod even after the client validated.
 - **No `.select('*')`.** Always list the columns you actually need — keeps payloads small and migrations safe.
-- **Admin gating.** Use `isAdmin()` from `@/lib/auth/is-admin` for role checks. Gate at BOTH middleware and the (admin) layout — defense in depth.
+- **Admin gating.** Use `isAdmin()` from `@/lib/auth/is-admin` for role checks. Gate at BOTH proxy and the (admin) layout — defense in depth.
 - **Service role.** Never imported from any client/edge file. The `server-only` import will throw at build time if it leaks.
 
 ## Migrations

@@ -4,7 +4,7 @@ Hub for AI coding agents (Claude Code, Cursor, Codex, Gemini, Hermes, etc.) work
 **Read this file first.** Then infer the task type from evidence and load EVERY rule listed for that type below.
 
 <role>
-You are a senior full-stack engineer working on a Next.js 16 + Supabase template. You write production-grade TypeScript, prefer boring correctness over cleverness, and never ship code that hasn't passed `npm run check` and `npm run build` locally.
+You are a senior full-stack engineer working on a Next.js 16 + Supabase template. You write production-grade TypeScript, prefer boring correctness over cleverness, and never ship work that has not passed the relevant QA loop: `npm run qa` for all work, `npm run qa:visual` for UI/browser-facing work, and `npm run qa:strict` before PR/release.
 </role>
 
 > **New to any concept in this file?** Read [CONCEPTS.md](./CONCEPTS.md) first — it teaches every tool, pattern, and convention applied to this template (what / why / how / common mistakes / how to extend). Keep this file terse: AGENTS.md is the rules SOURCE OF TRUTH for agents; long-form teaching belongs in CONCEPTS.md.
@@ -23,16 +23,16 @@ You are a senior full-stack engineer working on a Next.js 16 + Supabase template
 - resend + react-email
 - vitest + @testing-library + playwright
 - eslint 9 flat + prettier + husky + commitlint
-- auth gating: middleware + layout role check via `profiles.role`
+- auth gating: proxy + layout role check via `profiles.role`
 - changelog: Carevia-style `npm run push` (no changesets)
 </stack>
 
 ## The QA-in-loop iron rule
 
-No task is complete until **both** loops exit 0:
+No task is complete until the relevant QA loop exits 0:
 
-- `npm run qa` — code-side gates (format → lint → typecheck → test → build)
-- `npm run qa:visual` — browser-side gates (console errors/warnings, hydration mismatches, axe-core WCAG 2.2 AA violations, screenshots saved to `.agent-cache/visual-qa/`) — REQUIRED on any UI change
+- `npm run qa` — REQUIRED for every task; code-side gates (format → lint → typecheck → test → build)
+- `npm run qa:visual` — REQUIRED for UI/browser-facing changes; console errors/warnings, hydration mismatches, axe-core WCAG 2.2 AA violations, screenshots saved to `.agent-cache/visual-qa/`
 
 Run the loop:
 
@@ -41,7 +41,7 @@ Run the loop:
 - Apply the MINIMAL fix. Re-run. Repeat.
 - Hard cap: 10 iterations per task. If you exceed it, write a blocker plan to `.plans/YYYY-MM-DD-qa-blocker-<slug>.md`.
 - NEVER bypass a gate (no `eslint-disable`, no `any`, no `.skip()`, no `@ts-expect-error` without justification, no commented-out code, no `git commit --no-verify` for application commits).
-- NEVER say "the user must verify visually" — you have Playwright and chrome_devtools MCP. Run `npm run qa:visual` and read its report.
+- NEVER say "the user must verify visually" — you have Playwright MCP and agent-browser. Run `npm run qa:visual` and read its report.
 - See `.agents/rules/qa-loop.md` for the full protocol and `.agents/workflows/qa-loop.md` for the procedure.
 - Before opening a PR or releasing, run `npm run qa:strict` (adds e2e + bundle-budget + qa:visual).
 
@@ -56,10 +56,10 @@ Do not require the user prompt to name the task type. Classify from evidence:
 
 Examples:
 
-- "isso tá feio" / "page is garbage" → UI / styling / responsiveness / accessibility / visual QA.
-- "continua" → inspect active `.plans/*`, latest commits, and docs; infer the next slice from the plan, not from the word "continue".
-- "atualiza isso" → classify by the referenced file: spec, plan, README, CONCEPTS, AGENTS, runbook, or code.
-- "coloca no padrão" → inspect the target file and load the domain rule for that file type plus clean-code/file-organization.
+- "this looks bad" / "page is garbage" → UI / styling / responsiveness / accessibility / visual QA.
+- "continue" → inspect active `.plans/*`, latest commits, and docs; infer the next slice from the plan, not from the word "continue".
+- "update this" → classify by the referenced file: spec, plan, README, CONCEPTS, AGENTS, runbook, or code.
+- "make this match the standard" → inspect the target file and load the domain rule for that file type plus clean-code/file-organization.
 
 ## Mandatory reading — task-type index
 
@@ -114,7 +114,7 @@ If your task spans multiple types, load the union of their rules. Don't pick and
 | skip the changelog flow                                                            | use `npm run push` to generate CHANGELOG + push (pre-push hook blocks direct push)                  |
 | leave functions >50 lines or files mixing 3+ unrelated concerns                    | small composable units; single responsibility; pure functions where possible                        |
 | leave commented-out code, `console.log`s, TODO without ticket                      | clean code on every commit; reference the issue/ticket for any TODO                                 |
-| implement an admin route without role gate at BOTH middleware AND layout           | defense in depth — middleware redirects + server component double-check via `isAdmin()`             |
+| implement an admin route without role gate at BOTH proxy AND layout                | defense in depth — proxy redirects + server component double-check via `isAdmin()`                  |
 | add `'use client'` to a layout or page when a leaf could be client                 | push the client boundary DOWN; keep Server Components as the default                                |
 | import heavy libs (charts, editors, maps, PDF, 3D, rich-text) eagerly              | lazy-load via `next/dynamic` or the `lazyClient` helper from `@/lib/lazy`                           |
 | ship a route without checking its First Load JS in `next build` output             | keep per-route bundle ≤ 200KB compressed; inspect treemap via `npm run analyze` if over             |
@@ -211,7 +211,7 @@ Run the QA loop until it exits 0. That's the definition of done.
 npm run qa     # runs the full loop; iterate until exit 0
 ```
 
-For strict mode (includes e2e + bundle budget): `npm run qa:strict`. Use this before opening a PR or releasing.
+For strict mode (includes e2e + bundle-budget diagnostics + visual QA): `npm run qa:strict`. Use this before opening a PR or releasing.
 
 If the loop hits its 10-iteration cap, escalate per `.agents/rules/qa-loop.md` (write a blocker plan in `.plans/`).
 

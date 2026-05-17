@@ -14,8 +14,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Link } from "@/i18n/navigation";
 
-// TODO: set REPO_URL to the real GitHub repo URL once published.
-const REPO_URL = "https://github.com";
+import { siteConfig } from "@/config/site";
 
 type FeatureKey = "auth" | "aiNative" | "performance" | "i18n" | "a11y" | "qaLoop";
 
@@ -93,7 +92,7 @@ export default async function Home({ params }: { params: Promise<{ locale: strin
                 </Link>
               </Button>
               <Button asChild size="lg" variant="outline">
-                <a href={REPO_URL} target="_blank" rel="noreferrer noopener">
+                <a href={siteConfig.repositoryUrl} target="_blank" rel="noreferrer noopener">
                   <GitBranch className="mr-2 h-4 w-4" aria-hidden="true" />
                   {t("cta_secondary")}
                 </a>

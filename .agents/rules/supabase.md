@@ -1,13 +1,13 @@
 # Supabase
 
-## Four-client split (memorize this)
+## Client split (memorize this)
 
-| Client     | File                           | Use in                                       | Auth                        |
-| ---------- | ------------------------------ | -------------------------------------------- | --------------------------- |
-| Browser    | `src/supabase/client.ts`       | Client Components                            | Anon (RLS)                  |
-| Server     | `src/supabase/server.ts`       | Server Components / Actions / Route Handlers | Anon + user cookies (RLS)   |
-| Admin      | `src/supabase/server-admin.ts` | Cron / webhooks / admin APIs                 | Service role (BYPASSES RLS) |
-| Middleware | `src/supabase/middleware.ts`   | `src/middleware.ts` only                     | Refresh session             |
+| Client                | File                           | Use in                                       | Auth                        |
+| --------------------- | ------------------------------ | -------------------------------------------- | --------------------------- |
+| Browser               | `src/supabase/client.ts`       | Client Components                            | Anon (RLS)                  |
+| Server                | `src/supabase/server.ts`       | Server Components / Actions / Route Handlers | Anon + user cookies (RLS)   |
+| Admin                 | `src/supabase/server-admin.ts` | Cron / webhooks / admin APIs                 | Service role (BYPASSES RLS) |
+| Proxy session refresh | `src/proxy.ts`                 | Request-time locale/auth/admin gates         | Anon + user cookies         |
 
 ## Rules
 
@@ -20,9 +20,9 @@
 ## Auth flow
 
 1. User clicks "Sign in" → goes through Supabase OAuth or magic link.
-2. Provider redirects to `/auth/callback?code=...`.
+2. Provider redirects to `/[locale]/callback?code=...`.
 3. Callback route exchanges code for session.
-4. Middleware refreshes session on every subsequent request.
+4. `src/proxy.ts` refreshes session on every matched subsequent request.
 5. Server Components fetch user via `getUser()` (`@/lib/auth/get-user`).
 
 ## Forbidden

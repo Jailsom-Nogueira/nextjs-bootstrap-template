@@ -41,7 +41,7 @@ Specific do/don't for the App Router + React 19 patterns we use. Cross-reference
 - Client islands: components in `src/components/` that explicitly start with `'use client'`. Anything heavier than ~5KB goes through `lazyClient` from `@/lib/lazy`.
 - Server Actions: live next to the route that calls them; start with `'use server'` and validate with zod.
 - Route Handlers: `src/app/api/**/route.ts`. Use these only when an HTTP-level contract is required (webhooks, third parties). Otherwise prefer server actions.
-- Middleware: `src/middleware.ts`. Edge runtime — keep it lean (session refresh + locale + admin gate). Heavy logic does NOT belong here.
+- Request proxy: `src/proxy.ts`. Keep it lean (session refresh + locale + admin gate). Heavy logic does NOT belong here.
 
 ## References
 

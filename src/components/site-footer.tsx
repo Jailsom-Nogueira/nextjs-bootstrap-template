@@ -2,8 +2,7 @@ import { getTranslations } from "next-intl/server";
 
 import { Link } from "@/i18n/navigation";
 
-// TODO: set REPO_URL to the real GitHub repo URL once published.
-const REPO_URL = "https://github.com";
+import { siteConfig } from "@/config/site";
 
 /**
  * Site footer.
@@ -29,7 +28,7 @@ export async function SiteFooter() {
             {t("docs")}
           </Link>
           <a
-            href={REPO_URL}
+            href={siteConfig.repositoryUrl}
             target="_blank"
             rel="noreferrer noopener"
             aria-label={`${t("github")} (opens in new tab)`}

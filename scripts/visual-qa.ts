@@ -2,7 +2,7 @@
 /**
  * scripts/visual-qa.ts — browser-side QA gate.
  *
- * For every route × locale × theme combination:
+ * For every route × locale × theme × viewport combination:
  *   1. Navigate the page in headless Chromium.
  *   2. Force the theme via `localStorage` (next-themes pattern), reload, wait for idle.
  *   3. Capture a full-page screenshot to `.agent-cache/visual-qa/`.
@@ -27,10 +27,22 @@ import AxeBuilder from "@axe-core/playwright";
 
 type Theme = "light" | "dark";
 type Locale = "en" | "pt" | "es";
+type ViewportName = "desktop" | "mobile";
 
-const ROUTES: ReadonlyArray<string> = ["/", "/login", "/signup", "/dashboard", "/admin"];
+const ROUTES: ReadonlyArray<string> = [
+  "/",
+  "/login",
+  "/signup",
+  "/dashboard",
+  "/admin",
+  "/admin/users",
+];
 const LOCALES: ReadonlyArray<Locale> = ["en", "pt", "es"];
 const THEMES: ReadonlyArray<Theme> = ["light", "dark"];
+const VIEWPORTS: ReadonlyArray<{ name: ViewportName; width: number; height: number }> = [
+  { name: "desktop", width: 1280, height: 800 },
+  { name: "mobile", width: 390, height: 844 },
+];
 
 const BASE_URL = process.env.VISUAL_QA_BASE_URL ?? "http://localhost:3000";
 const OUT_DIR = join(process.cwd(), ".agent-cache", "visual-qa");
@@ -66,6 +78,7 @@ type RowResult = {
   route: string;
   locale: Locale;
   theme: Theme;
+  viewport: ViewportName;
   url: string;
   status: number;
   consoleErrors: ReadonlyArray<string>;
@@ -80,10 +93,15 @@ type RowResult = {
   screenshotPath: string;
 };
 
-async function probeOne(route: string, locale: Locale, theme: Theme): Promise<RowResult> {
+async function probeOne(
+  route: string,
+  locale: Locale,
+  theme: Theme,
+  viewport: (typeof VIEWPORTS)[number],
+): Promise<RowResult> {
   const browser = await chromium.launch();
   const context = await browser.newContext({
-    viewport: { width: 1280, height: 800 },
+    viewport: { width: viewport.width, height: viewport.height },
     colorScheme: theme,
   });
   // Pre-set localStorage so next-themes resolves the right class on first paint.
@@ -146,7 +164,7 @@ async function probeOne(route: string, locale: Locale, theme: Theme): Promise<Ro
     consoleErrors.push(`axe failure: ${err instanceof Error ? err.message : String(err)}`);
   }
 
-  const safeName = `${route.replaceAll("/", "_") || "_root"}-${locale}-${theme}.png`;
+  const safeName = `${route.replaceAll("/", "_") || "_root"}-${locale}-${theme}-${viewport.name}.png`;
   const screenshotPath = join(OUT_DIR, safeName);
   mkdirSync(dirname(screenshotPath), { recursive: true });
   await page.screenshot({ path: screenshotPath, fullPage: true });
@@ -158,6 +176,7 @@ async function probeOne(route: string, locale: Locale, theme: Theme): Promise<Ro
     route,
     locale,
     theme,
+    viewport: viewport.name,
     url,
     status,
     consoleErrors,
@@ -178,8 +197,8 @@ function pad(s: string, w: number): string {
 
 async function main(): Promise<void> {
   console.warn(
-    `Visual QA: ${ROUTES.length} routes × ${LOCALES.length} locales × ${THEMES.length} themes = ${
-      ROUTES.length * LOCALES.length * THEMES.length
+    `Visual QA: ${ROUTES.length} routes × ${LOCALES.length} locales × ${THEMES.length} themes × ${VIEWPORTS.length} viewports = ${
+      ROUTES.length * LOCALES.length * THEMES.length * VIEWPORTS.length
     } pages.`,
   );
   console.warn(`Base URL: ${BASE_URL}`);
@@ -191,8 +210,10 @@ async function main(): Promise<void> {
   for (const route of ROUTES) {
     for (const locale of LOCALES) {
       for (const theme of THEMES) {
-        const r = await probeOne(route, locale, theme);
-        rows.push(r);
+        for (const viewport of VIEWPORTS) {
+          const r = await probeOne(route, locale, theme, viewport);
+          rows.push(r);
+        }
       }
     }
   }
@@ -214,7 +235,7 @@ async function main(): Promise<void> {
       r.axeViolations.length > 0;
     if (isFailed) failed += 1;
     console.warn(
-      `${pad(r.route, 14)} ${pad(r.locale, 4)} ${pad(r.theme, 6)} ${pad(String(r.status), 7)} ${pad(
+      `${pad(r.route, 14)} ${pad(r.locale, 4)} ${pad(r.theme, 6)} ${pad(r.viewport, 8)} ${pad(String(r.status), 7)} ${pad(
         String(remainingErrors.length),
         6,
       )} ${pad(String(remainingWarnings.length), 6)} ${pad(String(r.axeViolations.length), 4)} ${pad(
@@ -237,7 +258,7 @@ async function main(): Promise<void> {
       ) {
         continue;
       }
-      console.error(`▶ ${r.url}  (theme=${r.theme})`);
+      console.error(`▶ ${r.url}  (theme=${r.theme}, viewport=${r.viewport})`);
       if (r.hydrationMismatch) console.error(`    HYDRATION mismatch detected`);
       for (const e of remainingErrors) console.error(`    [error] ${e}`);
       for (const w of remainingWarnings) console.error(`    [warn]  ${w}`);

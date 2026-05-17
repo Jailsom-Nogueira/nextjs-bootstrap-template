@@ -1,27 +1,29 @@
 # Multi-Agent Workflow
 
-When delegating to subagents (e.g., a planner spawning implementers):
+Use when delegating to subagents or receiving their work.
 
 ## Handoff contract
 
 The parent agent provides:
 
 1. **Goal** — one sentence.
-2. **Constraints** — locked stack, files to touch, files to AVOID.
-3. **Acceptance** — concrete pass criteria (typecheck, lint, build, tests).
-4. **Output format** — what the subagent returns (diff, summary, verification report).
+2. **Context** — relevant paths, active plan/spec, constraints, and files to avoid.
+3. **Task classification** — expected surfaces and rule files to load. If unsure, instruct the child to infer from AGENTS.md and `.agents/references/artifact-layers.md`.
+4. **Acceptance** — concrete pass criteria (`npm run qa`, `npm run qa:visual` for UI, `npm run qa:strict` for PR/release).
+5. **Output format** — diff summary, files touched, verification report, blocker path if blocked.
 
 The subagent returns:
 
 1. **Summary** — what changed, in plain prose.
-2. **Files** — list of paths created/modified.
-3. **Verification** — outputs of typecheck/lint/test/build.
-4. **Issues** — anything ambiguous or skipped, with reasons.
+2. **Files** — paths created/modified/deleted.
+3. **Verification** — final QA summary table and visual-QA evidence when relevant.
+4. **Issues** — anything ambiguous, skipped, or blocked, with reasons.
 
 ## Rules
 
-- Subagents NEVER push to a remote.
-- Subagents NEVER amend or rewrite commits they didn't author.
-- Subagents create at most ONE commit per task unless instructed otherwise.
+- Subagents never push to a remote.
+- Subagents never amend or rewrite commits they didn't author.
+- Subagents create at most one commit per task unless instructed otherwise.
 - Use Conventional Commits (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`).
-- If a subagent hits an ambiguity, it asks the parent — it does NOT guess on architectural decisions.
+- If ambiguity changes artifact type, side effects, or user-visible behavior, ask the parent. Otherwise infer the safest default from AGENTS.md and continue.
+- For standalone HTML/report/prototype artifacts, the subagent must verify in a browser or serve via localhost and return both verified URL and file path.

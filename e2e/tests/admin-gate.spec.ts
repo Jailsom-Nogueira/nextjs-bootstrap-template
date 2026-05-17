@@ -1,9 +1,8 @@
-import { test } from "@playwright/test";
+import { expect, test } from "@playwright/test";
 
-// TODO(admin-gate-e2e): seed an admin user in CI before enabling.
-// This spec is intentionally skipped until the e2e setup provisions a
-// `profiles.role = 'admin'` user we can authenticate as.
-test.describe.skip("admin gate", () => {
+// Intentionally skipped until the e2e setup provisions and authenticates a
+// `profiles.role = 'admin'` user. Keep the cases here as the contract for that fixture.
+test.describe.skip("admin gate (requires seeded admin session)", () => {
   test("non-admin user is redirected away from /admin", async ({ page }) => {
     await page.goto("/admin");
     await page.waitForURL(/^.*\/(en|pt|es)?\/?$/);
@@ -11,6 +10,6 @@ test.describe.skip("admin gate", () => {
 
   test("admin user can access /admin", async ({ page }) => {
     await page.goto("/admin");
-    // Expect the admin dashboard heading to render.
+    await expect(page.getByRole("heading", { name: /admin dashboard/i })).toBeVisible();
   });
 });

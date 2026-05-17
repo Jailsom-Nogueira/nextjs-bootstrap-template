@@ -5,7 +5,7 @@
 #
 # Usage:
 #   bash scripts/qa-loop.sh             # run once, exit on first failure
-#   bash scripts/qa-loop.sh --strict    # also runs e2e + bundle budget (slow)
+#   bash scripts/qa-loop.sh --strict    # also runs e2e + bundle-budget diagnostics + visual QA (slow)
 #   bash scripts/qa-loop.sh --quiet     # only print failures
 #
 # Designed to be invoked from a coding-agent loop:

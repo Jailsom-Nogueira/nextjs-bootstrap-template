@@ -11,7 +11,7 @@ Start with `.agents/references/artifact-layers.md` when deciding whether somethi
 - `architecture/` — deeper system design notes, sequence diagrams.
 - `runbooks/` — operational guides: how to roll back, how to rotate keys, how to restore from backup.
 - `decisions/` — Architecture Decision Records (ADRs). One file per decision, immutable once accepted.
-- `product/` — product specs, user research, feature briefs.
+- `product/` — product docs, user research, feature briefs, durable user-facing behavior docs. Feature specs with acceptance criteria live in `specs/`.
 - `specs/` — feature specifications (start from `.docs/templates/spec.md`).
 - `templates/` — canonical templates for specs and similar artifacts.
 

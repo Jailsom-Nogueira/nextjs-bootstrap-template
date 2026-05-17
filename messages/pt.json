@@ -58,11 +58,11 @@
     },
     "performance": {
       "title": "Performance",
-      "description": "Server Components por padrão, lazy loading, metas de Core Web Vitals e orçamento de bundle aplicados no CI."
+      "description": "Server Components por padrão, lazy loading, metas de Core Web Vitals e diagnóstico de orçamento de bundle no QA estrito."
     },
     "i18n": {
       "title": "Internacionalização",
-      "description": "English, Português, Español prontos. Adicione um idioma editando um arquivo só."
+      "description": "English, Portuguese e Spanish prontos. Adicione um idioma editando um arquivo só."
     },
     "a11y": {
       "title": "WCAG 2.2 AA",

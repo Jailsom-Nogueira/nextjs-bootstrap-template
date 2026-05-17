@@ -4,43 +4,14 @@ alwaysApply: true
 
 AGENTS.md at repo root is the source of truth. Read it before every task.
 
-## The QA-in-loop iron rule
+Core invariant summary:
 
-No task is complete until `npm run qa` exits 0. The script runs every gate in cheapest-first order (format → lint → typecheck → test → build) and stops at the first failure.
+- Infer task type from evidence (files, symptoms, active plans, diff, requested output), not just prompt wording.
+- Load the task-specific rules from AGENTS.md before editing.
+- For docs/specs/plans/artifacts, read `.agents/references/artifact-layers.md` first; load spec/plan templates only when editing that artifact type.
+- `npm run qa` exit 0 is required for every task.
+- UI/browser-facing work also requires `npm run qa:visual` exit 0.
+- Before PR/release, run `npm run qa:strict`.
+- Never use `any`, `console.log`, client-side service-role keys, `.select('*')`, `eslint-disable`, `.skip()`, or `git commit --no-verify` for application commits.
 
-Apply the MINIMAL root-cause fix, then re-run. Never bypass a gate (no `eslint-disable`, no `any`, no `.skip()`, no `--no-verify`). Hard cap 10 iterations — escalate via a blocker plan in `.plans/`.
-
-## Task-type index — load EVERY listed rule before coding
-
-| Task type                        | Rules to load (in order)                                                                                 |
-| -------------------------------- | -------------------------------------------------------------------------------------------------------- |
-| 🔁 **ANY task (always)**         | **qa-loop.md (run `npm run qa` until exit 0)**                                                           |
-| UI / styling / components        | styling.md → responsiveness.md → accessibility.md → clean-code.md → performance.md → lazy-loading.md     |
-| Forms / inputs                   | forms.md → accessibility.md → i18n.md → clean-code.md                                                    |
-| Data fetching / Supabase queries | supabase.md → security.md → performance.md → error-handling.md                                           |
-| Auth / role gates                | security.md → admin.md → supabase.md → clean-code.md                                                     |
-| API routes / server actions      | security.md → supabase.md → error-handling.md → performance.md                                           |
-| Analytics / tracking             | analytics.md → security.md                                                                               |
-| New page / route                 | file-organization.md → performance.md → lazy-loading.md → accessibility.md → responsiveness.md → i18n.md |
-| Admin features                   | admin.md → security.md → supabase.md → accessibility.md                                                  |
-| New i18n strings                 | i18n.md (all 3 locales: en, pt, es) → accessibility.md                                                   |
-| Performance / interaction work   | performance.md → lazy-loading.md → clean-code.md                                                         |
-| Refactor / cleanup               | clean-code.md → file-organization.md → applicable-domain-rules                                           |
-| Bug fix                          | applicable-domain-rules → clean-code.md → error-handling.md                                              |
-| Tests                            | self-review.md → applicable-domain-rules                                                                 |
-| New spec / plan                  | `.docs/templates/spec.md` then `.plans/templates/plan.md`                                                |
-
-## Commit + push
-
-- Conventional Commits (commitlint enforced).
-- Push with `npm run push` (Carevia-style; generates CHANGELOG, runs pre-push gate).
-
-## Five absolute invariants
-
-1. No `any` (use `unknown` or a real type).
-2. No `console.log` (use `logger` from `@/lib/logger/logger`; `warn`/`error` allowed).
-3. No `SUPABASE_SERVICE_ROLE_KEY` on the client — only via `server-admin.ts` + `import "server-only"`.
-4. No `.select('*')` — list columns explicitly.
-5. `npm run qa` exit 0 = done. Anything else is in-progress.
-
-Full rules in AGENTS.md and `.agents/rules/*`.
+Do not duplicate AGENTS.md content here. If this file and AGENTS.md disagree, AGENTS.md wins and this file should be patched.

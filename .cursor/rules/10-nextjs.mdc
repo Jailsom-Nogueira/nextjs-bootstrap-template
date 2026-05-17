@@ -3,7 +3,6 @@ description: Next.js 16 App Router patterns — Server Components first, Server 
 globs:
   - src/app/**
   - src/components/**
-  - src/middleware.ts
   - src/proxy.ts
   - next.config.ts
 alwaysApply: false

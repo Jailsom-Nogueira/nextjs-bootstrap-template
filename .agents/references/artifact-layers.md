@@ -9,7 +9,7 @@ The user prompt does **not** need to name the task type. Infer the task from the
 Before loading templates or editing files:
 
 1. Inspect any mentioned file/path, current `git status`, latest plan/spec, and reported error/symptom.
-2. Identify every affected surface: code, UI, docs, spec, plan, runbook, artifact, release, or QA.
+2. Identify every affected surface: code, UI, data, auth, API, analytics, tests, docs, spec, plan, runbook, artifact, security, release, or QA.
 3. Load the smallest safe union of rules for those surfaces.
 4. If ambiguity changes the artifact type or side effects, ask one focused question.
 5. If ambiguity does not change the rules/files to inspect, choose the safest default and continue.
@@ -44,6 +44,10 @@ Examples:
 | `.docs/runbooks/`     | operations recipes                      | diagnose/recover/operate steps                 | product requirements                            |
 | `.docs/product/`      | product docs                            | feature behavior, user-facing rules            | coding standards                                |
 | `CHANGELOG.md`        | generated release history               | generated entries from `npm run push`          | manual edits                                    |
+| Per-agent stubs       | adapters for individual tools           | thin imports/pointers to AGENTS.md             | canonical rules or duplicated task indexes      |
+| `.claude/commands/`   | slash-command workflows                 | short prompts that load AGENTS and artifacts   | project requirements or long-form docs          |
+| `.agents/skills/`     | universal skill stubs                   | installed skill entrypoints                    | lockfile data or project rules                  |
+| `skills-lock.json`    | universal skills lockfile               | pinned installed skill metadata                | hand-written guidance                           |
 
 ## Spec vs plan decision
 
@@ -59,6 +63,12 @@ Conditional reads:
 - Translating a spec into a plan → read both templates.
 - Only moving/archiving a plan → read `.plans/README.md`; do not read spec template unless spec content changes.
 - Code-only task with no durable artifact changes → do not read spec/plan templates.
+
+## Local artifact storage
+
+- Ephemeral generated reports/prototypes → `.agent-cache/artifacts/<slug>/`.
+- Durable reviewed docs/prototypes → `.docs/` with README or spec cross-link.
+- Never put generated review artifacts in `public/` unless the application must serve them.
 
 ## Local HTML / visual artifact delivery
 

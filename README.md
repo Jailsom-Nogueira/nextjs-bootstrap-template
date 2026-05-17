@@ -69,7 +69,7 @@ npm run dev              # http://localhost:3000
 Four security layers, defense in depth:
 
 1. **Env validation** — `src/env.ts` (t3-env + zod) fails at boot if anything required is missing.
-2. **Middleware** — Supabase session refresh + route gating (`src/middleware.ts`).
+2. **Request proxy** — Supabase session refresh + route gating (`src/proxy.ts`).
 3. **RLS** — Row-Level Security on every Supabase table.
 4. **Server-side zod** — re-validate every input in Server Actions / Route Handlers.
 
@@ -84,14 +84,14 @@ in this list, it does not belong at the root.
 
 **Build / framework configuration**
 
-| File                 | One-liner                                                      |
-| -------------------- | -------------------------------------------------------------- |
-| `next.config.ts`     | Next 16 config: CSP, image domains, redirects, bundle analyzer |
-| `next-env.d.ts`      | Generated Next.js TS shim (do not edit)                        |
-| `tsconfig.json`      | TS strict mode + `@/*` path alias + noUncheckedIndexedAccess   |
-| `postcss.config.mjs` | Tailwind v4 PostCSS plugin                                     |
-| `vercel.json`        | Vercel deploy hints (regions, rewrites)                        |
-| `components.json`    | shadcn/ui registry pointer (radix-nova style)                  |
+| File                 | One-liner                                                             |
+| -------------------- | --------------------------------------------------------------------- |
+| `next.config.ts`     | Next 16 config: CSP, image domains, PostHog rewrites, bundle analyzer |
+| `next-env.d.ts`      | Generated Next.js TS shim (do not edit)                               |
+| `tsconfig.json`      | TS strict mode + `@/*` path alias + noUncheckedIndexedAccess          |
+| `postcss.config.mjs` | Tailwind v4 PostCSS plugin                                            |
+| `vercel.json`        | Vercel deploy hints (framework + function duration)                   |
+| `components.json`    | shadcn/ui registry pointer (radix-nova style)                         |
 
 **Lint / format / hooks**
 
@@ -105,11 +105,11 @@ in this list, it does not belong at the root.
 
 **Testing**
 
-| File                   | One-liner                                                |
-| ---------------------- | -------------------------------------------------------- |
-| `vitest.config.ts`     | Vitest 4 — jsdom for `.tsx`, node for `.ts`, alias `@/*` |
-| `vitest.setup.ts`      | Testing Library matchers + cleanup                       |
-| `playwright.config.ts` | Playwright — chromium + webkit, base URL from env        |
+| File                   | One-liner                                                       |
+| ---------------------- | --------------------------------------------------------------- |
+| `vitest.config.ts`     | Vitest 4 — jsdom for `.tsx`, node for `.ts`, alias `@/*`        |
+| `vitest.setup.ts`      | Testing Library matchers + cleanup                              |
+| `playwright.config.ts` | Playwright — chromium + webkit, local dev server + global setup |
 
 **Package management**
 
@@ -117,7 +117,7 @@ in this list, it does not belong at the root.
 | ------------------- | -------------------------------------------- |
 | `package.json`      | Scripts + deps (exact pins for React + Next) |
 | `package-lock.json` | npm lockfile (committed; never delete)       |
-| `.npmrc`            | `engine-strict=true`, `save-exact=true`      |
+| `.npmrc`            | `save-exact=true` (exact dependency pins)    |
 | `.nvmrc`            | Node 22 (matches `engines.node`)             |
 
 **Git / GitHub**
@@ -131,14 +131,15 @@ in this list, it does not belong at the root.
 
 **AI agent hub + per-agent stubs**
 
-| File             | One-liner                                                                |
-| ---------------- | ------------------------------------------------------------------------ |
-| `AGENTS.md`      | **Source of truth.** Rules hub + ambiguous task-type inference.          |
-| `CLAUDE.md`      | Claude Code stub — `@`-imports `AGENTS.md` + `qa-loop.md`                |
-| `GEMINI.md`      | Compressed rules table for Gemini                                        |
-| `CONVENTIONS.md` | 3-line stub for Aider — points to `AGENTS.md`                            |
-| `README.md`      | This file — humans first, agents second                                  |
-| `CONCEPTS.md`    | Concept explainers — start here if any term in `AGENTS.md` is unfamiliar |
+| File               | One-liner                                                                |
+| ------------------ | ------------------------------------------------------------------------ |
+| `AGENTS.md`        | **Source of truth.** Rules hub + ambiguous task-type inference.          |
+| `CLAUDE.md`        | Claude Code stub — `@`-imports `AGENTS.md` + `qa-loop.md`                |
+| `GEMINI.md`        | Compressed rules table for Gemini                                        |
+| `CONVENTIONS.md`   | 3-line stub for Aider — points to `AGENTS.md`                            |
+| `README.md`        | This file — humans first, agents second                                  |
+| `skills-lock.json` | Lockfile for universal agent skills installed under `.agents/skills/`    |
+| `CONCEPTS.md`      | Concept explainers — start here if any term in `AGENTS.md` is unfamiliar |
 
 **Per-agent / MCP config**
 
@@ -200,6 +201,8 @@ in this list, it does not belong at the root.
 │   │   ├── artifact-layers.md                       — artifact taxonomy + task inference
 │   │   ├── key-files.md                             — map of important paths
 │   │   └── shared-components.md                     — shadcn component inventory
+│   ├── skills/
+│   │   └── agent-browser/SKILL.md                 — universal agent-browser skill installed via npx skills
 │   └── workflows/
 │       ├── multi-agent.md                           — handoff contracts between agents
 │       ├── qa-loop.md                               — the fix-until-green procedure
@@ -242,6 +245,8 @@ in this list, it does not belong at the root.
 │   │   ├── bug_report.md                            — bug issue template
 │   │   └── feature_request.md                       — feature issue template
 │   ├── PULL_REQUEST_TEMPLATE.md                     — PR checklist
+│   ├── skills/
+│   │   └── agent-browser/SKILL.md                 — universal agent-browser skill installed via npx skills
 │   └── workflows/
 │       ├── ci.yml                                   — runs `npm run qa` on PR + main
 │       ├── e2e.yml                                  — Playwright on PR (with report artifact)
@@ -274,7 +279,9 @@ in this list, it does not belong at the root.
 │   ├── generate-types.sh                            — Supabase type generation
 │   ├── prompt-context.ts                            — paste-ready project snapshot for chat UIs
 │   ├── qa-loop.sh                                   — the fix-until-green QA loop
-│   └── test-agent.sh                                — fast test lane (changed files only)
+│   ├── qa-visual-runner.sh                          — boots dev server and runs visual QA
+│   ├── test-agent.sh                                — fast test lane (changed files only)
+│   └── visual-qa.ts                                 — Playwright + axe + screenshot sweep
 ├── src/
 │   ├── app/                                         — App Router root
 │   │   ├── [locale]/                                — locale-routed UI (en/pt/es)
@@ -305,7 +312,7 @@ in this list, it does not belong at the root.
 │   │   ├── locale-switcher.tsx                      — DropdownMenu locale picker
 │   │   ├── theme-provider.tsx                       — next-themes wrapper
 │   │   ├── theme-toggle.tsx                         — light/dark/system toggle
-│   │   └── ui/                                      — 16 shadcn radix-nova primitives
+│   │   └── ui/                                      — 17 shadcn radix-nova primitives
 │   │       ├── avatar.tsx
 │   │       ├── badge.tsx
 │   │       ├── button.tsx
@@ -356,11 +363,10 @@ in this list, it does not belong at the root.
 │   │   │   └── start-transition-navigate.ts         — useTransitionRouter wraps router.push
 │   │   ├── utils.test.ts                            — `cn()` test
 │   │   └── utils.ts                                 — `cn()` helper (clsx + tailwind-merge)
-│   ├── middleware.ts                                — next-intl + Supabase session + admin gate
-│   ├── supabase/                                    — 4-client split
+│   ├── proxy.ts                                     — next-intl + Supabase session + admin gate
+│   ├── supabase/                                    — browser/server/admin client split
 │   │   ├── client.ts                                — browser `createBrowserClient`
 │   │   ├── database.types.ts                        — generated by `npm run db:types`
-│   │   ├── middleware.ts                            — `updateSession` helper for proxy/middleware
 │   │   ├── server-admin.ts                          — service-role (server-only)
 │   │   └── server.ts                                — server `createClient` with cookies()
 │   └── types/
@@ -380,8 +386,8 @@ lives in [CONCEPTS.md](./CONCEPTS.md).
 | You are looking at…                                                                             | Read CONCEPTS.md →                                     |
 | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------ |
 | `AGENTS.md`, `.agents/*`, `CLAUDE.md`, `.cursor/rules/*`, `CONVENTIONS.md`, `.mcp.json`         | Agent hub & SSOT; .agents/; MCP                        |
-| `src/supabase/*`, `supabase/migrations/*`                                                       | Supabase 4-client split; RLS                           |
-| `src/middleware.ts`, eventual `src/proxy.ts` rename                                             | Middleware vs Proxy in Next 16                         |
+| `src/supabase/*`, `supabase/migrations/*`                                                       | Supabase client split; RLS                             |
+| `src/proxy.ts`                                                                                  | Next 16 request proxy                                  |
 | `src/env.ts`, `.env.example`                                                                    | Type-safe env validation                               |
 | `src/i18n/*`, `messages/*`                                                                      | Internationalization                                   |
 | `src/app/[locale]/(admin)/*`, `supabase/migrations/*profiles_role*`, `src/lib/auth/is-admin.ts` | Role-gated admin                                       |
@@ -460,7 +466,7 @@ npm run test:e2e:ui     # interactive
 
 **QA-in-loop:** run `npm run qa` to execute every gate (format/lint/typecheck/test/build) in
 cheapest-first order. Stops at the first failing gate. Iterate until exit 0 — that's the definition
-of done. CI runs the same script. Strict mode (`npm run qa:strict`) also runs e2e + bundle budget;
+of done. CI runs the same script. Strict mode (`npm run qa:strict`) also runs e2e + bundle-budget diagnostics + visual QA;
 use before opening a PR. See `.agents/rules/qa-loop.md` for the protocol and
 `.agents/workflows/qa-loop.md` for the procedure.
 
@@ -503,7 +509,7 @@ The admin panel lives at `src/app/[locale]/(admin)/admin/` and is gated by
 - **Migration:** `supabase/migrations/20260515003000_profiles_role.sql` creates the table, RLS
   policies, a guard trigger that blocks non-admin role changes, and a `handle_new_user` trigger that
   auto-creates a profile row.
-- **Gate (defense in depth):** the middleware redirects non-admins, and the layout calls `isAdmin()`
+- **Gate (defense in depth):** the proxy redirects non-admins, and the layout calls `isAdmin()`
   on the server to double-check.
 - **Make a user admin (dev):** `update public.profiles set role = 'admin' where id = '<uuid>';`
 

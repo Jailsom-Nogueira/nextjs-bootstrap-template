@@ -9,6 +9,8 @@ jobs:
     timeout-minutes: 20
     env:
       SKIP_ENV_VALIDATION: "1"
+      NEXT_PUBLIC_SUPABASE_URL: "https://stub.supabase.co"
+      NEXT_PUBLIC_SUPABASE_ANON_KEY: "stub_anon_key_for_e2e"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

@@ -2,28 +2,33 @@
 
 ## Configuration
 
-- `package.json` — scripts, deps, lint-staged
+- `package.json` — scripts, deps, lint-staged, repository metadata
 - `tsconfig.json` — strict TS (noUncheckedIndexedAccess, exactOptionalPropertyTypes)
 - `next.config.ts` — security headers, PostHog `/ingest` rewrites, image patterns
 - `eslint.config.mjs` — flat config; bans `any`, `console.log`, deep relatives
-- `prettier.config.mjs` — with tailwind plugin
-- `commitlint.config.mjs` — conventional commits
+- `prettier.config.mjs` — with Tailwind plugin
+- `commitlint.config.mjs` — Conventional Commits
 - `vitest.config.ts` — jsdom, `@/*` alias
-- `playwright.config.ts` — chromium + webkit
-- `.changeset/config.json` — release automation
+- `playwright.config.ts` — chromium + webkit, global e2e setup
+- `.husky/pre-push` — typecheck + CHANGELOG_GENERATED guard
 
 ## Source entry points
 
-- `src/env.ts` — VALIDATED ENV. Single source of truth.
-- `src/middleware.ts` — edge middleware (Supabase session refresh + route gating)
-- `src/app/layout.tsx` — root layout (ThemeProvider, PostHogProvider, fonts)
+- `src/env.ts` — validated env. Single source of truth.
+- `src/proxy.ts` — Next 16 proxy: locale routing, Supabase session refresh, route gates
+- `src/app/layout.tsx` — minimal root layout
+- `src/app/[locale]/layout.tsx` — locale shell, theme, PostHog, footer/header
 - `src/app/globals.css` — Tailwind v4 `@theme` design tokens
 - `src/app/api/health/route.ts` — liveness probe
+- `src/config/site.ts` — app-level public links/config
 
 ## Supabase
 
-- `src/supabase/{client,server,server-admin,middleware}.ts` — 4 clients
+- `src/supabase/client.ts` — browser client
+- `src/supabase/server.ts` — request-scoped server client
+- `src/supabase/server-admin.ts` — service-role admin client (`createAdminClient`)
 - `src/supabase/database.types.ts` — generated via `npm run db:types`
+- `supabase/migrations/` — SQL migrations
 
 ## Analytics
 
@@ -35,10 +40,9 @@
 ## Email
 
 - `src/lib/email/resend.ts` — Resend singleton
-- `src/lib/email/templates/*.tsx` — react-email templates
-- `emails/*.tsx` — dev-server scanned re-exports
+- `emails/*.tsx` — react-email templates for preview via `npm run email:dev`
 
 ## Auth helpers
 
-- `src/lib/auth/get-user.ts` — server-side current user
-- `src/hooks/use-supabase-user.ts` — client-side subscription
+- `src/lib/auth/get-user-role.ts` — server-side role lookup
+- `src/lib/auth/is-admin.ts` — admin guard helper

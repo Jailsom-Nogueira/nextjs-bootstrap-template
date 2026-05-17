@@ -2,7 +2,7 @@ import type { MetadataRoute } from "next";
 
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Social Platform Template",
+    name: "Next.js Bootstrap Template",
     short_name: "Template",
     description: "Next.js 16 + Supabase template",
     start_url: "/",

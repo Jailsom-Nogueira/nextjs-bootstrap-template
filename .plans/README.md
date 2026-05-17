@@ -22,7 +22,7 @@ Before writing or moving a plan, read `.agents/references/artifact-layers.md` so
 
 - Multi-step refactors or feature builds.
 - Anything where the "how" needs review before code lands.
-- Migration playbooks.
+- Temporary migration implementation plans. Durable operational playbooks/runbooks live in `.docs/runbooks/`.
 - QA blocker plans: `YYYY-MM-DD-qa-blocker-<slug>.md` when the `npm run qa` loop exceeds 10 iterations.
 
 ## What doesn't

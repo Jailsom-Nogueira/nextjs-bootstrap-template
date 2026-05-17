@@ -33,7 +33,7 @@ contents.
 13. [Role-gated admin panel](#13-role-gated-admin-panel)
 14. [Server Components first (Next.js App Router)](#14-server-components-first-nextjs-app-router)
 15. [Server Actions + `revalidatePath/Tag`](#15-server-actions--revalidatepathtag)
-16. [`middleware.ts` vs `proxy.ts` (Next 16 deprecation)](#16-middlewarets-vs-proxyts-next-16-deprecation)
+16. [`proxy.ts` (Next 16 request proxy)](#16-proxyts-next-16-request-proxy)
 17. [Performance + Core Web Vitals](#17-performance--core-web-vitals)
 18. [Lazy loading](#18-lazy-loading)
 19. [Internationalization (next-intl, en/pt/es)](#19-internationalization-next-intl-enptes)
@@ -105,7 +105,7 @@ agent's effective attention budget. Splitting by domain (`styling.md`,
 `security.md`, `supabase.md`, etc.) means the agent loads only what's relevant
 to the current task.
 
-**Where it lives.** `.agents/rules/*.md` (14 files), `.agents/references/*.md`,
+**Where it lives.** `.agents/rules/*.md`, `.agents/references/*.md`,
 `.agents/workflows/*.md`.
 
 **How to use it.**
@@ -157,7 +157,7 @@ complete before checking everything. A deterministic, scripted loop removes the
 - Apply the **minimal root-cause fix**. Re-run.
 - Hard cap: 10 iterations per task. If you blow the cap, write
   `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` documenting what you tried and stop.
-- `npm run qa:strict` adds e2e + bundle-budget for pre-PR / pre-release.
+- `npm run qa:strict` adds e2e + bundle-budget + visual QA for pre-PR / pre-release.
 - `npm run qa:quiet` only prints failures (good for tight agent loops).
 
 **Common mistakes (these are explicitly banned).**
@@ -522,7 +522,7 @@ purpose. Do not mix them up.
 - `src/supabase/server-admin.ts` — **service-role client**. Bypasses RLS.
   `import "server-only"` at the top — Next.js will fail the build if this
   file ever ends up in a client bundle.
-- `src/supabase/middleware.ts` — **session refresh helper** for `middleware.ts`.
+- `src/proxy.ts` — **request proxy** for locale routing, Supabase session refresh, and route gates.
 
 **Why this project uses it.** Each context has different security
 constraints. The service-role key bypasses Row-Level Security; if it reaches
@@ -534,7 +534,7 @@ makes "this file talks to the database with admin powers" obvious.
 - Need data in a Server Component? `import { createClient } from "@/supabase/server"`.
 - Need data in a client component? `import { supabase } from "@/supabase/client"`.
 - Need to do something the user shouldn't be allowed to do (admin task,
-  webhook ingest)? `import { createServiceRoleClient } from "@/supabase/server-admin"`.
+  webhook ingest)? `import { createAdminClient } from "@/supabase/server-admin"`.
 - Always prefer the regular server client + RLS. Service-role is a last
   resort.
 
@@ -605,7 +605,7 @@ a table also enables RLS and defines policies.
 
 **What it is.** Three layers protect `/admin/*` routes:
 
-1. **Middleware** (`src/middleware.ts`) — checks role, redirects non-admins.
+1. **Proxy** (`src/proxy.ts`) — checks role, redirects non-admins.
 2. **Layout** (`src/app/[locale]/(admin)/admin/layout.tsx`) — server-component
    re-checks `isAdmin()` and redirects if false.
 3. **RLS** — admin-only queries enforce the role at the database layer too.
@@ -617,7 +617,7 @@ features.
 
 **Where it lives.**
 
-- `src/middleware.ts` — middleware gate.
+- `src/proxy.ts` — proxy gate.
 - `src/app/[locale]/(admin)/admin/layout.tsx` — server component gate.
 - `src/lib/auth/is-admin.ts` — the boolean check.
 - `src/lib/auth/get-user-role.ts` — fetches `profiles.role`.
@@ -730,18 +730,18 @@ boilerplate, type-safe, can stream Suspense fallbacks.
 
 ---
 
-## 16. `middleware.ts` vs `proxy.ts` (Next 16 deprecation)
+## 16. `proxy.ts` (Next 16 request proxy)
 
-**What it is.** Next 16 renamed `middleware.ts` to `proxy.ts`. Both work;
-`middleware.ts` prints a deprecation warning on every build. The semantics are
-identical — the rename is purely cosmetic.
+**What it is.** Next 16 uses `proxy.ts` for request-time routing logic that older
+Next versions called `middleware.ts`. It runs before matched routes and can
+rewrite, redirect, refresh cookies, and enforce coarse route gates.
 
-**Why this project keeps `middleware.ts` for now.** shadcn/ui and Supabase
-docs still reference `middleware.ts`. Migrating now creates documentation
-mismatches; migrating later is trivial.
+**Why this project uses it.** The proxy composes locale routing, Supabase session
+refresh, dashboard auth redirects, and admin route guards in one request-time
+boundary without the deprecated `middleware.ts` filename.
 
-**Where it lives.** `src/middleware.ts`. The matcher in the same file
-declares which routes the middleware runs on.
+**Where it lives.** `src/proxy.ts`. The matcher in the same file declares which
+routes the proxy runs on.
 
 **How to use it.** The middleware composes three things:
 
@@ -759,8 +759,7 @@ declares which routes the middleware runs on.
 
 **How to extend it.**
 
-- New gate → add to the composition chain in `middleware.ts`.
-- Migrate to `proxy.ts` when shadcn + Supabase docs catch up.
+- New gate → add to the composition chain in `src/proxy.ts`.
 
 ---
 
@@ -1195,10 +1194,10 @@ produce comparable artifacts. Acceptance criteria mean "done" is testable.
 
 **How to use it.**
 
-- Copy the template. Don't start from blank.
+- For new product behavior or broad technical changes, copy the template; do not start from blank.
 - Fill every section, even if "N/A".
-- Get spec approval before writing a plan. Get plan approval before writing
-  code.
+- Get spec approval before writing a plan. Get plan approval before writing code.
+- For bug fixes, active-plan continuation, runbooks, or doc-only edits, use `.agents/references/artifact-layers.md` first and load only the relevant artifact template.
 - One slice at a time. Mark slices done as you go.
 
 **Common mistakes.**

@@ -6,9 +6,8 @@ import { routing } from "@/i18n/routing";
 import { env } from "@/env";
 
 /**
- * Composed middleware (Next 16 still ships `middleware.ts`; renamed to
- * `proxy.ts` in newer betas — keep this filename for shadcn/Supabase
- * compatibility).
+ * Composed proxy for locale routing, Supabase session refresh, and route gates.
+ * Next 16 deprecates `middleware.ts`; use `proxy.ts` for new projects.
  *
  * Order:
  *   1. next-intl handles locale routing + sets the `NEXT_LOCALE` cookie
@@ -29,7 +28,7 @@ function getAdminMatch(pathname: string): { locale: string; isAdminRoute: boolea
   };
 }
 
-export async function middleware(request: NextRequest): Promise<NextResponse> {
+export async function proxy(request: NextRequest): Promise<NextResponse> {
   // 1. next-intl
   const intlResponse = intlMiddleware(request);
 

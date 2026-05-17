@@ -31,10 +31,10 @@ async function loadProfiles(): Promise<ProfileRow[]> {
     }
     return (data as ProfileRow[]) ?? [];
   } catch (err) {
-    logger.warn(
-      { err: err instanceof Error ? err.message : String(err) },
-      "Admin client unavailable (SUPABASE_SERVICE_ROLE_KEY missing?)",
-    );
+    const message = err instanceof Error ? err.message : String(err);
+    if (!message.includes("SUPABASE_SERVICE_ROLE_KEY is required")) {
+      logger.warn({ err: message }, "Admin client unavailable");
+    }
     return [];
   }
 }

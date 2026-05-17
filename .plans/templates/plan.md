@@ -1,6 +1,6 @@
 # <Plan title>
 
-> Implementation plan for spec: [`.docs/specs/<spec-file>.md`](../.docs/specs/<spec-file>.md)
+> Implementation plan for spec: [`.docs/specs/<spec-file>.md`](../../.docs/specs/<spec-file>.md)
 
 Before using this template, read `.agents/references/artifact-layers.md` to confirm this belongs as an implementation plan and not as a spec, runbook, ADR, or concept doc.
 
@@ -84,7 +84,8 @@ Ordered, each slice ships independently green (`npm run qa` exit 0).
 ## Verification
 
 - [ ] `npm run qa` exits 0
-- [ ] `npm run qa:strict` exits 0 (before PR)
+- [ ] `npm run qa:strict` exits 0 (before PR/release)
+- [ ] If delivering standalone HTML/report/prototype: browser verified or served via localhost; final response includes verified URL + file path
 - [ ] Manual smoke: ...
 - [ ] PostHog Web Vitals dashboard reviewed
 - [ ] All 3 locales render the new UI

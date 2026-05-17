@@ -13,14 +13,14 @@ The admin panel lives at `src/app/[locale]/(admin)/admin/`. Access is gated by `
 
 ## How the gate works (defense in depth)
 
-1. **Middleware** (`src/middleware.ts`):
+1. **Proxy** (`src/proxy.ts`):
    - Refreshes the Supabase session.
    - If the URL matches `/(<locale>)?/admin/.*` and the user is not admin, redirects to the localized `/`.
 2. **Layout** (`src/app/[locale]/(admin)/admin/layout.tsx`):
    - Calls `isAdmin()` (server-only). If false, `redirect("/")`.
 3. **API routes** that mutate as admin must call `isAdmin()` before invoking the service-role client.
 
-Two layers because a misconfigured middleware matcher (or a forgotten `_next` skip) cannot leak the admin UI.
+Two layers because a misconfigured proxy matcher (or a forgotten `_next` skip) cannot leak the admin UI.
 
 ## Adding an admin route
 
@@ -36,8 +36,8 @@ Two layers because a misconfigured middleware matcher (or a forgotten `_next` sk
 
 ## Audit log
 
-- TODO: implement an `admin_audit_log` table that records every admin action (actor, action, target, timestamp, ip).
-- Until then, log admin mutations via `logger.warn({ admin: true, action, target })` so we can grep production logs.
+- Future extension: add an `admin_audit_log` table that records every admin action (actor, action, target, timestamp, ip).
+- Until then, log admin mutations via `logger.warn({ admin: true, action, target })` so production logs remain searchable.
 
 ## Client-side role state
 

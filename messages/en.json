@@ -38,7 +38,7 @@
     "serverError": "Server error. Please try again."
   },
   "home": {
-    "eyebrow": "v0.1.0 — bootstrap template",
+    "eyebrow": "v0.1.0 \u2014 bootstrap template",
     "title": "Ship Next.js apps faster, with AI guardrails baked in.",
     "subtitle": "A production-grade Next.js 16 template. Supabase auth + RLS, full i18n, dark mode, accessibility, performance budgets, and an AGENTS.md hub that makes AI coding agents pull their weight.",
     "cta_primary": "Open the dashboard",
@@ -54,19 +54,19 @@
     },
     "aiNative": {
       "title": "AI-Native",
-      "description": "AGENTS.md, CONCEPTS.md, MCP config, Cursor rules, Claude slash commands, prompt-context script — all built in."
+      "description": "AGENTS.md, CONCEPTS.md, MCP config, Cursor rules, Claude slash commands, prompt-context script \u2014 all built in."
     },
     "performance": {
       "title": "Performance",
-      "description": "Server Components first, lazy loading, Core Web Vitals targets, bundle budgets enforced in CI."
+      "description": "Server Components first, lazy loading, Core Web Vitals targets, and bundle-budget diagnostics in the strict QA loop."
     },
     "i18n": {
       "title": "Internationalization",
-      "description": "English, Português, Español ready. Add a locale by editing one file."
+      "description": "English, Portuguese, and Spanish ready. Add a locale by editing one file."
     },
     "a11y": {
       "title": "WCAG 2.2 AA",
-      "description": "Mobile-first, keyboard navigation, focus rings, color-not-only state — defaults that pass an audit."
+      "description": "Mobile-first, keyboard navigation, focus rings, color-not-only state \u2014 defaults that pass an audit."
     },
     "qaLoop": {
       "title": "QA in loop",
@@ -78,7 +78,7 @@
     "sectionSubtitle": "Modern, opinionated, and boring on purpose."
   },
   "footer": {
-    "copyright": "© 2026 Bootstrap Template",
+    "copyright": "\u00a9 2026 Bootstrap Template",
     "license": "MIT License",
     "docs": "Docs",
     "github": "GitHub"
@@ -94,7 +94,7 @@
   "locale": {
     "switch": "Switch language",
     "en": "English",
-    "pt": "Português",
-    "es": "Español"
+    "pt": "Portuguese",
+    "es": "Spanish"
   }
 }

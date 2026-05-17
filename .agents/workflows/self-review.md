@@ -14,19 +14,20 @@ Run BEFORE marking a task complete.
 - [ ] Used `cn()` for class merging.
 - [ ] Exported types live in `types.ts`, not inline at usage sites.
 
-## Verification (these MUST pass)
+## Verification
 
-- [ ] `npm run typecheck`
-- [ ] `npm run lint`
-- [ ] `npm run test`
-- [ ] `npm run build` (if touched anything substantial)
-- [ ] Manually tested in dev for any user-visible change.
+- [ ] `npm run qa` exits 0.
+- [ ] If UI/browser-facing: `npm run qa:visual` exits 0 and screenshots were reviewed.
+- [ ] Before PR/release: `npm run qa:strict` exits 0.
+- [ ] If a standalone HTML/report/prototype was delivered: opened/verified in browser or served via localhost; final response includes verified URL + file path.
 
-## Docs
+## Artifacts and docs
 
-- [ ] Updated `AGENTS.md` / `.agents/rules/*` if a new pattern was introduced.
-- [ ] Added a changeset (`npx changeset`) if user-visible.
+- [ ] Read `.agents/references/artifact-layers.md` before creating/editing/moving specs, plans, docs, runbooks, concepts, or local artifacts.
+- [ ] Updated `AGENTS.md` / `.agents/rules/*` only for terse invariants.
+- [ ] Added long-form explanation to `CONCEPTS.md`, not AGENTS.md.
 - [ ] Commit message is Conventional Commits format.
+- [ ] Release/push uses `npm run push` (generated CHANGELOG flow), not manual CHANGELOG edits.
 
 ## Security
 
