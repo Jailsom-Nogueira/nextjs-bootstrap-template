@@ -12,6 +12,7 @@ Read `.agents/rules/qa-loop.md` and `.agents/workflows/qa-loop.md` before editin
 | ------------------------- | ---------------------------- | ------------------------------------------------------------------------------------------------------ |
 | `qa-loop.sh`              | `npm run qa`                 | The fix-until-green orchestrator. Runs every gate in cheapest-first order; stops at first failure.     |
 | `check-text-hygiene.mjs`  | `npm run check:text-hygiene` | Fail on decorative emoji / symbols in tracked text. Pairs with `.agents/rules/qa-loop.md`.             |
+| `check-plan-format.mjs`   | `npm run check:plan-format`  | Fail if implementation plans are Markdown or lack the standalone HTML/CSS plan markers.                |
 | `check-mcp-sync.mjs`      | `npm run check:mcp-sync`     | Fail if `.mcp.json` and `.cursor/mcp.json` drift. See `.agents/references/repo-structure.md` (rule 3). |
 | `check-bundle-budget.mjs` | strict mode only             | Parse the build log and fail if any route's First Load JS exceeds `BUNDLE_BUDGET_KB` (default 200).    |
 | `qa-visual-runner.sh`     | `npm run qa:visual`          | Boot `next dev`, wait for `/api/health`, run `visual-qa.ts`, tear the dev server down on exit.         |

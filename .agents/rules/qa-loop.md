@@ -25,18 +25,19 @@ The loop is deliberately mechanical so an agent can execute it without judgment 
 **Loop guards:**
 
 - If the SAME gate fails 3 iterations in a row with DIFFERENT errors, stop. You're probably chasing symptoms instead of fixing the cause. Reassess.
-- **Hard cap: 10 iterations per task.** If you hit it, write a blocker plan to `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` (see §6).
+- **Hard cap: 10 iterations per task.** If you hit it, write a blocker plan to `.plans/YYYY-MM-DD-qa-blocker-<slug>.html` (see §6).
 
 ## 3. Order of gates (cheapest → most expensive — DO NOT REORDER)
 
 ```text
-format:check → text-hygiene → lint → typecheck → test → build → e2e (strict) → bundle-budget (strict) → qa:visual (strict/UI)
+format:check → text-hygiene → plan-format → mcp-sync → lint → typecheck → test → build → e2e (strict) → bundle-budget (strict) → qa:visual (strict/UI)
 ```
 
 Reasons for the order:
 
-- `format:check`, `text-hygiene`, and `lint` are cheap; fix them first or you'll pay for slow re-runs.
+- `format:check`, `text-hygiene`, `plan-format`, `mcp-sync`, and `lint` are cheap; fix them first or you'll pay for slow re-runs.
 - `text-hygiene` catches decorative emoji/symbol drift in tracked text before it reaches agent-facing docs or command output.
+- `plan-format` catches implementation plans that drift back to Markdown or import app design-system CSS.
 - `typecheck` catches the bulk of refactor breakage.
 - `test` runs the unit suite — fast, deterministic.
 - `build` is the expensive one; only worth running when the cheaper gates are clean.
@@ -50,6 +51,8 @@ DO NOT reorder these to "get to the failing test faster". The order is a contrac
 | ------------- | ------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------- |
 | format:check  | Prettier hasn't been run                                                                    | `npm run format` then re-run                                                            |
 | text-hygiene  | Decorative emoji/symbols in tracked text                                                    | Replace symbols with plain words such as PASS, FAIL, Warning, Good, Bad, directory      |
+| plan-format   | Implementation plan written as Markdown or missing HTML plan markers                        | Use `.plans/templates/plan.html`; keep embedded CSS and Plan Document System markers    |
+| mcp-sync      | `.mcp.json` and `.cursor/mcp.json` drift                                                    | Copy the canonical root `.mcp.json` to `.cursor/mcp.json`, then re-run                  |
 | lint          | New ESLint rule violation                                                                   | READ the rule message, fix the code (NEVER `eslint-disable` — `eslint-comments/no-use`) |
 | typecheck     | Missing type / wrong type / API drift                                                       | Fix types; NEVER use `any` (rule #1 in AGENTS.md)                                       |
 | test          | Logic regression                                                                            | Fix the code, not the test (unless the test was wrong — justify in commit message)      |
@@ -76,7 +79,7 @@ These are high-temptation shortcuts. All of them are bugs disguised as fixes:
 If after 5 iterations the SAME gate is still failing with the SAME root error, you are stuck. Continuing will not help. Stop and write:
 
 ```text
-.plans/YYYY-MM-DD-qa-blocker-<slug>.md
+.plans/YYYY-MM-DD-qa-blocker-<slug>.html
 ```
 
 The plan must contain:

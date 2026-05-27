@@ -6,13 +6,13 @@ These files are **not rules**. They map territory (artifact taxonomy, important 
 
 ## Files
 
-| File                   | What it contains                                                                                    |
-| ---------------------- | --------------------------------------------------------------------------------------------------- |
-| `artifact-layers.md`   | Where to put specs, plans, docs, runbooks, ADRs, concepts, and local artifacts. Task inference too. |
-| `repo-structure.md`    | Meta-rules for agent-facing directories: READMEs, thin adapters, sync gates, anti-patterns.         |
-| `key-files.md`         | Map of the most important source/config files with a one-line purpose each.                         |
-| `shared-components.md` | Inventory of shadcn primitives and shared UI components with their paths.                           |
-| `analytics.md`         | Event catalog: name, where it fires, properties, PII scrubbing.                                     |
+| File                   | What it contains                                                                                         |
+| ---------------------- | -------------------------------------------------------------------------------------------------------- |
+| `artifact-layers.md`   | Where to put specs, HTML plans, docs, runbooks, ADRs, concepts, and local artifacts. Task inference too. |
+| `repo-structure.md`    | Meta-rules for agent-facing directories: READMEs, thin adapters, sync gates, anti-patterns.              |
+| `key-files.md`         | Map of the most important source/config files with a one-line purpose each.                              |
+| `shared-components.md` | Inventory of shadcn primitives and shared UI components with their paths.                                |
+| `analytics.md`         | Event catalog: name, where it fires, properties, PII scrubbing.                                          |
 
 ## When to load
 
@@ -34,4 +34,4 @@ These files are **not rules**. They map territory (artifact taxonomy, important 
 - AGENTS.md (root) — primary entry.
 - `.agents/rules/*` may point here for lookup tables.
 - `.agents/workflows/*` may point here for inventories used in procedures.
-- `.docs/templates/spec.md` and `.plans/templates/plan.md` reference `artifact-layers.md` for the artifact-layer decision.
+- `.docs/templates/spec.md` and `.plans/templates/plan.html` reference `artifact-layers.md` for the artifact-layer decision.

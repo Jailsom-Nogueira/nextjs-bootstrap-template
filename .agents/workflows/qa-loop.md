@@ -9,7 +9,7 @@ Every time you write or modify code in this repo. The loop is the definition of 
 ## Commands
 
 ```bash
-npm run qa            # standard loop: format, lint, typecheck, test, build
+npm run qa            # standard loop: format, text, plan format, mcp sync, lint, typecheck, test, build
 npm run qa:visual     # UI/browser QA: dev server, screenshots, console, axe, themes, viewports
 npm run qa:strict     # pre-PR/release: qa + e2e + bundle-budget + qa:visual
 npm run qa:quiet      # only prints output of failing gates
@@ -38,7 +38,7 @@ For UI/browser-facing changes, `npm run qa` is necessary but not sufficient. Run
 
 ## The hard cap
 
-Maximum 10 iterations of the loop per task. If you exceed it, stop and write `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` with:
+Maximum 10 iterations of the loop per task. If you exceed it, stop and write `.plans/YYYY-MM-DD-qa-blocker-<slug>.html` with:
 
 - Failing gate
 - Last error (full text)
@@ -51,7 +51,7 @@ The plan IS the deliverable when you escalate.
 ## Handoff template (parent → subagent)
 
 ```text
-QA contract: return only after `npm run qa` exits 0. If the task is UI/browser-facing, also return only after `npm run qa:visual` exits 0. Before PR/release, run `npm run qa:strict`. If blocked, write `.plans/YYYY-MM-DD-qa-blocker-<slug>.md`. Include the final QA summary table verbatim.
+QA contract: return only after `npm run qa` exits 0. If the task is UI/browser-facing, also return only after `npm run qa:visual` exits 0. Before PR/release, run `npm run qa:strict`. If blocked, write `.plans/YYYY-MM-DD-qa-blocker-<slug>.html`. Include the final QA summary table verbatim.
 ```
 
 The parent agent rejects a subagent return that lacks the summary table, visual-QA evidence for UI work, or a blocker-plan path.

@@ -20,17 +20,17 @@ Ask one focused question only when ambiguity changes artifact type, side effects
 
 ## What belongs where
 
-| Layer                 | Purpose                                                                                  |
-| --------------------- | ---------------------------------------------------------------------------------------- |
-| `AGENTS.md`           | Terse routing hub: protocol, task router, invariant pointers.                            |
-| `.agents/rules/`      | Mandatory domain rules that agents must obey when that surface is touched.               |
-| `.agents/workflows/`  | Repeatable procedures such as QA, self-review, and multi-agent handoff.                  |
-| `.agents/references/` | Lookup material: artifact taxonomy, path maps, component catalogs, event catalogs.       |
-| `CONCEPTS.md`         | Long-form teaching: what / why / how / common mistakes.                                  |
-| `README.md`           | Human quickstart, stack overview, project map, scripts.                                  |
-| `.docs/`              | Durable product/technical docs, specs, architecture, decisions, runbooks.                |
-| `.plans/`             | Active implementation plans. Completed or superseded plans move to `.plans/archived/`.   |
-| Tool-specific files   | Thin adapters only. They point back to AGENTS.md and must not duplicate canonical rules. |
+| Layer                 | Purpose                                                                                                                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- |
+| `AGENTS.md`           | Terse routing hub: protocol, task router, invariant pointers.                                                           |
+| `.agents/rules/`      | Mandatory domain rules that agents must obey when that surface is touched.                                              |
+| `.agents/workflows/`  | Repeatable procedures such as QA, self-review, and multi-agent handoff.                                                 |
+| `.agents/references/` | Lookup material: artifact taxonomy, path maps, component catalogs, event catalogs.                                      |
+| `CONCEPTS.md`         | Long-form teaching: what / why / how / common mistakes.                                                                 |
+| `README.md`           | Human quickstart, stack overview, project map, scripts.                                                                 |
+| `.docs/`              | Durable product/technical docs, specs, architecture, decisions, runbooks.                                               |
+| `.plans/`             | Active implementation plans as standalone HTML/CSS documents. Completed or superseded plans move to `.plans/archived/`. |
+| Tool-specific files   | Thin adapters only. They point back to AGENTS.md and must not duplicate canonical rules.                                |
 
 If a new fact could fit in more than one layer, decide the layer explicitly and prefer the dedicated file over AGENTS.md. The full convention — including the four meta-rules for adding directories, adapters, sync gates, and indexes — lives in `.agents/references/repo-structure.md`. Read it before creating a new directory or per-tool adapter.
 
@@ -49,22 +49,22 @@ If a new fact could fit in more than one layer, decide the layer explicitly and 
 
 Paths are relative to repo root. Load files in the listed order.
 
-| Task surface                          | Required reads                                                                                                                                   | Required verification                                                                                    |
-| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------------------- |
-| Read-only question / audit            | Relevant rules or references only; cite inspected files.                                                                                         | No QA command unless files changed.                                                                      |
-| Any repo-changing task                | `.agents/rules/qa-loop.md`; before final response: `.agents/workflows/self-review.md`.                                                           | `npm run qa` until exit 0, or blocker plan per QA rule.                                                  |
-| UI / styling / components             | `.agents/rules/styling.md`, `responsiveness.md`, `accessibility.md`, `performance.md`, `lazy-loading.md`; add `i18n.md` for user-facing strings. | `npm run qa` and `npm run qa:visual`.                                                                    |
-| New page / route                      | `.agents/rules/file-organization.md`, `performance.md`, `lazy-loading.md`, `accessibility.md`, `responsiveness.md`, `i18n.md`.                   | `npm run qa` and `npm run qa:visual`.                                                                    |
-| Forms / inputs                        | `.agents/rules/forms.md`, `accessibility.md`, `i18n.md`, `clean-code.md`.                                                                        | `npm run qa`; add visual QA when browser-facing.                                                         |
-| Data fetching / Supabase / migrations | `.agents/rules/supabase.md`, `security.md`, `error-handling.md`, `performance.md`.                                                               | `npm run qa`; use DB/type generation commands only when the task needs them.                             |
-| Auth / role gates / admin             | `.agents/rules/security.md`, `admin.md`, `supabase.md`, `accessibility.md` for UI.                                                               | `npm run qa`; add visual QA for browser-facing paths.                                                    |
-| API routes / server actions           | `.agents/rules/security.md`, `supabase.md`, `error-handling.md`, `performance.md`.                                                               | `npm run qa`.                                                                                            |
-| Analytics / tracking                  | `.agents/rules/analytics.md`, `security.md`.                                                                                                     | `npm run qa`; verify events only when instrumentation changed.                                           |
-| Performance / interaction work        | `.agents/rules/performance.md`, `lazy-loading.md`, `clean-code.md`.                                                                              | `npm run qa`; inspect build/bundle output when bundle size is relevant.                                  |
-| Refactor / cleanup                    | `.agents/rules/clean-code.md`, `file-organization.md`, plus the domain rules for touched files.                                                  | `npm run qa`.                                                                                            |
-| Bug fix                               | Domain rules for the failing surface, then `clean-code.md`; add `error-handling.md` for async/catch paths.                                       | Reproduce or characterize when possible, then `npm run qa`.                                              |
-| Tests                                 | `.agents/workflows/self-review.md` plus domain rules for the code under test.                                                                    | `npm run qa`; targeted test command is fine before the full loop.                                        |
-| Docs / specs / plans / artifacts      | `.agents/references/artifact-layers.md`; use `.docs/templates/spec.md` only for specs and `.plans/templates/plan.md` only for plans.             | For docs-only edits run `npm run qa`; for generated artifacts, verify with the intended renderer/parser. |
+| Task surface                          | Required reads                                                                                                                                   | Required verification                                                                                             |
+| ------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------------- |
+| Read-only question / audit            | Relevant rules or references only; cite inspected files.                                                                                         | No QA command unless files changed.                                                                               |
+| Any repo-changing task                | `.agents/rules/qa-loop.md`; before final response: `.agents/workflows/self-review.md`.                                                           | `npm run qa` until exit 0, or blocker plan per QA rule.                                                           |
+| UI / styling / components             | `.agents/rules/styling.md`, `responsiveness.md`, `accessibility.md`, `performance.md`, `lazy-loading.md`; add `i18n.md` for user-facing strings. | `npm run qa` and `npm run qa:visual`.                                                                             |
+| New page / route                      | `.agents/rules/file-organization.md`, `performance.md`, `lazy-loading.md`, `accessibility.md`, `responsiveness.md`, `i18n.md`.                   | `npm run qa` and `npm run qa:visual`.                                                                             |
+| Forms / inputs                        | `.agents/rules/forms.md`, `accessibility.md`, `i18n.md`, `clean-code.md`.                                                                        | `npm run qa`; add visual QA when browser-facing.                                                                  |
+| Data fetching / Supabase / migrations | `.agents/rules/supabase.md`, `security.md`, `error-handling.md`, `performance.md`.                                                               | `npm run qa`; use DB/type generation commands only when the task needs them.                                      |
+| Auth / role gates / admin             | `.agents/rules/security.md`, `admin.md`, `supabase.md`, `accessibility.md` for UI.                                                               | `npm run qa`; add visual QA for browser-facing paths.                                                             |
+| API routes / server actions           | `.agents/rules/security.md`, `supabase.md`, `error-handling.md`, `performance.md`.                                                               | `npm run qa`.                                                                                                     |
+| Analytics / tracking                  | `.agents/rules/analytics.md`, `security.md`.                                                                                                     | `npm run qa`; verify events only when instrumentation changed.                                                    |
+| Performance / interaction work        | `.agents/rules/performance.md`, `lazy-loading.md`, `clean-code.md`.                                                                              | `npm run qa`; inspect build/bundle output when bundle size is relevant.                                           |
+| Refactor / cleanup                    | `.agents/rules/clean-code.md`, `file-organization.md`, plus the domain rules for touched files.                                                  | `npm run qa`.                                                                                                     |
+| Bug fix                               | Domain rules for the failing surface, then `clean-code.md`; add `error-handling.md` for async/catch paths.                                       | Reproduce or characterize when possible, then `npm run qa`.                                                       |
+| Tests                                 | `.agents/workflows/self-review.md` plus domain rules for the code under test.                                                                    | `npm run qa`; targeted test command is fine before the full loop.                                                 |
+| Docs / specs / plans / artifacts      | `.agents/references/artifact-layers.md`; use `.docs/templates/spec.md` only for specs and `.plans/templates/plan.html` only for plans.           | For docs-only edits run `npm run qa`; for HTML plans/artifacts, verify with the intended browser/static renderer. |
 
 Do not read spec or plan templates for unrelated code-only tasks.
 

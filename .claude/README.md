@@ -9,14 +9,14 @@ This directory only contains the slash commands. Persistent project memory lives
 
 ## Slash commands
 
-| Command           | File                         | Purpose                                                                                        |
-| ----------------- | ---------------------------- | ---------------------------------------------------------------------------------------------- |
-| `/component`      | `commands/component.md`      | Scaffold a new shadcn component with i18n, a11y, types extracted, and a colocated test.        |
-| `/migration`      | `commands/migration.md`      | Generate a Supabase SQL migration following repo conventions (RLS, idempotent, rollback note). |
-| `/plan`           | `commands/plan.md`           | Convert an existing spec at `.docs/specs/<…>.md` into an implementation plan at `.plans/`.     |
-| `/prompt-context` | `commands/prompt-context.md` | Run `npm run prompt:context` and return the snapshot ready to paste into a chat UI.            |
-| `/qa`             | `commands/qa.md`             | Run the fix-until-green QA loop following `.agents/workflows/qa-loop.md`.                      |
-| `/spec`           | `commands/spec.md`           | Create a feature spec at `.docs/specs/<YYYY-MM-DD>-<slug>.md` from the canonical template.     |
+| Command           | File                         | Purpose                                                                                                   |
+| ----------------- | ---------------------------- | --------------------------------------------------------------------------------------------------------- |
+| `/component`      | `commands/component.md`      | Scaffold a new shadcn component with i18n, a11y, types extracted, and a colocated test.                   |
+| `/migration`      | `commands/migration.md`      | Generate a Supabase SQL migration following repo conventions (RLS, idempotent, rollback note).            |
+| `/plan`           | `commands/plan.md`           | Convert an existing spec at `.docs/specs/<…>.md` into a standalone HTML implementation plan at `.plans/`. |
+| `/prompt-context` | `commands/prompt-context.md` | Run `npm run prompt:context` and return the snapshot ready to paste into a chat UI.                       |
+| `/qa`             | `commands/qa.md`             | Run the fix-until-green QA loop following `.agents/workflows/qa-loop.md`.                                 |
+| `/spec`           | `commands/spec.md`           | Create a feature spec at `.docs/specs/<YYYY-MM-DD>-<slug>.md` from the canonical template.                |
 
 ## How it ties to the canonical hub
 

@@ -39,7 +39,7 @@ The directory map with conventions (when to add a README, when to add a sync gat
 │   └── commands/                                    — Claude Code project slash commands
 │       ├── component.md                             — `/component` — scaffold a shadcn component
 │       ├── migration.md                             — `/migration` — Supabase SQL migration
-│       ├── plan.md                                  — `/plan <spec-path>` — write an impl plan
+│       ├── plan.md                                  — `/plan <spec-path>` — write an HTML impl plan
 │       ├── prompt-context.md                        — `/prompt-context` — paste-ready snapshot
 │       ├── qa.md                                    — `/qa` — run the QA-in-loop
 │       └── spec.md                                  — `/spec` — write a feature spec
@@ -88,7 +88,7 @@ The directory map with conventions (when to add a README, when to add a sync gat
 │   ├── archived/                                    — completed plans (MOVE here, never delete)
 │   ├── README.md                                    — explains the plan workflow
 │   └── templates/
-│       └── plan.md                                  — 92-line implementation plan stencil
+│       └── plan.html                                — standalone HTML/CSS implementation plan stencil
 ├── e2e/
 │   ├── fixtures/                                    — Playwright test fixtures
 │   ├── global-setup.ts                              — global Playwright setup
@@ -105,6 +105,7 @@ The directory map with conventions (when to add a README, when to add a sync gat
 │   ├── check-bundle-budget.mjs                      — per-route First Load JS budget check
 │   ├── check-env.ts                                 — manual env validation helper
 │   ├── check-mcp-sync.mjs                           — fail build if .mcp.json and .cursor/mcp.json drift
+│   ├── check-plan-format.mjs                        — enforce standalone HTML/CSS implementation plans
 │   ├── check-text-hygiene.mjs                       — reject decorative emoji in tracked text
 │   ├── generate-changelog.ts                        — generated CHANGELOG flow (`npm run push`)
 │   ├── generate-types.sh                            — Supabase type generation

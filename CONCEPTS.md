@@ -133,7 +133,7 @@ to the current task.
 ## 3. The QA-in-loop iron rule
 
 **What it is.** `npm run qa` runs every quality gate in cheapest-first order
-(format:check → text-hygiene → lint → typecheck → test → build), stops at the **first** failing
+(format:check → text-hygiene → plan-format → mcp-sync → lint → typecheck → test → build), stops at the **first** failing
 gate, prints a clear delimited failure block, and exits non-zero. You (or the
 agent) fix the root cause, re-run, repeat until exit 0. That is the definition
 of "done".
@@ -156,7 +156,7 @@ complete before checking everything. A deterministic, scripted loop removes the
 - Read the first failing gate's output block. Understand the cause.
 - Apply the **minimal root-cause fix**. Re-run.
 - Hard cap: 10 iterations per task. If you blow the cap, write
-  `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` documenting what you tried and stop.
+  `.plans/YYYY-MM-DD-qa-blocker-<slug>.html` documenting what you tried and stop.
 - `npm run qa:strict` adds e2e + bundle-budget + visual QA for pre-PR / pre-release.
 - `npm run qa:quiet` only prints failures (good for tight agent loops).
 
@@ -421,8 +421,8 @@ fast and consistent.
 
 1. **SPEC** (`.docs/specs/<date>-<slug>.md`) — what we're building, who for,
    acceptance criteria. Human-edited.
-2. **PLAN** (`.plans/<date>-<slug>.md`) — file-level decomposition, slices,
-   tests, risks. Agent-drafted, human-approved.
+2. **PLAN** (`.plans/<date>-<slug>.html`) — standalone HTML/CSS file-level decomposition, slices,
+   tests, risks. Agent-drafted, human-approved, and easy to read in a browser.
 3. **IMPLEMENT** — actual code. Run `/qa` until exit 0.
 4. **REVIEW** — separate pass (another agent, a human, or both) before merge.
 
@@ -433,7 +433,7 @@ articulation of what done looks like, before any code is touched.
 **Where it lives.**
 
 - `.docs/templates/spec.md` — the spec stencil.
-- `.plans/templates/plan.md` — the plan stencil.
+- `.plans/templates/plan.html` — the standalone HTML/CSS plan stencil.
 - `.docs/specs/` — active and shipped specs.
 - `.plans/` — active plans. Move to `.plans/archived/` when superseded.
 
@@ -1176,7 +1176,7 @@ good plan in this repo.
 - `.docs/templates/spec.md` — Goal, Non-goals, User stories (Given/When/Then),
   Data model deltas (with Zod), API surface, UI surface, Edge cases,
   Rollout, Acceptance criteria, Open questions.
-- `.plans/templates/plan.md` — Spec link, File-level changes (create / modify
+- `.plans/templates/plan.html` — self-contained Plan Document System, Spec link, File-level changes (create / modify
   / delete), Slices (with deps), Tests to write, Performance / a11y / i18n
   / security considerations, Rollout, Risks, Verification (`npm run qa`
   exit 0), Done definition.
@@ -1187,7 +1187,7 @@ produce comparable artifacts. Acceptance criteria mean "done" is testable.
 **Where it lives.**
 
 - `.docs/templates/spec.md`
-- `.plans/templates/plan.md`
+- `.plans/templates/plan.html`
 - `.docs/specs/` — active and historical specs.
 - `.plans/` — active plans. Archived go to `.plans/archived/`.
 
@@ -1195,6 +1195,7 @@ produce comparable artifacts. Acceptance criteria mean "done" is testable.
 
 - For new product behavior or broad technical changes, copy the template; do not start from blank.
 - Fill every section, even if "N/A".
+- Plans must stay standalone HTML with embedded CSS and only `--plan-*` document tokens; do not import or mirror the future application design system.
 - Get spec approval before writing a plan. Get plan approval before writing code.
 - For bug fixes, active-plan continuation, runbooks, or doc-only edits, use `.agents/references/artifact-layers.md` first and load only the relevant artifact template.
 - One slice at a time. Mark slices done as you go.
@@ -1233,7 +1234,7 @@ teaches agents to infer the smallest safe rule set from evidence.
 - `.agents/references/artifact-layers.md` — the taxonomy and inference protocol.
 - `AGENTS.md` — the terse task-classification protocol and task-type index.
 - `.docs/templates/spec.md` — loaded only when creating/editing specs.
-- `.plans/templates/plan.md` — loaded only when creating/editing plans.
+- `.plans/templates/plan.html` — loaded only when creating/editing plans.
 
 **How to use it.**
 
@@ -1295,6 +1296,6 @@ If you find yourself doing any of these, stop:
 - If you can't find where something lives → run `npm run prompt:context`
   or `grep` `.agents/references/key-files.md`.
 - If you've hit the 10-iteration QA cap → write
-  `.plans/YYYY-MM-DD-qa-blocker-<slug>.md` and stop.
+  `.plans/YYYY-MM-DD-qa-blocker-<slug>.html` and stop.
 
 That's the whole template, explained.

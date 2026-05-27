@@ -228,7 +228,7 @@ The repo is intentionally flat at the top level. Every agent-facing directory ha
 | `.docs/`       | Durable docs: architecture, conventions, ADRs, runbooks, specs, templates, README assets, full repo tree.               |
 | `.github/`     | CI workflows (`ci.yml`, `e2e.yml`), issue / PR templates, CODEOWNERS, Dependabot.                                       |
 | `.husky/`      | Git hooks: `commit-msg` (commitlint), `pre-commit` (lint-staged), `pre-push` (typecheck + CHANGELOG gate).              |
-| `.plans/`      | Active implementation plans. Completed plans move to `.plans/archived/`.                                                |
+| `.plans/`      | Active implementation plans as standalone HTML/CSS documents. Completed plans move to `.plans/archived/`.               |
 | `e2e/`         | Playwright tests (`smoke`, `admin-gate`) + fixtures + global setup.                                                     |
 | `emails/`      | react-email preview entry points; canonical templates live under `src/lib/email/templates/`.                            |
 | `messages/`    | next-intl translation bundles (`en.json` / `pt.json` / `es.json`). Add new keys to all three in one commit.             |
@@ -247,42 +247,43 @@ See [`.docs/repo-tree.md`](./.docs/repo-tree.md) for every tracked file with a o
 
 The full lane is `npm run qa` (fix-until-green, cheapest gate first, stops at first failure). The fast lane for inner-loop iteration is `npm run test:agent` (vitest `--changed`, no coverage).
 
-| Script            | What it does                                                                                |
-| ----------------- | ------------------------------------------------------------------------------------------- |
-| `dev`             | Next dev server (Turbopack).                                                                |
-| `build`           | Production build.                                                                           |
-| `qa`              | **Definition of done.** Format → text-hygiene → mcp-sync → lint → typecheck → test → build. |
-| `qa:strict`       | Above + Playwright E2E + bundle budget + visual QA sweep.                                   |
-| `qa:visual`       | Route × locale × theme × viewport sweep with axe-core (WCAG 2.2 AA).                        |
-| `test:agent`      | Fast lane: vitest on changed files only.                                                    |
-| `test:e2e`        | Playwright (chromium + webkit).                                                             |
-| `lint` / `format` | ESLint 9 flat config / Prettier 3 with class sort.                                          |
-| `typecheck`       | `tsc --noEmit` against TS strict mode.                                                      |
-| `db:types`        | Regenerate Supabase types into `src/supabase/database.types.ts`.                            |
-| `prompt:context`  | Print a paste-ready project snapshot for chat-UI agents.                                    |
-| `email:dev`       | react-email preview server (renders `emails/*.tsx`).                                        |
-| `push`            | Auto-generate CHANGELOG, bump patch version, commit, push.                                  |
+| Script            | What it does                                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------- |
+| `dev`             | Next dev server (Turbopack).                                                                              |
+| `build`           | Production build.                                                                                         |
+| `qa`              | **Definition of done.** Format → text-hygiene → plan-format → mcp-sync → lint → typecheck → test → build. |
+| `qa:strict`       | Above + Playwright E2E + bundle budget + visual QA sweep.                                                 |
+| `qa:visual`       | Route × locale × theme × viewport sweep with axe-core (WCAG 2.2 AA).                                      |
+| `test:agent`      | Fast lane: vitest on changed files only.                                                                  |
+| `test:e2e`        | Playwright (chromium + webkit).                                                                           |
+| `lint` / `format` | ESLint 9 flat config / Prettier 3 with class sort.                                                        |
+| `typecheck`       | `tsc --noEmit` against TS strict mode.                                                                    |
+| `db:types`        | Regenerate Supabase types into `src/supabase/database.types.ts`.                                          |
+| `prompt:context`  | Print a paste-ready project snapshot for chat-UI agents.                                                  |
+| `email:dev`       | react-email preview server (renders `emails/*.tsx`).                                                      |
+| `push`            | Auto-generate CHANGELOG, bump patch version, commit, push.                                                |
 
 <details>
 <summary>Full script list</summary>
 
-| Script                                     | What it does                                               |
-| ------------------------------------------ | ---------------------------------------------------------- |
-| `start`                                    | Run prod build.                                            |
-| `lint:fix`                                 | ESLint with autofix.                                       |
-| `format:check`                             | Prettier check without writing.                            |
-| `check:text-hygiene`                       | Reject decorative emoji / symbols in tracked text.         |
-| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift.          |
-| `check`                                    | text-hygiene + mcp-sync + lint + typecheck + format:check. |
-| `ci-check`                                 | check + test + build.                                      |
-| `qa:quiet`                                 | QA loop with minimal output.                               |
-| `test`                                     | Vitest run (all tests).                                    |
-| `test:watch` / `test:ui` / `test:coverage` | Vitest variants.                                           |
-| `test:e2e:ui`                              | Playwright interactive mode.                               |
-| `analyze`                                  | Production build with `@next/bundle-analyzer`.             |
-| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`.  |
-| `commit`                                   | Manual commitlint check.                                   |
-| `prepare`                                  | Husky install hook.                                        |
+| Script                                     | What it does                                                             |
+| ------------------------------------------ | ------------------------------------------------------------------------ |
+| `start`                                    | Run prod build.                                                          |
+| `lint:fix`                                 | ESLint with autofix.                                                     |
+| `format:check`                             | Prettier check without writing.                                          |
+| `check:text-hygiene`                       | Reject decorative emoji / symbols in tracked text.                       |
+| `check:plan-format`                        | Enforce standalone HTML/CSS implementation plans.                        |
+| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift.                        |
+| `check`                                    | text-hygiene + plan-format + mcp-sync + lint + typecheck + format:check. |
+| `ci-check`                                 | check + test + build.                                                    |
+| `qa:quiet`                                 | QA loop with minimal output.                                             |
+| `test`                                     | Vitest run (all tests).                                                  |
+| `test:watch` / `test:ui` / `test:coverage` | Vitest variants.                                                         |
+| `test:e2e:ui`                              | Playwright interactive mode.                                             |
+| `analyze`                                  | Production build with `@next/bundle-analyzer`.                           |
+| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`.                |
+| `commit`                                   | Manual commitlint check.                                                 |
+| `prepare`                                  | Husky install hook.                                                      |
 
 </details>
 

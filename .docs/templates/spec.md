@@ -87,6 +87,6 @@ Numbered, testable, written so a black-box test could decide pass/fail.
 
 ## References
 
-- Linked plans: `.plans/<...>.md`
+- Linked plans: `.plans/<...>.html`
 - Linked ADRs: `.docs/decisions/<...>.md`
 - Related rules: `.agents/rules/<...>.md`
