@@ -214,6 +214,8 @@ flowchart TB
 
 **Rule:** canonical content lives in `.agents/`. Per-tool files are thin adapters that auto-attach by glob (where supported) and point back to AGENTS.md — they do not duplicate rule content. Obligatory duplication (`.mcp.json` ↔ `.cursor/mcp.json`, because Cursor only reads its own path) is guarded by the `mcp-sync` QA gate. Full conventions: [`.agents/references/repo-structure.md`](./.agents/references/repo-structure.md).
 
+**Doc integrity:** `npm run check:doc-refs` (part of `npm run check` / `qa`) fails the build if a core doc references a repo file that no longer exists — dead-reference drift can't be committed. For optional, per-developer richer tooling on top (GitNexus code-graph, local doc-retrieval / RAG), see [`.docs/optional-retrieval-tooling.md`](./.docs/optional-retrieval-tooling.md).
+
 ## Project structure
 
 The repo is intentionally flat at the top level. Every agent-facing directory has a `README.md` index that lists its contents and points back to AGENTS.md.
