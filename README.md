@@ -266,24 +266,25 @@ The full lane is `npm run qa` (fix-until-green, cheapest gate first, stops at fi
 <details>
 <summary>Full script list</summary>
 
-| Script                                     | What it does                                                             |
-| ------------------------------------------ | ------------------------------------------------------------------------ |
-| `start`                                    | Run prod build.                                                          |
-| `lint:fix`                                 | ESLint with autofix.                                                     |
-| `format:check`                             | Prettier check without writing.                                          |
-| `check:text-hygiene`                       | Reject decorative emoji / symbols in tracked text.                       |
-| `check:plan-format`                        | Enforce standalone HTML/CSS implementation plans.                        |
-| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift.                        |
-| `check`                                    | text-hygiene + plan-format + mcp-sync + lint + typecheck + format:check. |
-| `ci-check`                                 | check + test + build.                                                    |
-| `qa:quiet`                                 | QA loop with minimal output.                                             |
-| `test`                                     | Vitest run (all tests).                                                  |
-| `test:watch` / `test:ui` / `test:coverage` | Vitest variants.                                                         |
-| `test:e2e:ui`                              | Playwright interactive mode.                                             |
-| `analyze`                                  | Production build with `@next/bundle-analyzer`.                           |
-| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`.                |
-| `commit`                                   | Manual commitlint check.                                                 |
-| `prepare`                                  | Husky install hook.                                                      |
+| Script                                     | What it does                                                                        |
+| ------------------------------------------ | ----------------------------------------------------------------------------------- |
+| `start`                                    | Run prod build.                                                                     |
+| `lint:fix`                                 | ESLint with autofix.                                                                |
+| `format:check`                             | Prettier check without writing.                                                     |
+| `check:text-hygiene`                       | Reject decorative emoji / symbols in tracked text.                                  |
+| `check:plan-format`                        | Enforce standalone HTML/CSS implementation plans.                                   |
+| `check:mcp-sync`                           | Fail if `.mcp.json` and `.cursor/mcp.json` drift.                                   |
+| `check:doc-refs`                           | Fail if a core doc references a repo file that no longer exists.                    |
+| `check`                                    | text-hygiene + plan-format + mcp-sync + doc-refs + lint + typecheck + format:check. |
+| `ci-check`                                 | check + test + build.                                                               |
+| `qa:quiet`                                 | QA loop with minimal output.                                                        |
+| `test`                                     | Vitest run (all tests).                                                             |
+| `test:watch` / `test:ui` / `test:coverage` | Vitest variants.                                                                    |
+| `test:e2e:ui`                              | Playwright interactive mode.                                                        |
+| `analyze`                                  | Production build with `@next/bundle-analyzer`.                                      |
+| `pack`                                     | Build a single repomix XML at `.agent-cache/repomix.xml`.                           |
+| `commit`                                   | Manual commitlint check.                                                            |
+| `prepare`                                  | Husky install hook.                                                                 |
 
 </details>
 

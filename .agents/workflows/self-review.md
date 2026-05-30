@@ -26,6 +26,7 @@ Run BEFORE marking a task complete.
 - [ ] Read `.agents/references/artifact-layers.md` before creating/editing/moving specs, plans, docs, runbooks, concepts, or local artifacts.
 - [ ] Updated `AGENTS.md` / `.agents/rules/*` only for terse invariants.
 - [ ] Added long-form explanation to `CONCEPTS.md`, not AGENTS.md.
+- [ ] When you delete or rename a file, grep the docs (`AGENTS.md`, `README.md`, `.agents/**`, `CONCEPTS.md`) for the old path and update every reference. `npm run check:doc-refs` (part of `npm run check` / `npm run qa`) enforces this for concrete file paths — but it does NOT catch semantic drift (a version number, a renamed concept, a count), which stays your responsibility.
 - [ ] Commit message is Conventional Commits format.
 - [ ] Release/push uses `npm run push` (generated CHANGELOG flow), not manual CHANGELOG edits.
 

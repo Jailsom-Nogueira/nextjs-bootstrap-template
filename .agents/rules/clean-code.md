@@ -41,7 +41,7 @@ Optimize for the next reader. That reader is usually you in three months.
 ## Error handling
 
 - Don't swallow errors. At minimum, `logger.warn({ err })`.
-- Empty `catch {}` is banned (except `supabase/server.ts` cookies set-from-RSC, which is documented).
+- Empty `catch {}` is banned (except `src/supabase/server.ts` cookies set-from-RSC, which is documented).
 - Throw `Error` (or a subclass), never strings or objects.
 - Server actions: catch known errors → return `{ error: "..." }`; let unknown ones bubble.
 

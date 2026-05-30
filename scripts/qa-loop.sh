@@ -196,6 +196,12 @@ if ! run_gate "mcp-sync" "npm run check:mcp-sync" npm run check:mcp-sync; then
   exit "$FIRST_FAIL_EXIT"
 fi
 
+# Gate 4b: doc-refs — core docs must not reference repo files that no longer exist.
+if ! run_gate "doc-refs" "npm run check:doc-refs" npm run check:doc-refs; then
+  print_summary
+  exit "$FIRST_FAIL_EXIT"
+fi
+
 # Gate 5: lint
 if ! run_gate "lint" "npm run lint" npm run lint; then
   print_summary
