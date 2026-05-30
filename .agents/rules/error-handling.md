@@ -29,4 +29,5 @@
 
 - Forbidden: `console.log("foo")` — use the logger.
 - Forbidden: throwing strings: `throw "oops"` — always `throw new Error(...)`.
+- Forbidden: putting identifiers/PII inside the `Error` message or any free-text log string (e.g. ``throw new Error(`failed for ${email}`)``). `scrubPII()` only redacts property **keys**, not free text, so a message string flows to PostHog/logs unscrubbed. Pass the identifier as a named context field instead: `logger.error("payment failed", { userId })`.
 - Forbidden: silently swallowing errors: `catch {}` without at least a log.

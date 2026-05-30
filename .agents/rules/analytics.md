@@ -15,6 +15,7 @@
 
 - NEVER call `posthog.capture(...)` directly. Always `track()`.
 - ALL properties pass through `scrubPII()` automatically — but still don't include obvious PII.
+- `scrubPII()` redacts by property **key**, not free text. An identifier inside a string value (e.g. an event prop `note: "contact me at x@y.com"` or an `Error` message — see `error-handling.md`) is NOT scrubbed. Keep identifiers out of free-text strings; pass them as their own named keys so the scrubber can catch them.
 - `capture_pageview` is OFF in `PostHogProvider`. Track page views manually where it matters.
 - Server tracking is fire-and-forget but `await client.flush()` before request ends.
 - Identify users on sign-in with their Supabase user id (NOT email).
