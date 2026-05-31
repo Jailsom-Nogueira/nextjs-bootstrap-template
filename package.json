@@ -93,8 +93,8 @@
     "@types/react": "19.2.14",
     "@types/react-dom": "19.2.3",
     "@vitejs/plugin-react": "6.0.2",
-    "@vitest/coverage-v8": "4.1.6",
-    "@vitest/ui": "4.1.6",
+    "@vitest/coverage-v8": "4.1.7",
+    "@vitest/ui": "4.1.7",
     "eslint": "9.39.4",
     "eslint-config-next": "16.2.6",
     "eslint-import-resolver-typescript": "4.4.4",
@@ -109,7 +109,7 @@
     "tsx": "4.22.1",
     "typescript": "6.0.3",
     "typescript-eslint": "8.59.3",
-    "vitest": "4.1.6"
+    "vitest": "4.1.7"
   },
   "lint-staged": {
     "*.{ts,tsx,js,jsx,mjs,cjs}": [
