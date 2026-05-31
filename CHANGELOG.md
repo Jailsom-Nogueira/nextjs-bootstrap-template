@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## Push [2026-05-31 14:21:42] - v0.1.4
+
+- feat(seo): backport generic metadata, JSON-LD, OG, icon pipeline, robots/sitemap (2244274) - Jailsom-Nogueira
+- fix(analytics): wrap PostHog pageview useSearchParams in Suspense (36643dd) - Jailsom-Nogueira
+
 ## Push [2026-05-27 09:38:06] - v0.1.3
 
 - docs(plans): enforce HTML plan artifacts (ae333cc) - Jailsom-Nogueira
