@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Suspense, useEffect } from "react";
 import { usePathname, useSearchParams } from "next/navigation";
 import posthog from "posthog-js";
 import { PostHogProvider as PHProvider } from "posthog-js/react";
@@ -40,7 +40,11 @@ export function PostHogProvider({ children }: { children: React.ReactNode }) {
 
   return (
     <PHProvider client={posthog}>
-      <PostHogPageview />
+      {/* useSearchParams() must sit behind a Suspense boundary or it forces a
+          client-side-rendering bailout on statically prerendered pages. */}
+      <Suspense fallback={null}>
+        <PostHogPageview />
+      </Suspense>
       {children}
     </PHProvider>
   );
