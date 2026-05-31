@@ -41,7 +41,8 @@
     "db:types": "bash scripts/generate-types.sh",
     "email:dev": "email dev --dir emails",
     "commit": "commitlint --edit",
-    "push": "npx tsx scripts/generate-changelog.ts && git add CHANGELOG.md package.json package-lock.json && git commit --no-verify -m \"chore: update changelog for push\" && CHANGELOG_GENERATED=1 git push"
+    "push": "npx tsx scripts/generate-changelog.ts && git add CHANGELOG.md package.json package-lock.json && git commit --no-verify -m \"chore: update changelog for push\" && CHANGELOG_GENERATED=1 git push",
+    "icons:generate": "node scripts/generate-icons.mjs"
   },
   "dependencies": {
     "@hookform/resolvers": "5.2.2",

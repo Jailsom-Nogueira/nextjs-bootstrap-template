@@ -1,0 +1,18 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="App icon">
+  <title>App icon (placeholder)</title>
+  <!--
+    Served browser-tab favicon (Next file-based metadata convention). Transparent
+    background; the mark adapts to the browser-chrome color scheme. PLACEHOLDER —
+    replace with your brand and regenerate with `npm run icons:generate`.
+  -->
+  <style>
+    .mark { stroke: #111111; }
+    @media (prefers-color-scheme: dark) {
+      .mark { stroke: #fafafa; }
+    }
+  </style>
+  <g class="mark" fill="none" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="156" y="156" width="200" height="200" />
+    <line x1="156" y1="156" x2="356" y2="356" />
+  </g>
+</svg>

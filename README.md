@@ -85,6 +85,11 @@ Update these files for your product before shipping:
 - `.github/CODEOWNERS` — your owning user or team.
 - `.env.example` and `NEXT_PUBLIC_REPOSITORY_URL` — your repository URL.
 - `messages/{en,pt,es}.json` — user-facing text.
+- `src/config/site.ts` — `name` and `description` (feed titles, JSON-LD, OG cards).
+- `.docs/assets/brand/icon-source.svg` — replace the placeholder mark, then run `npm run icons:generate`.
+- `src/lib/seo/jsonLd.ts` — Organization/Website entity facts (name, url, description, add `sameAs`).
+- `src/app/[locale]/opengraph-image.tsx` — share-card design.
+- `src/app/robots.ts` — confirm the AI-crawler posture (allow vs disallow) for your project.
 
 ## Screenshots
 

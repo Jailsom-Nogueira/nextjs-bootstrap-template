@@ -1,0 +1,14 @@
+<svg width="512" height="512" viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Placeholder app icon">
+  <title>Placeholder app icon — replace with your brand mark</title>
+  <!--
+    PLACEHOLDER brand mark. Replace this with your project's real mark, then run
+    `npm run icons:generate` to regenerate every favicon/app-icon surface from it.
+    Geometric stroked paths (no <text>) keep rasterization font-independent and
+    byte-deterministic. Neutral monochrome on a square canvas.
+  -->
+  <rect width="512" height="512" fill="#ffffff" />
+  <g fill="none" stroke="#111111" stroke-width="40" stroke-linecap="round" stroke-linejoin="round">
+    <rect x="156" y="156" width="200" height="200" />
+    <line x1="156" y1="156" x2="356" y2="356" />
+  </g>
+</svg>

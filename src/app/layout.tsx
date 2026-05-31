@@ -1,7 +1,11 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import { JsonLd } from "@/components/seo/JsonLd";
 import { ThemeProvider } from "@/components/theme-provider";
+import { organizationJsonLd, websiteJsonLd } from "@/lib/seo/jsonLd";
+import { metadataBase, SITE_NAME } from "@/lib/seo/metadata";
+import { siteConfig } from "@/config/site";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -14,8 +18,24 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Next.js Bootstrap Template",
-  description: "Next.js 16 + Supabase + PostHog + Resend template.",
+  metadataBase,
+  title: {
+    default: SITE_NAME,
+    template: `%s — ${SITE_NAME}`,
+  },
+  description: siteConfig.description,
+  applicationName: SITE_NAME,
+  formatDetection: { telephone: false, email: false, address: false },
+};
+
+/** Viewport + theme-color (Next 16 separates these from `metadata`). */
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#0a0a0a" },
+  ],
 };
 
 /**
@@ -40,6 +60,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
         suppressHydrationWarning
       >
+        <JsonLd data={[organizationJsonLd(), websiteJsonLd()]} />
         <ThemeProvider
           attribute="class"
           defaultTheme="system"

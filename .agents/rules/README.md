@@ -4,23 +4,24 @@ Domain-scoped rules every agent must follow when touching a surface this directo
 
 ## Files
 
-| File                   | Load when                                                                  |
-| ---------------------- | -------------------------------------------------------------------------- |
-| `qa-loop.md`           | Any repo-changing task. The fix-until-green loop, hard cap, anti-patterns. |
-| `clean-code.md`        | Any code change. Function size, naming, immutability, comments.            |
-| `file-organization.md` | New files, moved files, module boundaries, imports, `types.ts`.            |
-| `styling.md`           | Touching TSX classes, Tailwind tokens, shadcn components, dark mode.       |
-| `responsiveness.md`    | Any UI layout or viewport-sensitive change.                                |
-| `accessibility.md`     | Any UI or interactive behavior change. WCAG 2.2 AA targets.                |
-| `performance.md`       | Browser/runtime performance, Server Components, Web Vitals, bundle impact. |
-| `lazy-loading.md`      | Heavy components, below-the-fold sections, third-party widgets.            |
-| `forms.md`             | Forms, validation, inputs, submissions (react-hook-form + zod pattern).    |
-| `i18n.md`              | User-facing strings or locale routing (en/pt/es via next-intl).            |
-| `security.md`          | Auth, API, env, CSP, secrets, RLS, third-party integrations.               |
-| `error-handling.md`    | Async failures, `catch` blocks, logging, error boundaries.                 |
-| `supabase.md`          | Supabase clients, queries, migrations, generated DB types.                 |
-| `analytics.md`         | PostHog events, event names, client/server tracking, PII scrubbing.        |
-| `admin.md`             | Admin routes, role gates, service-role access, `profiles.role`.            |
+| File                   | Load when                                                                        |
+| ---------------------- | -------------------------------------------------------------------------------- |
+| `qa-loop.md`           | Any repo-changing task. The fix-until-green loop, hard cap, anti-patterns.       |
+| `clean-code.md`        | Any code change. Function size, naming, immutability, comments.                  |
+| `file-organization.md` | New files, moved files, module boundaries, imports, `types.ts`.                  |
+| `styling.md`           | Touching TSX classes, Tailwind tokens, shadcn components, dark mode.             |
+| `responsiveness.md`    | Any UI layout or viewport-sensitive change.                                      |
+| `accessibility.md`     | Any UI or interactive behavior change. WCAG 2.2 AA targets.                      |
+| `performance.md`       | Browser/runtime performance, Server Components, Web Vitals, bundle impact.       |
+| `lazy-loading.md`      | Heavy components, below-the-fold sections, third-party widgets.                  |
+| `forms.md`             | Forms, validation, inputs, submissions (react-hook-form + zod pattern).          |
+| `i18n.md`              | User-facing strings or locale routing (en/pt/es via next-intl).                  |
+| `security.md`          | Auth, API, env, CSP, secrets, RLS, third-party integrations.                     |
+| `error-handling.md`    | Async failures, `catch` blocks, logging, error boundaries.                       |
+| `supabase.md`          | Supabase clients, queries, migrations, generated DB types.                       |
+| `analytics.md`         | PostHog events, event names, client/server tracking, PII scrubbing.              |
+| `seo.md`               | SEO/AEO metadata, JSON-LD, canonical/hreflang, icons, OG/share previews, robots. |
+| `admin.md`             | Admin routes, role gates, service-role access, `profiles.role`.                  |
 
 ## Conventions
 
